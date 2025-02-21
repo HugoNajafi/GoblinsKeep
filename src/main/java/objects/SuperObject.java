@@ -10,6 +10,8 @@ public abstract class SuperObject {
     public String name;
     public boolean collision = false;
     public int worldX, worldY;
+    public Rectangle collisionArea;
+    public int defaultCollisionAreaX, defaultCollisionAreaY;
 
     public void draw(Graphics2D g2, GamePanel gp){
         //get the object screen position
@@ -22,7 +24,9 @@ public abstract class SuperObject {
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-
         }
+
+        //make the collision area the size of the tile
+        collisionArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
     }
 }
