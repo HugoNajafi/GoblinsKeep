@@ -11,7 +11,7 @@ public class Player extends Entity{
     }
 
     public void update(){
-
+        //call this before applying movement
         int objIndex = gp.collisionChecker.checkObject(this, true);
         pickUpObject(objIndex);
     }

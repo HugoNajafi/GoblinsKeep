@@ -76,30 +76,30 @@ public class CollisionChecker {
             gp.obj[i].collisionArea.x = gp.obj[i].worldX + gp.obj[i].defaultCollisionAreaX;
             gp.obj[i].collisionArea.y = gp.obj[i].worldY + gp.obj[i].defaultCollisionAreaY;
 
-
+            //use direction to find where the Entity will be after moved
             switch (entity.direction){
                 case UP:
                     entity.collisionArea.y -= entity.speed;
                     if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
-                        handleEntityCollision(entity, player, i);
+                        index = handleEntityCollision(entity, player, i);
                     }
                     break;
                 case LEFT:
                     entity.collisionArea.x -= entity.speed;
                     if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
-                        handleEntityCollision(entity, player, i);
+                        index = handleEntityCollision(entity, player, i);
                     }
                     break;
                 case RIGHT:
                     entity.collisionArea.x += entity.speed;
                     if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
-                        handleEntityCollision(entity, player, i);
+                        index = handleEntityCollision(entity, player, i);
                     }
                     break;
                 case DOWN:
                     entity.collisionArea.y += entity.speed;
                     if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
-                        handleEntityCollision(entity, player, i);
+                        index = handleEntityCollision(entity, player, i);
                     }
                     break;
             }
@@ -115,6 +115,7 @@ public class CollisionChecker {
 
     private int handleEntityCollision(Entity entity, boolean player, int index){
         if (gp.obj[index].collision){
+            //need to test why collision should be on
             entity.collisionOn = true;
         }
         if (player){
