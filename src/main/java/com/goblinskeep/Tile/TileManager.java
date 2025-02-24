@@ -1,6 +1,6 @@
-package Tile;
+package com.goblinskeep.Tile;
 
-import com.goblinskeep.GamePanel;
+import com.goblinskeep.App.GamePanel;
 
 public class TileManager {
     GamePanel gp;

@@ -1,4 +1,4 @@
-package Tile;
+package com.goblinskeep.Tile;
 
 import java.awt.image.BufferedImage;
 

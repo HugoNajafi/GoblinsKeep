@@ -1,6 +1,7 @@
-package com.goblinskeep;
+package com.goblinskeep.entity;
 
-import entity.Entity;
+import com.goblinskeep.App.GamePanel;
+import com.goblinskeep.entity.Entity;
 
 public class CollisionChecker {
     GamePanel gp;
@@ -9,12 +10,12 @@ public class CollisionChecker {
     }
 
     public void checkTile(Entity entity){
-        int entityLeftWorldX = entity.worldX + entity.collisionArea.x;
-        int entityRightWorldX = entity.worldX + entity.collisionArea.x + entity.collisionArea.width;
-        int entityTopWorldY = entity.worldY + entity.collisionArea.y;
-        int entityBottomWorldY = entity.worldY + entity.collisionArea.y + entity.collisionArea.height;
+        int entityLeftWorldX = entity.WorldX + entity.collisionArea.x;
+        int entityRightWorldX = entity.WorldX + entity.collisionArea.x + entity.collisionArea.width;
+        int entityTopWorldY = entity.WorldY + entity.collisionArea.y;
+        int entityBottomWorldY = entity.WorldY + entity.collisionArea.y + entity.collisionArea.height;
 
-        int entityLeftCol = entityLeftWorldX/gp.tileSize;
+        int entityLeftCol = entityLeftWorldX/gp.gettileSize();
         int entityRightCol = entityRightWorldX/gp.tileSize;
         int entityTopRow = entityTopWorldY/gp.tileSize;
         int entityBottomRow = entityBottomWorldY/ gp.tileSize;
