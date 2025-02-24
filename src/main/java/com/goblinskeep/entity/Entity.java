@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
-    protected int WorldX, WorldY;
+    public int WorldX, WorldY;
     public int speed;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, stand1, stand2;
