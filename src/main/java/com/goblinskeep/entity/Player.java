@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.security.spec.RSAOtherPrimeInfo;
 
 import javax.imageio.ImageIO;
 
@@ -62,6 +63,11 @@ public class Player extends Entity{
             //check if collision with object before moving
             int objIndex = gp.collisionChecker.checkObject(this, true);
             handleObject(objIndex);
+            Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getSmartGoblinIterator());
+            if (target != null){
+                collisionOn = true;
+                System.out.println("collision detected between player and goblin");
+            }
 
             // Move if no collision
             if (!collisionOn) {

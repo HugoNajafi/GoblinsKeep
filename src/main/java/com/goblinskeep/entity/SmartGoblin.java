@@ -97,6 +97,11 @@ public class SmartGoblin extends Goblin {
         
         // Check collision
         gp.collisionChecker.checkTile(this);
+
+        //comment this out for collisions between player to not work properly
+        if (gp.collisionChecker.checkPlayer(this)){
+            collisionOn = true;
+        }
         
         // Move if no collision
         if (!collisionOn) {

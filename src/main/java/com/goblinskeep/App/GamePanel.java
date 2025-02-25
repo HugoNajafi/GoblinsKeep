@@ -9,8 +9,10 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.goblinskeep.entity.CollisionChecker;
+import com.goblinskeep.entity.Entity;
 import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.SmartGoblin;
 
@@ -276,6 +278,10 @@ public class GamePanel extends JPanel implements Runnable
         
         g2.dispose();
         
+    }
+
+    public Iterator<SmartGoblin> getSmartGoblinIterator(){
+        return goblins.iterator();
     }
 
 }
