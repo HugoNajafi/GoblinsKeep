@@ -22,8 +22,8 @@ public abstract class MainObject {
             worldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
             worldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
             worldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY) {
-//                g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-                g2.drawImage(image, worldX, worldY, gp.tileSize, gp.tileSize, null);
+                g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+//                g2.drawImage(image, worldX, worldY, gp.tileSize, gp.tileSize, null);
 
         }
 

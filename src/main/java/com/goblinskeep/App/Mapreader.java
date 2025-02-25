@@ -143,10 +143,10 @@ public class Mapreader {
         // This is a simplified representation of your drawn map
         sb.append("XXXXXXX\n");
         sb.append("X@   XX\n");
-        sb.append("X   % X\n");
+        sb.append("X     X\n");
         sb.append("X$ XX X\n");
         sb.append("XXLX  X\n");
-        sb.append("XXX% EX\n");
+        sb.append("XXX  EX\n");
         sb.append("XX$X XX\n");
         sb.append("XX X!XX\n");
         

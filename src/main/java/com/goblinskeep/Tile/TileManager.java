@@ -88,18 +88,49 @@ public class TileManager {
             }
         }
     }
-
+    int count = 0;
     // Draw the map tiles
     public void draw(Graphics2D g2, Gamestate gamestate) {
         // First update the mapTileNum array
         updateMapTileNum(gamestate);
-        
-        for (int y = 0; y < gamestate.getHeight(); y++) {
-            for (int x = 0; x < gamestate.getWidth(); x++) {
-                int tileIndex = mapTileNum[x][y];
-                
-                // Draw the appropriate tile
-                g2.drawImage(tile[tileIndex].image, x * gp.tileSize, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
+//        old drawing version non-camera
+//        for (int y = 0; y < gamestate.getHeight(); y++) {
+//            for (int x = 0; x < gamestate.getWidth(); x++) {
+//                int tileIndex = mapTileNum[x][y];
+//
+//                // Draw the appropriate tile
+//                g2.drawImage(tile[tileIndex].image, x * gp.tileSize, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
+//            }
+//        }
+//        count++;
+//        if (count == 60){
+//            System.out.println("X: " + gp.Player.WorldX + " Y: " + gp.Player.WorldY);
+//            count = 0;
+//        }
+//
+        //starting point for iteration
+        int worldRow = 0;
+        int worldCol = 0;
+
+        while (worldCol < gamestate.getWidth() && worldRow < gamestate.getHeight()) {
+            int tileNum = mapTileNum[worldCol][worldRow];
+
+            int worldX = worldCol * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = worldX - gp.Player.WorldX + gp.Player.screenX;
+            int screenY = worldY - gp.Player.WorldY + gp.Player.screenY;
+
+            if (worldX + gp.tileSize > gp.Player.WorldX - gp.Player.screenX &&
+                    worldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
+                    worldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
+                    worldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY){
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+            }
+            worldCol += 1;
+            if (worldCol >= gamestate.getWidth()){
+                worldCol = 0;
+                worldRow++;
             }
         }
     }

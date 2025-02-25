@@ -1,7 +1,7 @@
 package com.goblinskeep.entity;
 
 // import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 // import java.io.IOException;
 import java.io.IOException;
@@ -83,7 +83,17 @@ public abstract class Goblin extends Entity{
                 }
                 break;
         }
-        g2.drawImage(image, WorldX, WorldY, gp.tileSize, gp.tileSize, null);
+//        g2.drawImage(image, WorldX, WorldY, gp.tileSize, gp.tileSize, null);
+        int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
+        int screenY = WorldY - gp.Player.WorldY + gp.Player.screenY;
+
+        if (WorldX + gp.tileSize > gp.Player.WorldX - gp.Player.screenX &&
+                WorldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
+                WorldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
+                WorldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY){
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        }
 
     }
 }
