@@ -16,6 +16,10 @@ public class Player extends Entity{
     public GamePanel gp;
     PlayerInputHandler PlayerInput;
 
+    public final int screenX;
+    public final int screenY;
+    public int keysCollected = 0;
+
     public Player(int startX, int startY, GamePanel gp, PlayerInputHandler PlayerInput) {
         super(startX, startY);  // Pass values up to GameObject constructor
         this.gp = gp;
@@ -27,6 +31,8 @@ public class Player extends Entity{
         this.collisionArea = new Rectangle(8, 16, 32, 32); // Adjust these values to fit your sprite
         this.hitboxDefaultX = 8;
         this.hitboxDefaultY = 16;
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
         getPlayerImage();
     }
 
@@ -43,22 +49,20 @@ public class Player extends Entity{
 
             if (PlayerInput.up) {
                 direction = Direction.UP;
-                // Check collision before moving
-                gp.collisionChecker.checkTile(this);
             } else if (PlayerInput.down) {
                 direction = Direction.DOWN;
-                // Check collision before moving
-                gp.collisionChecker.checkTile(this);
             } else if (PlayerInput.left) {
                 direction = Direction.LEFT;
-                // Check collision before moving
-                gp.collisionChecker.checkTile(this);
             } else if (PlayerInput.right) {
                 direction = Direction.RIGHT;
-                // Check collision before moving
-                gp.collisionChecker.checkTile(this);
             }
-            
+            // Check collision before moving
+            gp.collisionChecker.checkTile(this);
+
+            //check if collision with object before moving
+            int objIndex = gp.collisionChecker.checkObject(this, true);
+            handleObject(objIndex);
+
             // Move if no collision
             if (!collisionOn) {
                 if (PlayerInput.up) {
@@ -144,5 +148,16 @@ public class Player extends Entity{
         }
         g2.drawImage(image, WorldX, WorldY, gp.tileSize, gp.tileSize, null);
 
+    }
+    public void handleObject(int index) {
+        //if 999 then an object was not collected
+        if (index != 999){
+            String objName = gp.obj[index].name;
+            switch (objName){
+                case "key":
+                    keysCollected++;
+                    gp.obj[index] = null;
+            }
+        }
     }
 }

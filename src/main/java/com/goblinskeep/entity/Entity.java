@@ -16,12 +16,13 @@ public abstract class Entity {
     protected int SpriteNum = 1;
 
     public Rectangle collisionArea;
-    public int hitboxDefaultX, hitboxDefaultY;
+    public int hitboxDefaultX = 48;
+    public int hitboxDefaultY = 48;
     public boolean collisionOn;
 
     public Entity(){
         this.speed = 1;
-        this.collisionArea = new Rectangle(0, 0, 48, 48); // Adjust size as needed
+        this.collisionArea = new Rectangle(0, 0, hitboxDefaultX, hitboxDefaultY); // Adjust size as needed
         this.hitboxDefaultX = 0;
         this.hitboxDefaultY = 0;
         this.collisionOn = false;
@@ -31,7 +32,7 @@ public abstract class Entity {
         this.WorldX = WorldX;
         this.WorldY = WorldY;
         this.speed = 1;
-        this.collisionArea = new Rectangle(0, 0, 48, 48); // Adjust size as needed
+        this.collisionArea = new Rectangle(0, 0, hitboxDefaultX, hitboxDefaultY); // Adjust size as needed
         this.hitboxDefaultX = 0;
         this.hitboxDefaultY = 0;
         this.collisionOn = false;

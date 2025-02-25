@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import com.goblinskeep.Keyboard.PlayerInputHandler;
 import com.goblinskeep.Tile.TileManager;
+import com.goblinskeep.objects.MainObject;
 
 
 //Game Panel works as game Screen
@@ -29,8 +30,8 @@ public class GamePanel extends JPanel implements Runnable
     public final int tileSize = originaltileSize * scale; //Scalling
     public final int maxScreenCol = 16; //Width of game
     public final int maxScreenRow = 12; //Height of game
-    final int screenWidth = tileSize * maxScreenCol; //Scalling
-    final int screenHeight = tileSize * maxScreenRow; //Scalling
+    public final int screenWidth = tileSize * maxScreenCol; //Scalling
+    public final int screenHeight = tileSize * maxScreenRow; //Scalling
     
     //FPS
     int FPS = 60;
@@ -46,6 +47,11 @@ public class GamePanel extends JPanel implements Runnable
     private Gamestate gamestate;
     private Mapreader mapReader;
     private ArrayList<SmartGoblin> goblins;
+
+    //temporary public stuff
+    public MainObject[] obj = new MainObject[10];
+    public ObjectPlacer placer = new ObjectPlacer(this);
+
     
     //Set Player's default position
     // int playerX = 100;
@@ -92,8 +98,9 @@ public class GamePanel extends JPanel implements Runnable
             goblins.add(goblin);
             gamestate.addEnemy(goblin);
         }
-        
 
+        //place objects
+        setUpGame();
 
         //Double buffer improves rendering
         this.setDoubleBuffered(true);
@@ -118,6 +125,10 @@ public class GamePanel extends JPanel implements Runnable
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void setUpGame(){
+        placer.setObject();
     }
     
     @Override
@@ -253,6 +264,11 @@ public class GamePanel extends JPanel implements Runnable
         */
         Graphics2D g2 = (Graphics2D)g;
         tileM.draw(g2, gamestate);
+        for (MainObject mainObject : obj) {
+            if (mainObject != null) {
+                mainObject.draw(g2, this);
+            }
+        }
         Player.draw(g2);
         for (SmartGoblin goblin : goblins) {
             goblin.draw(g2);

@@ -70,4 +70,67 @@ public class CollisionChecker {
                 break;
         }
     }
+
+    public int checkObject(Entity entity, boolean player){
+        int index = 999;
+        for (int i = 0; i < gp.obj.length; i++){
+            if (gp.obj[i] == null) {
+                continue;
+            }
+            //need to test if this works the same
+            entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
+            entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+
+            //get world position of the collision area for the Objects
+            gp.obj[i].collisionArea.x = gp.obj[i].worldX + gp.obj[i].defaultCollisionAreaX;
+            gp.obj[i].collisionArea.y = gp.obj[i].worldY + gp.obj[i].defaultCollisionAreaY;
+
+            //check if there is a collision based on the way the Entity is facing
+            switch (entity.direction){
+                case Direction.UP:
+                    entity.collisionArea.y -= entity.speed;
+                    if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
+                        index = handleEntityCollision(entity, player, i);
+                    }
+                    break;
+                case Direction.LEFT:
+                    entity.collisionArea.x -= entity.speed;
+                    if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
+                        index = handleEntityCollision(entity, player, i);
+                    }
+                    break;
+                case Direction.DOWN:
+                    entity.collisionArea.x += entity.speed;
+                    if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
+                        index = handleEntityCollision(entity, player, i);
+                    }
+                    break;
+                case Direction.RIGHT:
+                    entity.collisionArea.y += entity.speed;
+                    if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
+                        index = handleEntityCollision(entity, player, i);
+                    }
+                    break;
+            }
+
+            //reset the collision area positions for future use
+            //uncomment if broken
+            entity.collisionArea.x = entity.hitboxDefaultX;
+            entity.collisionArea.y = entity.hitboxDefaultY;
+            gp.obj[i].collisionArea.x = gp.obj[i].defaultCollisionAreaX;
+            gp.obj[i].collisionArea.y = gp.obj[i].defaultCollisionAreaY;
+        }
+        return index;
+    }
+
+
+    private int handleEntityCollision(Entity entity, boolean player, int index){
+        if (gp.obj[index].collision){
+            entity.collisionOn = true;
+        }
+        if (player){
+            return index;
+        }
+        return 999;
+    }
 }
