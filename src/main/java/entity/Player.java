@@ -24,6 +24,7 @@ public class Player extends Entity{
                 case "key":
                     keysCollected++;
             }
+            //can make collision true in here if needed to for uncollectable objects
             gp.obj[index] = null;
         }
     }

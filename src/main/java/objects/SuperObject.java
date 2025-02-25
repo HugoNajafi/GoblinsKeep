@@ -10,7 +10,7 @@ public abstract class SuperObject {
     public String name;
     public boolean collision = false;
     public int worldX, worldY;
-    public Rectangle collisionArea;
+    public Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
     public int defaultCollisionAreaX, defaultCollisionAreaY;
 
     public void draw(Graphics2D g2, GamePanel gp){
@@ -26,7 +26,6 @@ public abstract class SuperObject {
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
         }
 
-        //make the collision area the size of the tile
-        collisionArea = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+
     }
 }

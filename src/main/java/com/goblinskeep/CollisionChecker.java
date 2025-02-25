@@ -115,7 +115,7 @@ public class CollisionChecker {
 
     private int handleEntityCollision(Entity entity, boolean player, int index){
         if (gp.obj[index].collision){
-            //need to test why collision should be on
+            //set collision to true incase object cannot be passed through
             entity.collisionOn = true;
         }
         if (player){
