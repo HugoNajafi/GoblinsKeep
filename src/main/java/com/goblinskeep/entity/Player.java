@@ -2,111 +2,144 @@ package com.goblinskeep.entity;
 import com.goblinskeep.App.Direction;
 import com.goblinskeep.Keyboard.PlayerInputHandler;
 import java.awt.Graphics2D;
-import com.goblinskeep.App.GamePanel;
-
-
-import javax.imageio.ImageIO;
-import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+
+import com.goblinskeep.App.GamePanel;
+
+
 
 public class Player extends Entity{
-    GamePanel gp;
+    public GamePanel gp;
     PlayerInputHandler PlayerInput;
 
     public Player(int startX, int startY, GamePanel gp, PlayerInputHandler PlayerInput) {
         super(startX, startY);  // Pass values up to GameObject constructor
         this.gp = gp;
         this.PlayerInput = PlayerInput;
+        // Set a default direction
+        this.direction = Direction.DOWN;
+
+        // Set up the collision area
+        this.collisionArea = new Rectangle(8, 16, 32, 32); // Adjust these values to fit your sprite
+        this.hitboxDefaultX = 8;
+        this.hitboxDefaultY = 16;
+        getPlayerImage();
     }
 
-    public void setDefaultValues(){
-        WorldX = 100;
-        WorldY = 100;
-        speed = 4;
-        direction = "down";
-    }
+    public void getAction() {
+        // Reset collision flag
+        collisionOn = false;
+        
+        // // Store original position
+        // int originalX = this.WorldX;
+        // int originalY = this.WorldY;
+        
+        // Check collision first based on direction
+        if(PlayerInput.up == true || PlayerInput.down == true || PlayerInput.left == true || PlayerInput.right == true){
 
-    public void getPlayerImage() {
+            if (PlayerInput.up) {
+                direction = Direction.UP;
+                // Check collision before moving
+                gp.collisionChecker.checkTile(this);
+            } else if (PlayerInput.down) {
+                direction = Direction.DOWN;
+                // Check collision before moving
+                gp.collisionChecker.checkTile(this);
+            } else if (PlayerInput.left) {
+                direction = Direction.LEFT;
+                // Check collision before moving
+                gp.collisionChecker.checkTile(this);
+            } else if (PlayerInput.right) {
+                direction = Direction.RIGHT;
+                // Check collision before moving
+                gp.collisionChecker.checkTile(this);
+            }
+            
+            // Move if no collision
+            if (!collisionOn) {
+                if (PlayerInput.up) {
+                    this.WorldY -= Direction.UP.getDy() * this.getSpeed();
+                } else if (PlayerInput.down) {
+                    this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
+                } else if (PlayerInput.left) {
+                    this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
+                } else if (PlayerInput.right) {
+                    this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
+                }
+            }
+            
+            SpriteCounter++;
+            if(SpriteCounter> 10){
+                if(SpriteNum == 1){
+                    SpriteNum = 2;
+                }
+                else if(SpriteNum == 2){
+                    SpriteNum = 1;
+                }
+                SpriteCounter = 0;
+            }
+        }
+    }
+        public void getPlayerImage() {
 
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/idle.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/idle.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/idle.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/idle.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/idle.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/idle.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/idle.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/idle.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/Player/idle.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/Player/idle.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/Player/right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/Player/right2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/Player/left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/Player/left2.png"));
 
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void update(){
-
-        switch (this.direction){
-            case "up":
-                direction = "up";
-                WorldY -= speed;
-            case "down":
-                direction = "down";
-                WorldY += speed;
-            case "left":
-                direction = "left";
-                WorldX -= speed;
-            case "right":
-                direction = "right";
-                WorldX += speed;
-        }
-    }
-
-
-
-    public void getAction(){
-        if(PlayerInput.up){
-            // System.out.println("Pressing Up");
-            // System.out.println(playerY);
-            this.WorldY -= Direction.UP.getDy() * this.getSpeed();
-        }
-        else if(PlayerInput.down){
-            // System.out.println("Pressing Down");
-            // System.out.println(playerY);
-            this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
-        }
-        else if(PlayerInput.left){
-            // System.out.println("Pressing Left");
-            // System.out.println(playerX);
-            this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-        }
-        else if(PlayerInput.right){
-            // System.out.println("Pressing Right");
-            // System.out.println(playerX);
-            this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
-        }
-        // System.out.println("Get Action!");
-    }
     public void draw(Graphics2D g2){
-//        g2.setColor(Color.white);
-//        // System.out.println("Player x: " + Player.getX() + "y: " + Player.getY());
-//        g2.fillRect(this.WorldX, this.WorldY, gp.tileSize, gp.tileSize);
+        // g2.setColor(Color.white);
+        // // System.out.println("Player x: " + Player.getX() + "y: " + Player.getY());
+        // g2.fillRect(this.WorldX, this.WorldY, gp.tileSize, gp.tileSize);
 
         BufferedImage image = null;
 
         switch (direction){
-            case "up":
-                image = up1;
+            case Direction.UP:
+                if(SpriteNum == 1){
+                    image = up1;
+                }
+                if(SpriteNum == 2){
+                    image = up2;
+                }
                 break;
-            case "down":
-                image = down1;
+            case Direction.DOWN:
+                if(SpriteNum == 1){
+                    image = down1;
+                }
+                if(SpriteNum == 2){
+                    image = down2;
+                }
                 break;
-            case "left":
-                image = left1;
+            case Direction.LEFT:
+                if(SpriteNum == 1){
+                    image = left1;
+                }
+                if(SpriteNum == 2){
+                    image = left2;
+                }
                 break;
-            case "right":
-                image = right1;
+            case Direction.RIGHT:
+                if(SpriteNum == 1){
+                    image = right1;
+                }
+                if(SpriteNum == 2){
+                    image = right2;
+                }
                 break;
         }
         g2.drawImage(image, WorldX, WorldY, gp.tileSize, gp.tileSize, null);

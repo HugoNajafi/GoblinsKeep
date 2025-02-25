@@ -1,26 +1,14 @@
 package com.goblinskeep.App;
 
-import java.util.ArrayList;
-from Mapreader import read;
 
-public enum CellType{
-    Wall,
-    Trap
-}
-
-
-public class Gamestate {
-    private CellType[][] grid;
-    private Position playerPosition;
-    private ArrayList<Position> enemyPositions;
-    private int score;
-    private int width, height = ;
-    private boolean gameOver;
-
-    
-    public GameState(int width, int height){
-        this.width
-    }
-
-    
+public enum CellType {
+    Empty,    // Empty walkable space
+    Wall,     // Wall/obstacle (X)
+    Key,      // Key (% - regular points)
+    Bonus,    // Bonus ($ - bonus points)
+    Trap,     // Trap (& - damages player)
+    Lever,    // Lever (L - activates something)
+    Entry,    // Entry point (@ - starting point)
+    Exit      // Exit point (! - finish point)
+    // Note: Player (O) and Enemy (E) are entities, not cell types
 }

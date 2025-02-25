@@ -25,7 +25,7 @@ public class App
         window.pack();
         
         window.setLocationRelativeTo(null);
-        window.setVisible(true);
         gamepanel.startGameThread();
+        window.setVisible(true);
     }
 }

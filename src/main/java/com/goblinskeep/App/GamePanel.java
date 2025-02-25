@@ -6,12 +6,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
+import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Player;
+import com.goblinskeep.entity.SmartGoblin;
 
 import javax.swing.JPanel;
 
 import com.goblinskeep.Keyboard.PlayerInputHandler;
+import com.goblinskeep.Tile.TileManager;
 
 
 //Game Panel works as game Screen
@@ -21,8 +27,8 @@ public class GamePanel extends JPanel implements Runnable
     final int scale = 3;//Scale for tiles and characters to fit monitor resolution
 
     public final int tileSize = originaltileSize * scale; //Scalling
-    final int maxScreenCol = 16; //Width of game
-    final int maxScreenRow = 12; //Height of game
+    public final int maxScreenCol = 16; //Width of game
+    public final int maxScreenRow = 12; //Height of game
     final int screenWidth = tileSize * maxScreenCol; //Scalling
     final int screenHeight = tileSize * maxScreenRow; //Scalling
     
@@ -30,10 +36,16 @@ public class GamePanel extends JPanel implements Runnable
     int FPS = 60;
     
     //TileManager tileM;
-    
-    Player Player;
+    public TileManager tileM;
+    public Player Player;
+    public CollisionChecker collisionChecker;
     PlayerInputHandler PlayerInput;
     Thread gameThread;
+
+    // Game state
+    private Gamestate gamestate;
+    private Mapreader mapReader;
+    private ArrayList<SmartGoblin> goblins;
     
     //Set Player's default position
     // int playerX = 100;
@@ -50,24 +62,57 @@ public class GamePanel extends JPanel implements Runnable
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
+        this.tileM = new TileManager(this);
         this.PlayerInput = new PlayerInputHandler();
         this.Player = new Player(100, 100, this, PlayerInput);
         this.Player.speed = 5;
+        
+        this.collisionChecker = new CollisionChecker(this);
+        
+        // Initialize game state
+        this.gamestate = new Gamestate(maxScreenCol, maxScreenRow, this.Player);
+        this.mapReader = new Mapreader();
+        
+        // Create and load map
+        String mapStr = mapReader.createSampleMap();
+        mapReader.loadMap(mapStr, gamestate, this);
+        
+        // Update tile map for collision checking
+        tileM.updateMapTileNum(gamestate);
+        
+        // Initialize goblins
+        goblins = new ArrayList<>();
+        for (Point pos : gamestate.getInitialGoblinPositions()) {
+            SmartGoblin goblin = new SmartGoblin(this, Player, gamestate);
+            goblin.setX(pos.x * tileSize);
+            goblin.setY(pos.y * tileSize);
+            goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
+            goblin.hitboxDefaultX = 8;
+            goblin.hitboxDefaultY = 16;
+            goblins.add(goblin);
+            gamestate.addEnemy(goblin);
+        }
+        
+
+
         //Double buffer improves rendering
         this.setDoubleBuffered(true);
         this.addKeyListener(PlayerInput);
         this.setFocusable(true);
+        this.repaint();
     }
     
     public GamePanel(int PlayerX, int PlayerY){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
+        this.tileM = new TileManager(this);
         this.PlayerInput = new PlayerInputHandler();
         this.Player = new Player(PlayerX, PlayerY, this, PlayerInput);
         //Double buffer improves rendering
         this.setDoubleBuffered(true);
         this.addKeyListener(PlayerInput);
         this.setFocusable(true);
+        this.repaint();
     }
 
     public void startGameThread(){
@@ -174,6 +219,9 @@ public class GamePanel extends JPanel implements Runnable
          */
         // Player.getAction();
         Player.getAction();
+        for (SmartGoblin goblin : goblins) {
+            goblin.getAction();
+        }
         // if(Player.up){
         //     // System.out.println("Pressing Up");
         //     // System.out.println(playerY);
@@ -204,7 +252,11 @@ public class GamePanel extends JPanel implements Runnable
         * coordinate transformations, color management etc
         */
         Graphics2D g2 = (Graphics2D)g;
+        tileM.draw(g2, gamestate);
         Player.draw(g2);
+        for (SmartGoblin goblin : goblins) {
+            goblin.draw(g2);
+        }
         
         g2.dispose();
         

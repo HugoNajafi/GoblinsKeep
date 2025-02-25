@@ -1,8 +1,14 @@
 package com.goblinskeep.entity;
 
-import java.awt.Color;
+// import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 // import java.io.IOException;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import com.goblinskeep.App.Direction;
 
 // import javax.imageio.ImageIO;
 
@@ -22,19 +28,62 @@ public abstract class Goblin extends Entity{
         this.player = player;
         // getGoblinImage();
     }
-    // public void getGoblinImage(){
-    //     try{
-    //         up1 = ImageIO.read(getClass().getResourceAsStream("."));
-    //     }
-    //     catch(IOException e){
-    //         e.printStackTrace();
-    //     }
-    // }
+    public abstract void getAction();
+
+    public void getGoblinImage(){
+        try{
+            up1 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_down_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_right_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_left_2.png"));
+
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     public void draw(Graphics2D g2){
-        g2.setColor(Color.green);
-        // System.out.println("Player x: " + Player.getX() + "y: " + Player.getY());
-        g2.fillRect(this.WorldX, this.WorldY, gp.tileSize, gp.tileSize);
+        BufferedImage image = null;
+
+        switch (direction){
+            case Direction.UP:
+                if(SpriteNum == 1){
+                    image = up1;
+                }
+                if(SpriteNum == 2){
+                    image = up2;
+                }
+                break;
+            case Direction.DOWN:
+                if(SpriteNum == 1){
+                    image = down1;
+                }
+                if(SpriteNum == 2){
+                    image = down2;
+                }
+                break;
+            case Direction.LEFT:
+                if(SpriteNum == 1){
+                    image = left1;
+                }
+                if(SpriteNum == 2){
+                    image = left2;
+                }
+                break;
+            case Direction.RIGHT:
+                if(SpriteNum == 1){
+                    image = right1;
+                }
+                if(SpriteNum == 2){
+                    image = right2;
+                }
+                break;
+        }
+        g2.drawImage(image, WorldX, WorldY, gp.tileSize, gp.tileSize, null);
 
     }
 }
