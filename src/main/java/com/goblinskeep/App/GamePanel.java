@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.goblinskeep.UI.UI;
 import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Entity;
 import com.goblinskeep.entity.Player;
@@ -43,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable
     public Player Player;
     public CollisionChecker collisionChecker;
     PlayerInputHandler PlayerInput;
-    Thread gameThread;
+    public Thread gameThread;
 
     // Game state
     private Gamestate gamestate;
@@ -53,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable
     //temporary public stuff
     public MainObject[] obj = new MainObject[10];
     public ObjectPlacer placer = new ObjectPlacer(this);
+    public UI ui = new UI(this);
 
     
     //Set Player's default position
@@ -275,6 +277,7 @@ public class GamePanel extends JPanel implements Runnable
         for (SmartGoblin goblin : goblins) {
             goblin.draw(g2);
         }
+        ui.draw(g2);
         
         g2.dispose();
         
