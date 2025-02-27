@@ -55,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable
     public MainObject[] obj = new MainObject[10];
     public ObjectPlacer placer = new ObjectPlacer(this);
     public UI ui = new UI(this);
+    public GameStatus status;
 
     
     //Set Player's default position
@@ -133,6 +134,7 @@ public class GamePanel extends JPanel implements Runnable
 
     public void setUpGame(){
         placer.setObject();
+        status = GameStatus.PLAYING; //in the future change this to MENU
     }
     
     @Override
@@ -233,10 +235,15 @@ public class GamePanel extends JPanel implements Runnable
          * 
          */
         // Player.getAction();
-        Player.getAction();
-        for (SmartGoblin goblin : goblins) {
-            goblin.getAction();
+        if (status == GameStatus.PLAYING){
+            Player.getAction();
+            for (SmartGoblin goblin : goblins) {
+                goblin.getAction();
+            }
+        } else if (status == GameStatus.PAUSED) {
+
         }
+
         // if(Player.up){
         //     // System.out.println("Pressing Up");
         //     // System.out.println(playerY);
@@ -261,23 +268,29 @@ public class GamePanel extends JPanel implements Runnable
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        
+        Graphics2D g2 = (Graphics2D)g;
+        if (status == GameStatus.MENU){
+
+        } else if (status == GameStatus.END) {
+
+        } else {
+            tileM.draw(g2, gamestate);
+            for (MainObject mainObject : obj) {
+                if (mainObject != null) {
+                    mainObject.draw(g2, this);
+                }
+            }
+            Player.draw(g2);
+            for (SmartGoblin goblin : goblins) {
+                goblin.draw(g2);
+            }
+            ui.draw(g2);
+        }
         /*
         * Graphics2D extends Graphics and provides more methods
         * coordinate transformations, color management etc
         */
-        Graphics2D g2 = (Graphics2D)g;
-        tileM.draw(g2, gamestate);
-        for (MainObject mainObject : obj) {
-            if (mainObject != null) {
-                mainObject.draw(g2, this);
-            }
-        }
-        Player.draw(g2);
-        for (SmartGoblin goblin : goblins) {
-            goblin.draw(g2);
-        }
-        ui.draw(g2);
+
         
         g2.dispose();
         

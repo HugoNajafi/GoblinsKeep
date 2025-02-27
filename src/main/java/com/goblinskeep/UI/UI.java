@@ -1,6 +1,7 @@
 package com.goblinskeep.UI;
 
 import com.goblinskeep.App.GamePanel;
+import com.goblinskeep.App.GameStatus;
 import com.goblinskeep.objects.Key;
 
 import java.awt.Font;
@@ -32,45 +33,25 @@ public class UI {
     }
 
     public void draw(Graphics2D g2) {
-
-        if (gameFinished) {
-            g2.setFont(arial_40);
-            g2.setColor(Color.white);
-            String text;
-            int textLength;
-            int x;
-            int y;
-            text = "You found the treasure!";
-            textLength = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth() ;
-            x = gp.screenWidth/2 - textLength/2;
-            y = gp. screenHeight/2 - (gp.tileSize*3);
-            g2.drawString (text, x, y);
-
-            text = String.format("Your time is: %.2f!", playTime);
-            textLength = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth() ;
-            x = gp.screenWidth/2 - textLength/2;
-            y = gp. screenHeight/2 - (gp.tileSize*4);
-            g2.drawString (text, x, y);
-
-
-            g2.setFont(arial_80B) ;
-            g2.setColor (Color.yellow) ;
-            text = "Congratulations!";
-            textLength = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth() ;
-            x = gp. screenWidth/2 - textLength/2;
-            y = gp. screenHeight/2 + (gp.tileSize*2) ;
-            g2.drawString (text, x, y) ;
-            gp.gameThread = null;
-            return;
+        if (gp.status == GameStatus.PLAYING) {
+            drawPlaying(g2);
+        } else if (gp.status == GameStatus.PAUSED){
+            drawPaused(g2);
         }
+    }
+
+    public void drawPlaying(Graphics2D g2) {
+        //draw key counter on screen
         g2.setFont(arial_40);
         g2.setColor(Color.white);
         g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2, gp.tileSize, gp.tileSize, null);
         g2.drawString("x = " + 3, 74, 65);
 
+        //draw the timer on the screen
         playTime += (double) 1/60;
         g2.drawString( String.format("Time: %.2f", playTime), gp.tileSize * 11 , 65);
 
+        //draw any messages called
         if (messageOn){
             g2.setFont(g2.getFont().deriveFont(30F));
             g2.drawString(message, gp.tileSize/2, gp.tileSize * 5);
@@ -81,4 +62,9 @@ public class UI {
             }
         }
     }
+
+    public void drawPaused(Graphics2D g2){
+
+    }
+
 }
