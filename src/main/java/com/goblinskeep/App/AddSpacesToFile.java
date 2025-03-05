@@ -17,6 +17,7 @@ public class AddSpacesToFile {
             String line;
             while ((line = reader.readLine()) != null) {
                 StringBuilder spacedLine = new StringBuilder();
+                System.out.println(line.toCharArray().length);
                 for (char c : line.toCharArray()) {
                     spacedLine.append(c).append(' ');
                 }

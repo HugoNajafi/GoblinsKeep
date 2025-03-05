@@ -52,12 +52,10 @@ public class GamePanel extends JPanel implements Runnable
 
     // Game state
     public Gamestate gamestate;
-    private Mapreader mapReader;
     private ArrayList<SmartGoblin> goblins;
 
     //temporary public stuff
     public MainObject[] obj;
-    public ObjectPlacer placer = new ObjectPlacer(this);
     public UI ui = new UI(this);
     public GameStatus status;
     public Map1 map;
@@ -89,7 +87,6 @@ public class GamePanel extends JPanel implements Runnable
         // Initialize game state
         //should be maxWorldCol and Row
         this.gamestate = new Gamestate(maxScreenCol, maxScreenRow, this.Player);
-        this.mapReader = new Mapreader();
         this.map = new Map1(this);
         
         // Create and load map
@@ -145,7 +142,6 @@ public class GamePanel extends JPanel implements Runnable
     }
 
     public void setUpGame(){
-//        placer.setObject();
         obj = map.getObjects();
         status = GameStatus.MENU; //in the future change this to MENU
     }
