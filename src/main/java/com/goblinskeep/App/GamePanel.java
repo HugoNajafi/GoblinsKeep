@@ -11,6 +11,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.goblinskeep.Keyboard.MenuInputHandler;
+import com.goblinskeep.UI.MenuUI;
 import com.goblinskeep.UI.UI;
 import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Entity;
@@ -27,16 +29,16 @@ import com.goblinskeep.objects.MainObject;
 //Game Panel works as game Screen
 public class GamePanel extends JPanel implements Runnable
 {
-    private static final int originaltileSize = 16; //Tile size during design
-    private static final int scale = 3;//Scale for tiles and characters to fit monitor resolution
+    private  final int originaltileSize = 16; //Tile size during design
+    private  final int scale = 3;//Scale for tiles and characters to fit monitor resolution
 
-    public static final int tileSize = originaltileSize * scale; //Scalling
-    public static final int maxScreenCol = 16; //Width of game
-    public static final int maxScreenRow = 12; //Height of game
-    public static final int screenWidth = tileSize * maxScreenCol; //Scalling
-    public static final int screenHeight = tileSize * maxScreenRow; //Scalling
-    public static final int maxWorldCol = 85;
-    public static final int maxWorldRow = 82;
+    public  final int tileSize = originaltileSize * scale; //Scalling
+    public  final int maxScreenCol = 16; //Width of game
+    public  final int maxScreenRow = 12; //Height of game
+    public  final int screenWidth = tileSize * maxScreenCol; //Scalling
+    public  final int screenHeight = tileSize * maxScreenRow; //Scalling
+    public  final int maxWorldCol = 85;
+    public  final int maxWorldRow = 82;
     
     //FPS
     private int FPS = 60;
@@ -59,7 +61,8 @@ public class GamePanel extends JPanel implements Runnable
     public UI ui = new UI(this);
     public GameStatus status;
     public Map1 map;
-
+    private MenuInputHandler keyboard = new MenuInputHandler(this);
+    private MenuUI menuUI = new MenuUI(this);
     
     //Set Player's default position
     // int playerX = 100;
@@ -118,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable
         //Double buffer improves rendering
         this.setDoubleBuffered(true);
         this.addKeyListener(PlayerInput);
+        this.addKeyListener(keyboard);
         this.setFocusable(true);
         this.repaint();
     }
@@ -143,7 +147,7 @@ public class GamePanel extends JPanel implements Runnable
     public void setUpGame(){
 //        placer.setObject();
         obj = map.getObjects();
-        status = GameStatus.PLAYING; //in the future change this to MENU
+        status = GameStatus.MENU; //in the future change this to MENU
     }
     
     @Override
@@ -244,14 +248,16 @@ public class GamePanel extends JPanel implements Runnable
          * 
          */
         // Player.getAction();
-        if (status == GameStatus.PLAYING)
-        {
+        if (status == GameStatus.PLAYING) {
+            if (map.gameEnded()){ //this doesnt change so game bricks at the menu
+                status = GameStatus.MENU; //change later to WIN/LOSE
+            }
             Player.getAction();
             for (SmartGoblin goblin : goblins) {
                 goblin.getAction();
             }
         } else if (status == GameStatus.PAUSED) {
-
+            //do nothing if paused
         }
 
         // if(Player.up){
@@ -280,7 +286,7 @@ public class GamePanel extends JPanel implements Runnable
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         if (status == GameStatus.MENU){
-
+            menuUI.draw(g2);
         } else if (status == GameStatus.END) {
 
         } else {

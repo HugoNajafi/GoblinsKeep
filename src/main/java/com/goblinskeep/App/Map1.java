@@ -22,6 +22,8 @@ public class Map1 {
     private Lever lever = new Lever();
     public int keysNeeded = 2;
     private boolean exitOpen = false;
+    private boolean gameEnded = false;
+    private int keysCollected = 0;
 
     public Map1(GamePanel gp){
         this.gp = gp;
@@ -101,16 +103,31 @@ public class Map1 {
     }
 
     public void leverTouched(){
-        if (player.keysCollected == keysNeeded){
+        if (keysCollected == keysNeeded){
             exitOpen = true;
             keysNeeded = -1;
+            gp.ui.showMessage("Exit Opened");
             lever.activate();
         }
     }
 
     public void exitTouched(){
         if (exitOpen){
-
+            gameEnded = true;
         }
+    }
+
+    public void keyCollected(){
+        keysCollected++;
+        if (keysCollected == keysNeeded){
+            gp.ui.showMessage("Lever Unlocked");
+        }
+    }
+    public int getKeysCollected(){
+        return keysCollected;
+    }
+
+    public boolean gameEnded(){
+        return gameEnded;
     }
 }

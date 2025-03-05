@@ -17,6 +17,7 @@ public class UI {
     public String message = "";
     public int messageCounter = 0;
     public boolean gameFinished = false;
+    private Graphics2D g2;
 
     double playTime;
     public UI(GamePanel gp) {
@@ -33,6 +34,7 @@ public class UI {
     }
 
     public void draw(Graphics2D g2) {
+        this.g2 = g2;
         if (gp.status == GameStatus.PLAYING) {
             drawPlaying(g2);
         } else if (gp.status == GameStatus.PAUSED){
@@ -45,7 +47,7 @@ public class UI {
         g2.setFont(arial_40);
         g2.setColor(Color.white);
         g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2, gp.tileSize, gp.tileSize, null);
-        g2.drawString("x = " + gp.Player.keysCollected, 74, 65);
+        g2.drawString("x = " + gp.map.getKeysCollected(), 74, 65);
 
         //draw the timer on the screen
         playTime += (double) 1/60;
@@ -64,7 +66,25 @@ public class UI {
     }
 
     public void drawPaused(Graphics2D g2){
+        g2.setFont(arial_40);
+        g2.setColor(Color.white);
+        g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2, gp.tileSize, gp.tileSize, null);
+        g2.drawString("x = " + gp.map.getKeysCollected(), 74, 65);
 
+        //draw the timer on the screen
+        g2.drawString( String.format("Time: %.2f", playTime), gp.tileSize * 11 , 65);
+
+        g2.setFont(arial_80B);
+        g2.setFont(g2.getFont().deriveFont(50F));
+        g2.drawString("PAUSED", getCenteredXAxisText("PAUSED"), gp.tileSize * 5);
+
+        //draw any messages called
+
+    }
+
+    private int getCenteredXAxisText(String text){
+        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+        return gp.screenWidth/2 - length/2;
     }
 
 }
