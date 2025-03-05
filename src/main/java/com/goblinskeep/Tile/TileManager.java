@@ -1,7 +1,10 @@
 package com.goblinskeep.Tile;
 
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 import com.goblinskeep.App.GamePanel;
 import com.goblinskeep.App.CellType;
@@ -26,10 +29,31 @@ public class TileManager {
         this.gp = gp;
         
         // We need 8 different tile types now
-        tile = new Tile[8];
-        mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
+        tile = new Tile[10];
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         
-        getTileImage();
+//        getTileImage();
+        newGetTileImage();
+    }
+
+    private void newGetTileImage() {
+        try {
+            mapNumToTile("/Tiles/metalplate.png", 0, false);
+            mapNumToTile("/Tiles/drytree.png", 1, true);
+            mapNumToTile("/Tiles/destructiblewall.png", 8, false);
+        } catch (IOException e){
+            System.out.println("tile image loading failed: " + e.getMessage());
+        }
+
+    }
+
+    private void mapNumToTile(String tileFileName, int tileNum, boolean collision) throws IOException {
+        tile[tileNum] = new Tile();
+        tile[tileNum].image = ImageIO.read(getClass().getResourceAsStream(tileFileName));
+        if (collision){
+            tile[tileNum].collision = true;
+        }
+
     }
 
     public void getTileImage() {
@@ -78,7 +102,35 @@ public class TileManager {
             case Empty: default: return EMPTY;
         }
     }
-    
+
+    public void loadMap(String mapFile){
+        try {
+            //load the map file into a stream and start parsing it
+            InputStream inputMap = getClass().getResourceAsStream(mapFile);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputMap));
+            int col = 0;
+            int row = 0;
+            //loop each line of the map file and map the tile number to the mapTileNum array
+            while (col < gp.maxWorldCol && row < gp.maxWorldRow){
+                String line = reader.readLine();
+                while(col < gp.maxWorldCol){
+                    String[] numbers = line.split(" ");
+                    int num = Integer.parseInt(numbers[col]);
+                    mapTileNum[col][row] = num;
+                    col++;
+                }
+                if (col == gp.maxWorldCol){
+                    col = 0;
+                    row++;
+                }
+            }
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Error in Map loading: " + e.getMessage());
+        }
+    }
+
+
     // Update the mapTileNum array based on the gamestate grid
     public void updateMapTileNum(Gamestate gamestate) {
         for (int y = 0; y < gamestate.getHeight(); y++) {
@@ -92,7 +144,7 @@ public class TileManager {
     // Draw the map tiles
     public void draw(Graphics2D g2, Gamestate gamestate) {
         // First update the mapTileNum array
-        updateMapTileNum(gamestate);
+//        updateMapTileNum(gamestate);
 //        old drawing version non-camera
 //        for (int y = 0; y < gamestate.getHeight(); y++) {
 //            for (int x = 0; x < gamestate.getWidth(); x++) {
@@ -112,7 +164,8 @@ public class TileManager {
         int worldRow = 0;
         int worldCol = 0;
 
-        while (worldCol < gamestate.getWidth() && worldRow < gamestate.getHeight()) {
+//        while (worldCol < gamestate.getWidth() && worldRow < gamestate.getHeight()) {
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
@@ -128,7 +181,7 @@ public class TileManager {
 
             }
             worldCol += 1;
-            if (worldCol >= gamestate.getWidth()){
+            if (worldCol >= gp.maxWorldCol){
                 worldCol = 0;
                 worldRow++;
             }

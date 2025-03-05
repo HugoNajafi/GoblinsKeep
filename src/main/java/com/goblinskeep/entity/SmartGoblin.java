@@ -72,7 +72,10 @@ public class SmartGoblin extends Goblin {
         // Convert from grid position to pixel position
         int targetPixelX = target.x * gp.tileSize;
         int targetPixelY = target.y * gp.tileSize;
-        
+
+//        //my changes
+//        int targetPixelX = target.x * gp.tileSize + (gp.tileSize/2) - (this.collisionArea.width/2);;
+//        int targetPixelY = target.y * gp.tileSize + (gp.tileSize/2) - (this.collisionArea.height/2);
         // Determine direction to move
         if (Math.abs(this.WorldX - targetPixelX) < this.getSpeed() && 
             Math.abs(this.WorldY - targetPixelY) < this.getSpeed()) {
@@ -181,7 +184,8 @@ public class SmartGoblin extends Goblin {
             // Check all neighbors
             for (Point neighbor : getNeighbors(current.position)) {
                 // Skip if already evaluated or not walkable
-                if (closedSet.contains(neighbor) || !gamestate.isWalkable(neighbor.x, neighbor.y)) {
+//                if (closedSet.contains(neighbor) || !gamestate.isWalkable(neighbor.x, neighbor.y)) {
+                if (closedSet.contains(neighbor) || !isWalkable(neighbor.x, neighbor.y)) {
                     continue;
                 }
                 
@@ -227,12 +231,31 @@ public class SmartGoblin extends Goblin {
             int nx = p.x + dir[0];
             int ny = p.y + dir[1];
             
-            if (gamestate.isValidPosition(nx, ny)) {
+//            if (gamestate.isValidPosition(nx, ny)) {
+//                neighbors.add(new Point(nx, ny));
+//            }
+
+            //testing
+            if (isValidPosition(nx,ny)) {
                 neighbors.add(new Point(nx, ny));
             }
+
+
         }
         
         return neighbors;
+    }
+
+    private boolean isWalkable(int x, int y){
+        if (!isValidPosition(x, y)){
+            return false;
+        }
+        int tileNum = gp.tileM.mapTileNum[x][y];
+        return !gp.tileM.tile[tileNum].collision;
+    }
+
+    private boolean isValidPosition(int x, int y) {
+        return x >= 0 && x < gp.maxWorldCol && y >= 0 && y < gp.maxWorldRow;
     }
     
     // Check if a point is in the open set

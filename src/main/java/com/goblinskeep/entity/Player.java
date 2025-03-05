@@ -159,10 +159,15 @@ public class Player extends Entity{
         //if 999 then an object was not collected
         if (index != 999){
             String objName = gp.obj[index].name;
+            System.out.println(objName);
             switch (objName){
                 case "key":
                     keysCollected++;
                     gp.obj[index] = null;
+                    break;
+                case "lever":
+                    gp.map.leverTouched();
+                    break;
             }
         }
     }

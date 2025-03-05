@@ -27,17 +27,19 @@ import com.goblinskeep.objects.MainObject;
 //Game Panel works as game Screen
 public class GamePanel extends JPanel implements Runnable
 {
-    final int originaltileSize = 16; //Tile size during design
-    final int scale = 3;//Scale for tiles and characters to fit monitor resolution
+    private static final int originaltileSize = 16; //Tile size during design
+    private static final int scale = 3;//Scale for tiles and characters to fit monitor resolution
 
-    public final int tileSize = originaltileSize * scale; //Scalling
-    public final int maxScreenCol = 16; //Width of game
-    public final int maxScreenRow = 12; //Height of game
-    public final int screenWidth = tileSize * maxScreenCol; //Scalling
-    public final int screenHeight = tileSize * maxScreenRow; //Scalling
+    public static final int tileSize = originaltileSize * scale; //Scalling
+    public static final int maxScreenCol = 16; //Width of game
+    public static final int maxScreenRow = 12; //Height of game
+    public static final int screenWidth = tileSize * maxScreenCol; //Scalling
+    public static final int screenHeight = tileSize * maxScreenRow; //Scalling
+    public static final int maxWorldCol = 85;
+    public static final int maxWorldRow = 82;
     
     //FPS
-    int FPS = 60;
+    private int FPS = 60;
     
     //TileManager tileM;
     public TileManager tileM;
@@ -47,15 +49,16 @@ public class GamePanel extends JPanel implements Runnable
     public Thread gameThread;
 
     // Game state
-    private Gamestate gamestate;
+    public Gamestate gamestate;
     private Mapreader mapReader;
     private ArrayList<SmartGoblin> goblins;
 
     //temporary public stuff
-    public MainObject[] obj = new MainObject[10];
+    public MainObject[] obj;
     public ObjectPlacer placer = new ObjectPlacer(this);
     public UI ui = new UI(this);
     public GameStatus status;
+    public Map1 map;
 
     
     //Set Player's default position
@@ -81,28 +84,33 @@ public class GamePanel extends JPanel implements Runnable
         this.collisionChecker = new CollisionChecker(this);
         
         // Initialize game state
+        //should be maxWorldCol and Row
         this.gamestate = new Gamestate(maxScreenCol, maxScreenRow, this.Player);
         this.mapReader = new Mapreader();
+        this.map = new Map1(this);
         
         // Create and load map
-        String mapStr = mapReader.createSampleMap();
-        mapReader.loadMap(mapStr, gamestate, this);
+//        String mapStr = mapReader.createSampleMap();
+//        mapReader.loadMap(mapStr, gamestate, this);
+
+        tileM = map.getTileManager();
+        goblins = map.getGoblins();
         
         // Update tile map for collision checking
-        tileM.updateMapTileNum(gamestate);
+//        tileM.updateMapTileNum(gamestate);
         
         // Initialize goblins
-        goblins = new ArrayList<>();
-        for (Point pos : gamestate.getInitialGoblinPositions()) {
-            SmartGoblin goblin = new SmartGoblin(this, Player, gamestate);
-            goblin.setX(pos.x * tileSize);
-            goblin.setY(pos.y * tileSize);
-            goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
-            goblin.hitboxDefaultX = 8;
-            goblin.hitboxDefaultY = 16;
-            goblins.add(goblin);
-            gamestate.addEnemy(goblin);
-        }
+//        goblins = new ArrayList<>();
+//        for (Point pos : gamestate.getInitialGoblinPositions()) {
+//            SmartGoblin goblin = new SmartGoblin(this, Player, gamestate);
+//            goblin.setX(pos.x * tileSize);
+//            goblin.setY(pos.y * tileSize);
+//            goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
+//            goblin.hitboxDefaultX = 8;
+//            goblin.hitboxDefaultY = 16;
+//            goblins.add(goblin);
+//            gamestate.addEnemy(goblin);
+//        }
 
         //place objects
         setUpGame();
@@ -133,7 +141,8 @@ public class GamePanel extends JPanel implements Runnable
     }
 
     public void setUpGame(){
-        placer.setObject();
+//        placer.setObject();
+        obj = map.getObjects();
         status = GameStatus.PLAYING; //in the future change this to MENU
     }
     
@@ -235,7 +244,8 @@ public class GamePanel extends JPanel implements Runnable
          * 
          */
         // Player.getAction();
-        if (status == GameStatus.PLAYING){
+        if (status == GameStatus.PLAYING)
+        {
             Player.getAction();
             for (SmartGoblin goblin : goblins) {
                 goblin.getAction();

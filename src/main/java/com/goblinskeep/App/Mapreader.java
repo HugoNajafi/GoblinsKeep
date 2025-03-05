@@ -146,7 +146,7 @@ public class Mapreader {
         sb.append("X     X\n");
         sb.append("X$ XX X\n");
         sb.append("XXLX  X\n");
-        sb.append("XXX  EX\n");
+        sb.append("XX   EX\n");
         sb.append("XX$X XX\n");
         sb.append("XX X!XX\n");
         

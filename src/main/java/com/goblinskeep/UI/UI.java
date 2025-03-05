@@ -45,7 +45,7 @@ public class UI {
         g2.setFont(arial_40);
         g2.setColor(Color.white);
         g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2, gp.tileSize, gp.tileSize, null);
-        g2.drawString("x = " + 3, 74, 65);
+        g2.drawString("x = " + gp.Player.keysCollected, 74, 65);
 
         //draw the timer on the screen
         playTime += (double) 1/60;
