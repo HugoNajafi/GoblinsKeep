@@ -1,6 +1,6 @@
 package com.goblinskeep.objects;
 
-import com.goblinskeep.App.GamePanel;
+import com.goblinskeep.app.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

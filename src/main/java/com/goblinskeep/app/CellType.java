@@ -1,4 +1,4 @@
-package com.goblinskeep.App;
+package com.goblinskeep.app;
 
 
 public enum CellType {
@@ -9,6 +9,7 @@ public enum CellType {
     Trap,     // Trap (& - damages player)
     Lever,    // Lever (L - activates something)
     Entry,    // Entry point (@ - starting point)
+    Grass,    // Grass to make it look nice
     Exit      // Exit point (! - finish point)
     // Note: Player (O) and Enemy (E) are entities, not cell types
 }

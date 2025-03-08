@@ -1,4 +1,4 @@
-package com.goblinskeep.Tile;
+package com.goblinskeep.tile;
 
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
-import com.goblinskeep.App.GamePanel;
-import com.goblinskeep.App.CellType;
-import com.goblinskeep.App.Gamestate;
+import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.app.CellType;
+import com.goblinskeep.app.Gamestate;
 
 public class TileManager {
     GamePanel gp;
@@ -24,6 +24,7 @@ public class TileManager {
     public static final int LEVER = 5;
     public static final int ENTRY = 6;
     public static final int EXIT = 7;
+    public static final int GRASS = 8;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -38,9 +39,9 @@ public class TileManager {
 
     private void newGetTileImage() {
         try {
-            mapNumToTile("/Tiles/metalplate.png", 0, false);
-            mapNumToTile("/Tiles/drytree.png", 1, true);
-            mapNumToTile("/Tiles/destructiblewall.png", 8, false);
+            mapNumToTile("/tiles/ground1.png", 0, false);
+            mapNumToTile("/tiles/wall1.png", 1, true);
+            mapNumToTile("/tiles/grass_tile.png", 8, false);
         } catch (IOException e){
             System.out.println("tile image loading failed: " + e.getMessage());
         }
@@ -56,38 +57,38 @@ public class TileManager {
 
     }
 
-    public void getTileImage() {
-        try {
-            // Load all tile images
-            tile[EMPTY] = new Tile();
-            tile[EMPTY].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/metalplate.png"));
-            
-            tile[WALL] = new Tile();
-            tile[WALL].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/drytree.png"));
-            tile[WALL].collision = true; // Important for collision checking
-            
-            tile[KEY] = new Tile();
-            tile[KEY].image = ImageIO.read(getClass().getResourceAsStream("/objects/key.png"));
-            
-            tile[BONUS] = new Tile();
-            tile[BONUS].image = ImageIO.read(getClass().getResourceAsStream("/objects/Diamond.png"));
-            
-            tile[TRAP] = new Tile();
-            tile[TRAP].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/destructiblewall.png"));
-            
-            tile[LEVER] = new Tile();
-            tile[LEVER].image = ImageIO.read(getClass().getResourceAsStream("/Tiles/metalplate.png"));
-            
-            tile[ENTRY] = new Tile();
-            tile[ENTRY].image = ImageIO.read(getClass().getResourceAsStream("/objects/Star.png"));
-            
-            tile[EXIT] = new Tile();
-            tile[EXIT].image = ImageIO.read(getClass().getResourceAsStream("/objects/Life.png"));
-
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void getTileImage() {
+//        try {
+//            // Load all tile images
+//            tile[EMPTY] = new Tile();
+//            tile[EMPTY].image = ImageIO.read(getClass().getResourceAsStream("/tiles/metalplate.png"));
+//
+//            tile[WALL] = new Tile();
+//            tile[WALL].image = ImageIO.read(getClass().getResourceAsStream("/tiles/drytree.png"));
+//            tile[WALL].collision = true; // Important for collision checking
+//
+//            tile[KEY] = new Tile();
+//            tile[KEY].image = ImageIO.read(getClass().getResourceAsStream("/objects/key.png"));
+//
+//            tile[BONUS] = new Tile();
+//            tile[BONUS].image = ImageIO.read(getClass().getResourceAsStream("/objects/Diamond.png"));
+//
+//            tile[TRAP] = new Tile();
+//            tile[TRAP].image = ImageIO.read(getClass().getResourceAsStream("/tiles/destructiblewall.png"));
+//
+//            tile[LEVER] = new Tile();
+//            tile[LEVER].image = ImageIO.read(getClass().getResourceAsStream("/tiles/metalplate.png"));
+//
+//            tile[ENTRY] = new Tile();
+//            tile[ENTRY].image = ImageIO.read(getClass().getResourceAsStream("/objects/Star.png"));
+//
+//            tile[EXIT] = new Tile();
+//            tile[EXIT].image = ImageIO.read(getClass().getResourceAsStream("/objects/Life.png"));
+//
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     
     // Method to get the tile index for a specific cell type
     public int getTileIndex(CellType cellType) {
@@ -99,6 +100,7 @@ public class TileManager {
             case Lever: return LEVER;
             case Entry: return ENTRY;
             case Exit: return EXIT;
+            case Grass: return GRASS;
             case Empty: default: return EMPTY;
         }
     }

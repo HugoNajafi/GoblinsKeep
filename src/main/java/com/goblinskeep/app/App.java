@@ -1,4 +1,4 @@
-package com.goblinskeep.App;
+package com.goblinskeep.app;
 
 import javax.swing.JFrame;
 

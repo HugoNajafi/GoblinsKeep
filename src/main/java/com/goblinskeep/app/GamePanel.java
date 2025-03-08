@@ -1,4 +1,4 @@
-package com.goblinskeep.App;
+package com.goblinskeep.app;
 
 //import Tile.TileManager;
 
@@ -6,23 +6,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.goblinskeep.Keyboard.MenuInputHandler;
+import com.goblinskeep.keyboard.MenuInputHandler;
 import com.goblinskeep.UI.MenuUI;
 import com.goblinskeep.UI.UI;
 import com.goblinskeep.entity.CollisionChecker;
-import com.goblinskeep.entity.Entity;
 import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.SmartGoblin;
 
 import javax.swing.JPanel;
 
-import com.goblinskeep.Keyboard.PlayerInputHandler;
-import com.goblinskeep.Tile.TileManager;
+import com.goblinskeep.keyboard.PlayerInputHandler;
+import com.goblinskeep.tile.TileManager;
 import com.goblinskeep.objects.MainObject;
 
 
@@ -37,8 +34,8 @@ public class GamePanel extends JPanel implements Runnable
     public  final int maxScreenRow = 12; //Height of game
     public  final int screenWidth = tileSize * maxScreenCol; //Scalling
     public  final int screenHeight = tileSize * maxScreenRow; //Scalling
-    public  final int maxWorldCol = 85;
-    public  final int maxWorldRow = 82;
+    public  final int maxWorldCol = 50;
+    public  final int maxWorldRow = 50;
     
     //FPS
     private int FPS = 60;

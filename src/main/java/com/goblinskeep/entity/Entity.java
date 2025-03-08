@@ -3,7 +3,7 @@ package com.goblinskeep.entity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import com.goblinskeep.App.Direction;
+import com.goblinskeep.app.Direction;
 
 public abstract class Entity {
     public int WorldX, WorldY;

@@ -1,4 +1,4 @@
-package com.goblinskeep.App;
+package com.goblinskeep.app;
 
 public enum Direction {
     UP (0,1), 

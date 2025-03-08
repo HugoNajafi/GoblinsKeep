@@ -1,7 +1,7 @@
-package com.goblinskeep.Keyboard;
+package com.goblinskeep.keyboard;
 
-import com.goblinskeep.App.GamePanel;
-import com.goblinskeep.App.GameStatus;
+import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.app.GameStatus;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

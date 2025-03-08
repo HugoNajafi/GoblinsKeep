@@ -1,4 +1,4 @@
-package com.goblinskeep.App;
+package com.goblinskeep.app;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

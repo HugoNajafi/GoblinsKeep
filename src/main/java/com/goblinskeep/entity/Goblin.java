@@ -8,11 +8,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.goblinskeep.App.Direction;
+import com.goblinskeep.app.Direction;
 
 // import javax.imageio.ImageIO;
 
-import com.goblinskeep.App.GamePanel;
+import com.goblinskeep.app.GamePanel;
 
 public abstract class Goblin extends Entity{
     GamePanel gp;
@@ -32,14 +32,14 @@ public abstract class Goblin extends Entity{
 
     public void getGoblinImage(){
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_down_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_right_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/Goblin/orc_left_2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_down_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_right_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_left_2.png"));
 
         }catch(IOException e) {
             e.printStackTrace();
