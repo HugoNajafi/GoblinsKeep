@@ -9,8 +9,11 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
 import com.goblinskeep.keyboard.MenuInputHandler;
+import com.goblinskeep.UI.EndUI;
 import com.goblinskeep.UI.MenuUI;
+import com.goblinskeep.UI.PauseUI;
 import com.goblinskeep.UI.UI;
 import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Player;
@@ -54,20 +57,13 @@ public class GamePanel extends JPanel implements Runnable
     //temporary public stuff
     public MainObject[] obj;
     public UI ui = new UI(this);
+    public EndUI endUI = new EndUI(this);
     public GameStatus status;
     public Map1 map;
-    private MenuInputHandler keyboard = new MenuInputHandler(this);
     private MenuUI menuUI = new MenuUI(this);
+    private MenuInputHandler keyboard = new MenuInputHandler(this);
     
-    //Set Player's default position
-    // int playerX = 100;
-    // int playerY = 100;
-    // @Override
-    // Player.setX(100);
-    // @Override
-    // Player.setY(100);
-    
-    
+
     /**
      * Constructor
      */
@@ -85,29 +81,11 @@ public class GamePanel extends JPanel implements Runnable
         //should be maxWorldCol and Row
         this.gamestate = new Gamestate(maxScreenCol, maxScreenRow, this.Player);
         this.map = new Map1(this);
-        
-        // Create and load map
-//        String mapStr = mapReader.createSampleMap();
-//        mapReader.loadMap(mapStr, gamestate, this);
+
 
         tileM = map.getTileManager();
         goblins = map.getGoblins();
         
-        // Update tile map for collision checking
-//        tileM.updateMapTileNum(gamestate);
-        
-        // Initialize goblins
-//        goblins = new ArrayList<>();
-//        for (Point pos : gamestate.getInitialGoblinPositions()) {
-//            SmartGoblin goblin = new SmartGoblin(this, Player, gamestate);
-//            goblin.setX(pos.x * tileSize);
-//            goblin.setY(pos.y * tileSize);
-//            goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
-//            goblin.hitboxDefaultX = 8;
-//            goblin.hitboxDefaultY = 16;
-//            goblins.add(goblin);
-//            gamestate.addEnemy(goblin);
-//        }
 
         //place objects
         setUpGame();
@@ -243,14 +221,18 @@ public class GamePanel extends JPanel implements Runnable
         // Player.getAction();
         if (status == GameStatus.PLAYING) {
             if (map.gameEnded()){ //this doesnt change so game bricks at the menu
-                status = GameStatus.MENU; //change later to WIN/LOSE
-            }
-            Player.getAction();
-            for (SmartGoblin goblin : goblins) {
-                goblin.getAction();
+                status = GameStatus.END; //change later to WIN/LOSE
+            } else {
+                Player.getAction();
+                for (SmartGoblin goblin : goblins) {
+                    goblin.getAction();
+                }
             }
         } else if (status == GameStatus.PAUSED) {
             //do nothing if paused
+        } else if (status == GameStatus.RESTART){
+            restartGame();
+            status = GameStatus.PLAYING;
         }
 
         // if(Player.up){
@@ -281,7 +263,7 @@ public class GamePanel extends JPanel implements Runnable
         if (status == GameStatus.MENU){
             menuUI.draw(g2);
         } else if (status == GameStatus.END) {
-
+            endUI.draw(g2);
         } else {
             tileM.draw(g2, gamestate);
             for (MainObject mainObject : obj) {
@@ -307,6 +289,14 @@ public class GamePanel extends JPanel implements Runnable
 
     public Iterator<SmartGoblin> getSmartGoblinIterator(){
         return goblins.iterator();
+    }
+
+    public MenuUI getMenuUI(){
+        return menuUI;
+    }
+
+    public void restartGame() {
+
     }
 
 }

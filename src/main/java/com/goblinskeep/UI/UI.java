@@ -4,28 +4,26 @@ import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.GameStatus;
 import com.goblinskeep.objects.Key;
 
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class UI {
+public class UI extends DefaultUI{
     GamePanel gp;
-    Font arial_40, arial_80B;
     BufferedImage keyImage;
     public boolean messageOn = false;
     public String message = "";
     public int messageCounter = 0;
     public boolean gameFinished = false;
     private Graphics2D g2;
+    public PauseUI pauseUI;
 
-    double playTime;
+    public double playTime;
     public UI(GamePanel gp) {
+        super(gp);
         this.gp = gp;
-        arial_40 = new Font("Arial", Font.PLAIN, 40);
-        arial_80B = new Font("Arial", Font.BOLD, 80);
         Key key = new Key();
         keyImage = key.image;
+        this.pauseUI = new PauseUI(gp);
     }
 
     public void showMessage(String text){
@@ -44,47 +42,52 @@ public class UI {
 
     public void drawPlaying(Graphics2D g2) {
         //draw key counter on screen
-        g2.setFont(arial_40);
+        borderThickness = 1;
+        g2.setFont(gameFont.deriveFont(20f));
         g2.setColor(Color.white);
-        g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2, gp.tileSize, gp.tileSize, null);
-        g2.drawString("x = " + gp.map.getKeysCollected(), 74, 65);
+        g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2 - 10, gp.tileSize, gp.tileSize, null);
+        drawTextWithBorder(g2, "x = " + gp.map.getKeysCollected(), gp.tileSize * 3/2 , gp.tileSize);
+        drawTextWithBorder(g2, "score = " + gp.map.getScore(), gp.tileSize * 6 + gp.tileSize/2 , gp.tileSize);
 
         //draw the timer on the screen
         playTime += (double) 1/60;
-        g2.drawString( String.format("Time: %.2f", playTime), gp.tileSize * 11 , 65);
+        drawTextWithBorder(g2, String.format("Time: %02d:%02d", (int) playTime / 60, (int) playTime % 60), gp.tileSize * 12, gp.tileSize);
 
         //draw any messages called
         if (messageOn){
-            g2.setFont(g2.getFont().deriveFont(30F));
-            g2.drawString(message, gp.tileSize/2, gp.tileSize * 5);
+            int oldBorderThickness = borderThickness;
+            borderThickness = 1;
+            g2.setFont(g2.getFont().deriveFont(10F));
+            drawTextWithBorder(g2, message, getCenteredXAxisText(message, g2), gp.Player.screenY - 10);
             messageCounter++;
             if (messageCounter > 120) {
                 messageCounter = 0;
                 messageOn = false;
             }
+            borderThickness = oldBorderThickness;
         }
     }
 
     public void drawPaused(Graphics2D g2){
-        g2.setFont(arial_40);
-        g2.setColor(Color.white);
-        g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2, gp.tileSize, gp.tileSize, null);
-        g2.drawString("x = " + gp.map.getKeysCollected(), 74, 65);
+        playTime -= (double) 1/60;
+        drawPlaying(g2);
 
-        //draw the timer on the screen
-        g2.drawString( String.format("Time: %.2f", playTime), gp.tileSize * 11 , 65);
+        //opacity
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
-        g2.setFont(arial_80B);
-        g2.setFont(g2.getFont().deriveFont(50F));
-        g2.drawString("PAUSED", getCenteredXAxisText("PAUSED"), gp.tileSize * 5);
+        // Reset the composite to full opacity
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
+        pauseUI.draw(g2);
 
         //draw any messages called
 
     }
 
-    private int getCenteredXAxisText(String text){
-        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return gp.screenWidth/2 - length/2;
+    @Override
+    public Options getCurrentOption() {
+        return null;
     }
-
 }
