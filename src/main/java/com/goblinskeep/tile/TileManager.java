@@ -10,22 +10,18 @@ import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.CellType;
 import com.goblinskeep.app.Gamestate;
 
+/**
+ * handles all types of tiles and maps the image to an array called tile[] and has the draw method for tiles
+ */
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int[][] mapTileNum; // For collision checking
-    
-    // Tile index constants for easier reference
-    public static final int EMPTY = 0;
-    public static final int WALL = 1;
-    public static final int KEY = 2;
-    public static final int BONUS = 3;
-    public static final int TRAP = 4;
-    public static final int LEVER = 5;
-    public static final int ENTRY = 6;
-    public static final int EXIT = 7;
-    public static final int GRASS = 8;
 
+    /**
+     * constructor for TileManger, it creates a tile[] array and mapTileNum[][] and initilizes the 
+     * @param gp: gamepanel for load map and update function of this class
+     */
     public TileManager(GamePanel gp) {
         this.gp = gp;
         
@@ -34,10 +30,13 @@ public class TileManager {
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         
 //        getTileImage();
-        newGetTileImage();
+        getTileImage();
     }
 
-    private void newGetTileImage() {
+    /**
+     * method to map the images to their respective position in tile[] array, uses helper function mapNumToTile()
+     */
+    private void getTileImage() {
         try {
             mapNumToTile("/tiles/ground1.png", 0, false);
             mapNumToTile("/tiles/wall1.png", 1, true);
@@ -48,6 +47,13 @@ public class TileManager {
 
     }
 
+    /**
+     * helper function for getTileImage()
+     * @param tileFileName: filePath
+     * @param tileNum: index for the array
+     * @param collision: boolean value for checking collision
+     * @throws IOException: failed to load the tiles properly
+     */
     private void mapNumToTile(String tileFileName, int tileNum, boolean collision) throws IOException {
         tile[tileNum] = new Tile();
         tile[tileNum].image = ImageIO.read(getClass().getResourceAsStream(tileFileName));
@@ -57,58 +63,14 @@ public class TileManager {
 
     }
 
-//    public void getTileImage() {
-//        try {
-//            // Load all tile images
-//            tile[EMPTY] = new Tile();
-//            tile[EMPTY].image = ImageIO.read(getClass().getResourceAsStream("/tiles/metalplate.png"));
-//
-//            tile[WALL] = new Tile();
-//            tile[WALL].image = ImageIO.read(getClass().getResourceAsStream("/tiles/drytree.png"));
-//            tile[WALL].collision = true; // Important for collision checking
-//
-//            tile[KEY] = new Tile();
-//            tile[KEY].image = ImageIO.read(getClass().getResourceAsStream("/objects/key.png"));
-//
-//            tile[BONUS] = new Tile();
-//            tile[BONUS].image = ImageIO.read(getClass().getResourceAsStream("/objects/Diamond.png"));
-//
-//            tile[TRAP] = new Tile();
-//            tile[TRAP].image = ImageIO.read(getClass().getResourceAsStream("/tiles/destructiblewall.png"));
-//
-//            tile[LEVER] = new Tile();
-//            tile[LEVER].image = ImageIO.read(getClass().getResourceAsStream("/tiles/metalplate.png"));
-//
-//            tile[ENTRY] = new Tile();
-//            tile[ENTRY].image = ImageIO.read(getClass().getResourceAsStream("/objects/Star.png"));
-//
-//            tile[EXIT] = new Tile();
-//            tile[EXIT].image = ImageIO.read(getClass().getResourceAsStream("/objects/Life.png"));
-//
-//        } catch(IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-    
-    // Method to get the tile index for a specific cell type
-    public int getTileIndex(CellType cellType) {
-        switch (cellType) {
-            case Wall: return WALL;
-            case Key: return KEY;
-            case Bonus: return BONUS;
-            case Trap: return TRAP;
-            case Lever: return LEVER;
-            case Entry: return ENTRY;
-            case Exit: return EXIT;
-            case Grass: return GRASS;
-            case Empty: default: return EMPTY;
-        }
-    }
-
-    public void loadMap(String mapFile){
+    /**
+     * loads up the mapTileNum[][] array with indices for each position
+     * @param filePath: the file path where the txt map is
+     */
+    public void loadMap(String filePath){
         try {
             //load the map file into a stream and start parsing it
-            InputStream inputMap = getClass().getResourceAsStream(mapFile);
+            InputStream inputMap = getClass().getResourceAsStream(filePath);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputMap));
             int col = 0;
             int row = 0;
@@ -132,41 +94,17 @@ public class TileManager {
         }
     }
 
-
-    // Update the mapTileNum array based on the gamestate grid
-    public void updateMapTileNum(Gamestate gamestate) {
-        for (int y = 0; y < gamestate.getHeight(); y++) {
-            for (int x = 0; x < gamestate.getWidth(); x++) {
-                CellType cellType = gamestate.getCellType(x, y);
-                mapTileNum[x][y] = getTileIndex(cellType);
-            }
-        }
-    }
-    int count = 0;
-    // Draw the map tiles
+    /**
+     * draw function for the tiles and objects
+     * @param g2: graphics 2D to draw it
+     * @param gamestate
+     */
     public void draw(Graphics2D g2, Gamestate gamestate) {
-        // First update the mapTileNum array
-//        updateMapTileNum(gamestate);
-//        old drawing version non-camera
-//        for (int y = 0; y < gamestate.getHeight(); y++) {
-//            for (int x = 0; x < gamestate.getWidth(); x++) {
-//                int tileIndex = mapTileNum[x][y];
-//
-//                // Draw the appropriate tile
-//                g2.drawImage(tile[tileIndex].image, x * gp.tileSize, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
-//            }
-//        }
-//        count++;
-//        if (count == 60){
-//            System.out.println("X: " + gp.Player.WorldX + " Y: " + gp.Player.WorldY);
-//            count = 0;
-//        }
-//
-        //starting point for iteration
+
         int worldRow = 0;
         int worldCol = 0;
 
-//        while (worldCol < gamestate.getWidth() && worldRow < gamestate.getHeight()) {
+        //loop terminates after the boundary is reached
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
             int tileNum = mapTileNum[worldCol][worldRow];
 
@@ -175,6 +113,7 @@ public class TileManager {
             int screenX = worldX - gp.Player.WorldX + gp.Player.screenX;
             int screenY = worldY - gp.Player.WorldY + gp.Player.screenY;
 
+            //camera logic, draw only around the player
             if (worldX + gp.tileSize > gp.Player.WorldX - gp.Player.screenX &&
                     worldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
                     worldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
@@ -183,9 +122,10 @@ public class TileManager {
 
             }
             worldCol += 1;
+
             if (worldCol >= gp.maxWorldCol){
                 worldCol = 0;
-                worldRow++;
+                worldRow++;//once you finish constructing one row, you'll go the next one
             }
         }
     }
