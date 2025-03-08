@@ -3,40 +3,73 @@ package com.goblinskeep.UI;
 import com.goblinskeep.App.GamePanel;
 import com.goblinskeep.objects.Key;
 
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-public class MenuUI {
+public class MenuUI extends DefaultUI{
     GamePanel gp;
-    Font arial_40, arial_80B;
     BufferedImage keyImage;
+    private BufferedImage backgroundImage;
 
     double playTime;
     public MenuUI(GamePanel gp) {
+        super(gp);
         this.gp = gp;
-        arial_40 = new Font("Arial", Font.PLAIN, 40);
-        arial_80B = new Font("Arial", Font.BOLD, 80);
         Key key = new Key();
         keyImage = key.image;
+        totalSelections = 2;
+        try {
+            backgroundImage = ImageIO.read(getClass().getResourceAsStream("/UI_img/titleScreen.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void draw(Graphics2D g2) {
-        g2.setFont(arial_80B);
+        if (backgroundImage != null) {
+            g2.drawImage(backgroundImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
+        }
+        borderThickness = 3;
+        g2.setStroke(new BasicStroke(3));
+        g2.setFont(gameFont);
         String title = "Goblins Keep";
         int x = getCenteredXAxisText(title, g2);
         int y = gp.tileSize * 3;
         g2.setColor(Color.WHITE);
-        g2.drawString(title, x, y);
+        drawTextWithBorder(g2,title, x, y);
+
+        String play = "PLAY";
+        String quit = "QUIT";
+
+        borderThickness = 2;
+        g2.setFont(gameFont.deriveFont(40f));
+        drawTextWithBorder(g2,play, getCenteredXAxisText(play, g2), gp.tileSize * 8);
+        if(cursorSelection == 0){
+            drawTextWithBorder(g2,">",getCenteredXAxisText(play, g2) - gp.tileSize, gp.tileSize * 8);
+        }
+
+        drawTextWithBorder(g2,quit, getCenteredXAxisText(quit, g2), gp.tileSize * 9);
+        if(cursorSelection == 1){
+            drawTextWithBorder(g2,">",getCenteredXAxisText(quit, g2) - gp.tileSize, gp.tileSize * 9);
+        }
+
+
+
+
+
     }
 
-    private int getCenteredXAxisText(String text, Graphics2D g2){
-        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return gp.screenWidth/2 - length/2;
+    @Override
+    public Options getCurrentOption() {
+        switch (cursorSelection){
+            case 0:
+                return Options.RESTART;
+            case 1:
+                return Options.QUIT;
+        }
+        return null;
     }
-
-
-
 }

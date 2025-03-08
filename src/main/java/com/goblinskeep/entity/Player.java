@@ -65,6 +65,7 @@ public class Player extends Entity{
             Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getSmartGoblinIterator());
             if (target != null){
                 collisionOn = true;
+                gp.map.playerCollisionWithEnemy();
                 System.out.println("collision detected between player and goblin");
             }
 

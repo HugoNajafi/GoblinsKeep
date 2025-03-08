@@ -24,6 +24,8 @@ public class Map1 {
     private boolean exitOpen = false;
     private boolean gameEnded = false;
     private int keysCollected = 0;
+    private boolean gameWin = false;
+    private int score = 0;
 
     public Map1(GamePanel gp){
         this.gp = gp;
@@ -114,6 +116,7 @@ public class Map1 {
     public void exitTouched(){
         if (exitOpen){
             gameEnded = true;
+            gameWin = true;
         }
     }
 
@@ -125,6 +128,23 @@ public class Map1 {
     }
     public int getKeysCollected(){
         return keysCollected;
+    }
+
+    public void playerCollisionWithEnemy(){
+        gameEnded = true;
+        gameWin = false;
+    }
+
+    public boolean isGameWin(){
+        return gameWin;
+    }
+
+    public void collectedBonus(){
+        score += 100;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public boolean gameEnded(){
