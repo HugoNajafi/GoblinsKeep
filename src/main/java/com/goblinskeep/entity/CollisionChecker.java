@@ -1,7 +1,7 @@
 package com.goblinskeep.entity;
 
-import com.goblinskeep.App.GamePanel;
-import com.goblinskeep.App.Direction;
+import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.app.Direction;
 
 import java.util.Iterator;
 

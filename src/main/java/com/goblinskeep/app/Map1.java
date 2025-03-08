@@ -1,7 +1,7 @@
-package com.goblinskeep.App;
+package com.goblinskeep.app;
 
 
-import com.goblinskeep.Tile.TileManager;
+import com.goblinskeep.tile.TileManager;
 import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.SmartGoblin;
 import com.goblinskeep.objects.Exit;
@@ -40,8 +40,8 @@ public class Map1 {
     }
 
     private void setPlayerPosition(){
-        player.WorldX = 2 * gp.tileSize;
-        player.WorldY = 2 * gp.tileSize;
+        player.WorldX = 6 * gp.tileSize;
+        player.WorldY = 6 * gp.tileSize;
     }
 
     private List<Point> getGoblinPositions(){
@@ -74,7 +74,7 @@ public class Map1 {
     }
 
     public void setMap(){
-        tileM.loadMap("/Maps/map1_spaced.txt");
+        tileM.loadMap("/maps/world1.txt");
 
     }
 

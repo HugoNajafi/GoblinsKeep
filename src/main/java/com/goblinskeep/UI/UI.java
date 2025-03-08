@@ -1,7 +1,7 @@
 package com.goblinskeep.UI;
 
-import com.goblinskeep.App.GamePanel;
-import com.goblinskeep.App.GameStatus;
+import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.app.GameStatus;
 import com.goblinskeep.objects.Key;
 
 import java.awt.Font;

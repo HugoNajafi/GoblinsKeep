@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-import com.goblinskeep.App.Direction;
-import com.goblinskeep.App.GamePanel;
-import com.goblinskeep.App.Gamestate;
+import com.goblinskeep.app.Direction;
+import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.app.Gamestate;
 
 public class SmartGoblin extends Goblin {
     private Gamestate gamestate;

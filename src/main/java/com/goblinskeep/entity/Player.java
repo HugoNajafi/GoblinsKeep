@@ -1,15 +1,14 @@
 package com.goblinskeep.entity;
-import com.goblinskeep.App.Direction;
-import com.goblinskeep.Keyboard.PlayerInputHandler;
+import com.goblinskeep.app.Direction;
+import com.goblinskeep.keyboard.PlayerInputHandler;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.security.spec.RSAOtherPrimeInfo;
 
 import javax.imageio.ImageIO;
 
-import com.goblinskeep.App.GamePanel;
+import com.goblinskeep.app.GamePanel;
 
 
 

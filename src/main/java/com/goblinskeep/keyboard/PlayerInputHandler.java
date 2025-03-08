@@ -1,4 +1,4 @@
-package com.goblinskeep.Keyboard;
+package com.goblinskeep.keyboard;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
