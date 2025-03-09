@@ -3,7 +3,7 @@ package com.goblinskeep.objects;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Object {
+public abstract class MainObject {
     public BufferedImage image;
     public String name;
     public boolean collision = false;

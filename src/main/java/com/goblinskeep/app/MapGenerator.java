@@ -1,24 +1,21 @@
 package com.goblinskeep.app;
 
 
-import com.goblinskeep.tile.TileManager;
-import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.SmartGoblin;
 import com.goblinskeep.objects.Exit;
 import com.goblinskeep.objects.Key;
 import com.goblinskeep.objects.Lever;
-import com.goblinskeep.objects.MainObject;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Map1 {
+public class MapGenerator {
     private GamePanel gp;
-    private TileManager tileM;
-    private Player player;
     private ArrayList<SmartGoblin> goblins;
-    private MainObject[] objects;
     private Lever lever = new Lever();
     public int keysNeeded = 2;
     private boolean exitOpen = false;
@@ -27,23 +24,81 @@ public class Map1 {
     private boolean gameWin = false;
     private int score = 0;
 
-    public Map1(GamePanel gp){
+    public MapGenerator(GamePanel gp){
         this.gp = gp;
-        this.player = gp.Player;
-        tileM = new TileManager(gp);
         setMap();
         setPlayerPosition();
         setGoblins();
-
-        //sets keys, lever and exit
-        setObject();
+    }
 
 
+    public void setMap(){
+        loadMap("/maps/world1.txt");
+    }
+
+    /**
+     * loads up the mapTileNum[][] array with indices for each position
+     * @param filePath: the file path where the txt map is
+     */
+    public void loadMap(String filePath){
+        try {
+            //load the map file into a stream and start parsing it
+            InputStream inputMap = getClass().getResourceAsStream(filePath);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputMap));
+            int col = 0;
+            int row = 0;
+            //loop each line of the map file and map the tile number to the mapTileNum array
+            while (col < gp.maxWorldCol && row < gp.maxWorldRow){
+                String line = reader.readLine();
+                while(col < gp.maxWorldCol){
+                    String[] numbers = line.split(" ");
+                    int num = Integer.parseInt(numbers[col]);
+                    switch (num) {
+                        case 2:
+                            gp.obj.addObject(col,row,new Key());
+                            gp.tileM.mapTileNum[col][row] = 0;
+                        case 5:
+                            gp.obj.addObject(col,row,new Lever());
+                            gp.tileM.mapTileNum[col][row] = 0;
+                        case 7:
+                            gp.obj.addObject(col,row, new Exit());
+                            gp.tileM.mapTileNum[col][row] = 0;
+                    }
+
+                    gp.tileM.mapTileNum[col][row] = num;
+                    col++;
+                }
+                if (col == gp.maxWorldCol){
+                    col = 0;
+                    row++;
+                }
+            }
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Error in Map loading: " + e.getMessage());
+        }
     }
 
     private void setPlayerPosition(){
-        player.WorldX = 6 * gp.tileSize;
-        player.WorldY = 6 * gp.tileSize;
+        gp.Player.WorldX = 6 * gp.tileSize;
+        gp.Player.WorldY = 6 * gp.tileSize;
+    }
+
+
+    private void setGoblins(){
+        goblins = new ArrayList<>();
+        for (Point position : getGoblinPositions()){
+            position.x *= gp.tileSize;
+            position.y *= gp.tileSize;
+            SmartGoblin goblin = new SmartGoblin(gp, gp.Player, gp.gamestate);
+            goblin.setX(position.x);
+            goblin.setY(position.y);
+            goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
+            goblin.hitboxDefaultX = 8;
+            goblin.hitboxDefaultY = 16;
+            goblins.add(goblin);
+        }
+
     }
 
     private List<Point> getGoblinPositions(){
@@ -55,54 +110,11 @@ public class Map1 {
         return positions;
     }
 
-    private void setGoblins(){
-        goblins = new ArrayList<>();
-        for (Point position : getGoblinPositions()){
-            position.x *= gp.tileSize;
-            position.y *= gp.tileSize;
-            SmartGoblin goblin = new SmartGoblin(gp, player, gp.gamestate);
-            goblin.setX(position.x);
-            goblin.setY(position.y);
-            goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
-            goblin.hitboxDefaultX = 8;
-            goblin.hitboxDefaultY = 16;
-            goblins.add(goblin);
-        }
-
-    }
 
     public ArrayList<SmartGoblin> getGoblins(){
         return goblins;
     }
 
-    public void setMap(){
-        tileM.loadMap("/maps/world1.txt");
-
-    }
-
-    public TileManager getTileManager(){
-        return tileM;
-    }
-
-
-
-    private void setObject(){
-        objects = new MainObject[20];
-        createObjectOnBoard(new Key(),4 ,0, 0);
-        createObjectOnBoard(new Key(),3 ,2, 1);
-        createObjectOnBoard(lever, 5, 2, 2);
-        createObjectOnBoard(new Exit(), 10, 0, 3);
-    }
-
-    public MainObject[] getObjects(){
-        return objects;
-    }
-
-    private void createObjectOnBoard(MainObject object, int xTile, int yTile, int index){
-        objects[index] = object;
-        objects[index].worldX = xTile * gp.tileSize;
-        objects[index].worldY = yTile * gp.tileSize;
-    }
 
     public void leverTouched(){
         if (keysCollected == keysNeeded){

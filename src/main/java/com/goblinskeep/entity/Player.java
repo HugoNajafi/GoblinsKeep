@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.objects.*;
 
 
 
@@ -38,10 +39,6 @@ public class Player extends Entity{
     public void getAction() {
         // Reset collision flag
         collisionOn = false;
-        
-        // // Store original position
-        // int originalX = this.WorldX;
-        // int originalY = this.WorldY;
         
         // Check collision first based on direction
         if(PlayerInput.up == true || PlayerInput.down == true || PlayerInput.left == true || PlayerInput.right == true){
@@ -96,10 +93,10 @@ public class Player extends Entity{
         public void getPlayerImage() {
 
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/Player/idle.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/Player/idle.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/Player/down1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/Player/down2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/Player/right1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/Player/right2.png"));
             left1 = ImageIO.read(getClass().getResourceAsStream("/Player/left1.png"));
@@ -157,11 +154,12 @@ public class Player extends Entity{
     public void handleObject(int index) {
         //if 999 then an object was not collected
         if (index != 999){
-            String objName = gp.obj[index].name;
+            MainObject object = gp.obj.findObject(this.WorldY,this.WorldX);
+            String objName = object.name;
             switch (objName){
                 case "key":
                     gp.map.keyCollected();
-                    gp.obj[index] = null;
+                    gp.obj.removeObject(this.WorldY,this.WorldX);
                     break;
                 case "lever":
                     gp.map.leverTouched();

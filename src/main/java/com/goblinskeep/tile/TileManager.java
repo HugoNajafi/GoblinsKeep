@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.CellType;
 import com.goblinskeep.app.Gamestate;
+import com.goblinskeep.objects.*;
 
 /**
  * handles all types of tiles and maps the image to an array called tile[] and has the draw method for tiles
@@ -28,8 +29,6 @@ public class TileManager {
         // We need 8 different tile types now
         tile = new Tile[10];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
-        
-//        getTileImage();
         getTileImage();
     }
 
@@ -61,37 +60,6 @@ public class TileManager {
             tile[tileNum].collision = true;
         }
 
-    }
-
-    /**
-     * loads up the mapTileNum[][] array with indices for each position
-     * @param filePath: the file path where the txt map is
-     */
-    public void loadMap(String filePath){
-        try {
-            //load the map file into a stream and start parsing it
-            InputStream inputMap = getClass().getResourceAsStream(filePath);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputMap));
-            int col = 0;
-            int row = 0;
-            //loop each line of the map file and map the tile number to the mapTileNum array
-            while (col < gp.maxWorldCol && row < gp.maxWorldRow){
-                String line = reader.readLine();
-                while(col < gp.maxWorldCol){
-                    String[] numbers = line.split(" ");
-                    int num = Integer.parseInt(numbers[col]);
-                    mapTileNum[col][row] = num;
-                    col++;
-                }
-                if (col == gp.maxWorldCol){
-                    col = 0;
-                    row++;
-                }
-            }
-            reader.close();
-        } catch (Exception e) {
-            System.out.println("Error in Map loading: " + e.getMessage());
-        }
     }
 
     /**
