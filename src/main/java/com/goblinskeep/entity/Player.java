@@ -36,7 +36,7 @@ public class Player extends Entity{
         getPlayerImage();
     }
 
-    public void getAction() {
+    public void update() {
         // Reset collision flag
         collisionOn = false;
         
@@ -56,8 +56,8 @@ public class Player extends Entity{
             gp.collisionChecker.checkTile(this);
 
             //check if collision with object before moving
-            int objIndex = gp.collisionChecker.checkObject(this, true);
-            handleObject(objIndex);
+            MainObject collisionObj = gp.collisionChecker.checkObject(this, true);
+            handleObject(collisionObj);
             Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getSmartGoblinIterator());
             if (target != null){
                 collisionOn = true;
@@ -151,15 +151,17 @@ public class Player extends Entity{
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
     }
-    public void handleObject(int index) {
+
+
+    public void handleObject(MainObject collisionObject) {
         //if 999 then an object was not collected
-        if (index != 999){
-            MainObject object = gp.obj.findObject(this.WorldY,this.WorldX);
-            String objName = object.name;
+        if (collisionObject != null){
+            String objName = collisionObject.name;
             switch (objName){
                 case "key":
+                    System.out.println("key collision successful");
                     gp.map.keyCollected();
-                    gp.obj.removeObject(this.WorldY,this.WorldX);
+                    gp.obj.removeObject(collisionObject.worldY,collisionObject.worldX);
                     break;
                 case "lever":
                     gp.map.leverTouched();

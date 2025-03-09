@@ -8,60 +8,37 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class ObjectManager {
-    public HashMap<String, MainObject> obj;
+    public HashMap<String, MainObject> anObject;
+    public GamePanel gp;
 
-    public ObjectManager(){
-        obj = new HashMap<>();
+    public ObjectManager(GamePanel gp){
+        anObject = new HashMap<>();
+        this.gp = gp;
     }
     private String generateKey(int x, int y){
         return x + "," + y;
     }
 
     public void addObject(int x, int y, MainObject newObject){
-        obj.put(generateKey(x,y), newObject);
-        newObject.worldY = x;
-        newObject.worldX = y;
+        anObject.put(generateKey(x,y), newObject);
+        newObject.worldY = x * gp.tileSize;
+        newObject.worldX = y * gp.tileSize;
     }
 
     public MainObject findObject(int playerX, int playerY){
-        return obj.get(generateKey(playerX, playerY));
+        return anObject.get(generateKey(playerX, playerY));
     }
 
     public void removeObject(int x, int y) {
-        String key = generateKey(x,y);
-        if(obj.containsKey(key)) {
-            obj.remove(key);
+        String key = generateKey(x/gp.tileSize,y/gp.tileSize);
+        if(anObject.containsKey(key)) {
+            anObject.remove(key);
         }
     }
 
     public void draw(Graphics2D g2, GamePanel gp){
-        int worldRow = 0;
-        int worldCol = 0;
-
-        //loop terminates after the boundary is reached
-        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
-
-            int worldX = worldCol * gp.tileSize;
-            int worldY = worldRow * gp.tileSize;
-            int screenX = worldX - gp.Player.WorldX + gp.Player.screenX;
-            int screenY = worldY - gp.Player.WorldY + gp.Player.screenY;
-            String key =generateKey(worldCol, worldRow);
-
-            //camera logic, draw only around the player
-            if (worldX + gp.tileSize > gp.Player.WorldX - gp.Player.screenX &&
-                    worldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
-                    worldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
-                    worldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY &&
-                    obj.containsKey(key)){
-                g2.drawImage(findObject(worldCol,worldRow).image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-            }
-            worldCol += 1;
-
-            if (worldCol >= gp.maxWorldCol){
-                worldCol = 0;
-                worldRow++;//once you finish constructing one row, you'll go the next one
-            }
+        for(MainObject i: anObject.values()){
+            i.draw(g2,gp);
         }
-
     }
 }

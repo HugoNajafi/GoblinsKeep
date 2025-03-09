@@ -57,15 +57,19 @@ public class MapGenerator {
                         case 2:
                             gp.obj.addObject(col,row,new Key());
                             gp.tileM.mapTileNum[col][row] = 0;
+                            break;
                         case 5:
                             gp.obj.addObject(col,row,new Lever());
                             gp.tileM.mapTileNum[col][row] = 0;
+                            break;
                         case 7:
                             gp.obj.addObject(col,row, new Exit());
                             gp.tileM.mapTileNum[col][row] = 0;
+                            break;
+                        default:
+                            gp.tileM.mapTileNum[col][row] = num;
+                            break;
                     }
-
-                    gp.tileM.mapTileNum[col][row] = num;
                     col++;
                 }
                 if (col == gp.maxWorldCol){
@@ -105,7 +109,7 @@ public class MapGenerator {
         List<Point> positions = new ArrayList<>();
 
         //add list of positions below
-        positions.add(new Point(12, 2));
+        positions.add(new Point(20, 20));
 
         return positions;
     }

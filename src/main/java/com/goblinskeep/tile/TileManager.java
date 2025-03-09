@@ -87,7 +87,6 @@ public class TileManager {
                     worldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
                     worldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY){
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-
             }
             worldCol += 1;
 

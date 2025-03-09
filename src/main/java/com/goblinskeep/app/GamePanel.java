@@ -74,7 +74,7 @@ public class GamePanel extends JPanel implements Runnable
         this.PlayerInput = new PlayerInputHandler();
         this.Player = new Player(100, 100, this, PlayerInput);
         this.Player.speed = 5;
-        this.obj = new ObjectManager();
+        this.obj = new ObjectManager(this);
         
         this.collisionChecker = new CollisionChecker(this);
         
@@ -169,7 +169,7 @@ public class GamePanel extends JPanel implements Runnable
             if (map.gameEnded()){ //this doesnt change so game bricks at the menu
                 status = GameStatus.END; //change later to WIN/LOSE
             } else {
-                Player.getAction();
+                Player.update();
                 for (SmartGoblin goblin : goblins) {
                     goblin.getAction();
                 }
