@@ -1,6 +1,6 @@
 package com.goblinskeep.utils;
 
-public class PriorityQueue {
+public class HashMap {
 
 
     
