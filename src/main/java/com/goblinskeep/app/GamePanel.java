@@ -8,9 +8,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
 
+import com.goblinskeep.UI.InstructionsUI;
 import com.goblinskeep.keyboard.MenuInputHandler;
 import com.goblinskeep.UI.EndUI;
 import com.goblinskeep.UI.MenuUI;
@@ -47,11 +47,11 @@ public class GamePanel extends JPanel implements Runnable
     public TileManager tileM;
     public Player Player;
     public CollisionChecker collisionChecker;
-    PlayerInputHandler PlayerInput;
+    PlayerInputHandler PlayerInput = new PlayerInputHandler();
     public Thread gameThread;
 
     // Game state
-    public Gamestate gamestate;
+//    public Gamestate gamestate;
     private ArrayList<SmartGoblin> goblins;
 
     //temporary public stuff
@@ -62,8 +62,19 @@ public class GamePanel extends JPanel implements Runnable
     public GameStatus status;
     public MapGenerator map;
     private MenuUI menuUI = new MenuUI(this);
+    public InstructionsUI instructionsUI = new InstructionsUI(this);
     private MenuInputHandler keyboard = new MenuInputHandler(this);
     
+
+    private void setGame() {
+        map = new MapGenerator(this);
+        goblins = map.getGoblins();
+        Player = map.getPlayer();
+        this.Player.speed = 5;
+        obj = map.getObj();
+        tileM = map.getTileM();
+        ui.restart();
+    }
 
     /**
      * Constructor
@@ -71,29 +82,22 @@ public class GamePanel extends JPanel implements Runnable
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
-        this.tileM = new TileManager(this);
-        this.PlayerInput = new PlayerInputHandler();
-        this.Player = new Player(100, 100, this, PlayerInput);
-        this.Player.speed = 5;
-        this.obj = new ObjectManager(this);
-        
         this.collisionChecker = new CollisionChecker(this);
         
         // Initialize game state
         //should be maxWorldCol and Row
-        this.gamestate = new Gamestate(maxScreenCol, maxScreenRow, this.Player);
-        this.map = new MapGenerator(this);
 
-        goblins = map.getGoblins();
-        
+
+        this.addKeyListener(PlayerInput);
+        this.addKeyListener(keyboard);
 
         //place objects
-        setUpGame();
+        status = GameStatus.MENU;
+        setGame();
+//        this.gamestate = new Gamestate(maxScreenCol, maxScreenRow, this.Player);
 
         //Double buffer improves rendering
         this.setDoubleBuffered(true);
-        this.addKeyListener(PlayerInput);
-        this.addKeyListener(keyboard);
         this.setFocusable(true);
         this.repaint();
     }
@@ -102,10 +106,6 @@ public class GamePanel extends JPanel implements Runnable
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
-    }
-
-    public void setUpGame(){
-        status = GameStatus.MENU; //in the future change this to MENU
     }
 
 
@@ -156,7 +156,6 @@ public class GamePanel extends JPanel implements Runnable
          * (So we need to perform this operation inversely)
          * 
          */
-        // Player.getAction();
         if (status == GameStatus.PLAYING) {
             if (map.gameEnded()){ //this doesnt change so game bricks at the menu
                 status = GameStatus.END; //change later to WIN/LOSE
@@ -186,8 +185,10 @@ public class GamePanel extends JPanel implements Runnable
             menuUI.draw(g2);
         } else if (status == GameStatus.END) {
             endUI.draw(g2);
+        } else if (status == GameStatus.INSTRUCTIONS) {
+            instructionsUI.draw(g2);
         } else {
-            tileM.draw(g2, gamestate);
+            tileM.draw(g2);
             obj.draw(g2,this);
             Player.draw(g2);
             for (SmartGoblin goblin : goblins) {
@@ -210,10 +211,8 @@ public class GamePanel extends JPanel implements Runnable
     }
 
     public void restartGame() {
-        ui.resetTime();
-        MapGenerator map = new MapGenerator(this);
-        map.resetMap();
-
+        System.out.println("yo");
+        setGame();
     }
 
 }

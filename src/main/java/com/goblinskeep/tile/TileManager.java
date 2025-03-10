@@ -1,10 +1,14 @@
 package com.goblinskeep.tile;
 
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.app.Gamestate;
+import com.goblinskeep.app.CellType;
+import com.goblinskeep.objects.*;
 
 /**
  * handles all types of tiles and maps the image to an array called tile[] and has the draw method for tiles
@@ -22,7 +26,7 @@ public class TileManager {
         this.gp = gp;
         
         // We need 8 different tile types now
-        tile = new Tile[10];
+        tile = new Tile[20];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
     }
@@ -32,9 +36,10 @@ public class TileManager {
      */
     private void getTileImage() {
         try {
-            mapNumToTile("/tiles/floor.png", 0, false);
-            mapNumToTile("/tiles/wall.png", 1, true);
+            mapNumToTile("/tiles/ground1.png", 0, false);
+            mapNumToTile("/tiles/wall1.png", 1, true);
             mapNumToTile("/tiles/grass_tile.png", 8, false);
+
         } catch (IOException e){
             System.out.println("tile image loading failed: " + e.getMessage());
         }
@@ -60,9 +65,8 @@ public class TileManager {
     /**
      * draw function for the tiles and objects
      * @param g2: graphics 2D to draw it
-     * @param gamestate
      */
-    public void draw(Graphics2D g2, Gamestate gamestate) {
+    public void draw(Graphics2D g2) {
 
         int worldRow = 0;
         int worldCol = 0;

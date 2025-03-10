@@ -1,12 +1,9 @@
 package com.goblinskeep.keyboard;
 
 
+import com.goblinskeep.UI.*;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.GameStatus;
-import com.goblinskeep.UI.DefaultUI;
-import com.goblinskeep.UI.EndUI;
-import com.goblinskeep.UI.MenuUI;
-import com.goblinskeep.UI.PauseUI;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,6 +13,7 @@ public class MenuInputHandler implements KeyListener {
     private MenuUI menuUI;
     private PauseUI pauseUI;
     private EndUI endUI;
+    private InstructionsUI instructionsUI;
     private boolean cursorRelease = true;
 
 
@@ -24,6 +22,7 @@ public class MenuInputHandler implements KeyListener {
         menuUI = gp.getMenuUI();
         pauseUI = gp.ui.pauseUI;
         endUI = gp.endUI;
+        instructionsUI = gp.instructionsUI;
     }
 
     @Override
@@ -48,9 +47,15 @@ public class MenuInputHandler implements KeyListener {
             case KeyEvent.VK_ENTER:
             case KeyEvent.VK_UP:
             case KeyEvent.VK_DOWN:
-                handleMenuKeyEvent(menuUI, GameStatus.MENU, code);
-                handleMenuKeyEvent(pauseUI, GameStatus.PAUSED, code);
-                handleMenuKeyEvent(endUI, GameStatus.END, code);
+                if (gp.status == GameStatus.MENU){
+                    handleMenuKeyEvent(menuUI, GameStatus.MENU, code);
+                } else if (gp.status == GameStatus.PAUSED) {
+                    handleMenuKeyEvent(pauseUI, GameStatus.PAUSED, code);
+                } else if (gp.status == GameStatus.END){
+                    handleMenuKeyEvent(endUI, GameStatus.END, code);
+                } else if (gp.status == GameStatus.INSTRUCTIONS){
+                    handleMenuKeyEvent(instructionsUI, GameStatus.INSTRUCTIONS, code);
+                }
                 break;
         }
 
@@ -75,6 +80,10 @@ public class MenuInputHandler implements KeyListener {
                         case MENU:
                             gp.status = GameStatus.MENU;
                             break;
+                        case INSTRUCTIONS:
+                            gp.status = GameStatus.INSTRUCTIONS;
+                            break;
+
                     }
                     break;
                 case KeyEvent.VK_UP:

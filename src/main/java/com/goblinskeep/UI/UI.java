@@ -15,6 +15,12 @@ public class UI extends DefaultUI{
     public int messageCounter = 0;
     public PauseUI pauseUI;
 
+    public void restart(){
+        messageOn = false;
+        messageCounter =0;
+        playTime = 0;
+    }
+
     public double playTime;
     public UI(GamePanel gp) {
         super(gp);
@@ -58,7 +64,7 @@ public class UI extends DefaultUI{
         if (messageOn){
             int oldBorderThickness = borderThickness;
             borderThickness = 1;
-            g2.setFont(g2.getFont().deriveFont(10F));
+            g2.setFont(g2.getFont().deriveFont(15F));
             drawTextWithBorder(g2, message, getCenteredXAxisText(message, g2), gp.Player.screenY - 10);
             messageCounter++;
             if (messageCounter > 120) {

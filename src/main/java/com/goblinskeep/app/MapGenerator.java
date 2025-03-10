@@ -1,8 +1,10 @@
 package com.goblinskeep.app;
 
 
+import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.SmartGoblin;
 import com.goblinskeep.objects.*;
+import com.goblinskeep.tile.TileManager;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -14,6 +16,10 @@ import java.util.List;
 public class MapGenerator {
     private GamePanel gp;
     private ArrayList<SmartGoblin> goblins;
+    private Player player;
+    private ObjectManager obj;
+    private TileManager tileM;
+
     public int keysNeeded = 3;
     private boolean exitOpen = false;
     private boolean gameEnded = false;
@@ -25,6 +31,9 @@ public class MapGenerator {
 
     public MapGenerator(GamePanel gp){
         this.gp = gp;
+        player = new Player(0, 0, gp, gp.PlayerInput);
+        obj = new ObjectManager(gp);
+        tileM = new TileManager(gp);
         setMap();
         setPlayerPosition();
         setGoblins();
@@ -54,27 +63,27 @@ public class MapGenerator {
                     int num = Integer.parseInt(numbers[col]);
                     switch (num) {
                         case 2:
-                            gp.obj.addObject(row,col,new Key());
-                            gp.tileM.mapTileNum[col][row] = 0;
+                            obj.addObject(row,col,new Key());
+                            tileM.mapTileNum[col][row] = 0;
                             break;
                         case 3:
-                            gp.obj.addObject(row,col, new Bonus());
-                            gp.tileM.mapTileNum[col][row] = 0;
+                            obj.addObject(row,col, new Bonus());
+                            tileM.mapTileNum[col][row] = 0;
                             break;
                         case 4:
-                            gp.obj.addObject(row,col,new Trap());
-                            gp.tileM.mapTileNum[col][row] = 0;
+                            obj.addObject(row,col,new Trap());
+                            tileM.mapTileNum[col][row] = 0;
                             break;
                         case 5:
-                            gp.obj.addObject(row,col,new Lever());
-                            gp.tileM.mapTileNum[col][row] = 0;
+                            obj.addObject(row,col,new Lever());
+                            tileM.mapTileNum[col][row] = 0;
                             break;
                         case 7:
-                            gp.obj.addObject(row,col, new Exit());
-                            gp.tileM.mapTileNum[col][row] = 1;
+                            obj.addObject(row,col, new Exit());
+                            tileM.mapTileNum[col][row] = 1;
                             break;
                         default:
-                            gp.tileM.mapTileNum[col][row] = num;
+                            tileM.mapTileNum[col][row] = num;
                             break;
                     }
                     col++;
@@ -91,8 +100,8 @@ public class MapGenerator {
     }
 
     private void setPlayerPosition(){
-        gp.Player.WorldX = 6 * gp.tileSize;
-        gp.Player.WorldY = 6 * gp.tileSize;
+        player.WorldX = 6 * gp.tileSize;
+        player.WorldY = 6 * gp.tileSize;
     }
 
 
@@ -101,7 +110,7 @@ public class MapGenerator {
         for (Point position : getGoblinPositions()){
             position.x *= gp.tileSize;
             position.y *= gp.tileSize;
-            SmartGoblin goblin = new SmartGoblin(gp, gp.Player, gp.gamestate);
+            SmartGoblin goblin = new SmartGoblin(gp, gp.Player);
             goblin.setX(position.x);
             goblin.setY(position.y);
             goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
@@ -139,7 +148,17 @@ public class MapGenerator {
 
         }
     }
+    public TileManager getTileM(){
+        return tileM;
+    }
 
+    public ObjectManager getObj(){
+        return obj;
+    }
+
+    public Player getPlayer(){
+        return player;
+    }
     public void exitTouched(){
         if (exitOpen){
             gameEnded = true;
@@ -172,8 +191,12 @@ public class MapGenerator {
 
     public void trapHit(){
         if(canDeductPoints) {
-            score -= 100;
+            score -= 50;
             canDeductPoints = false;
+        }
+        if (score < 0 ){
+            gameEnded =true;
+            gameWin = false;
         }
     }
     public int getScore() {

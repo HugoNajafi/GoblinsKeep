@@ -94,17 +94,18 @@ public class Player extends Entity{
             }
         }
 
-        SpriteCounter++;
-        if(SpriteCounter> 10){
-            if(SpriteNum == 1){
-                SpriteNum = 2;
+        if (PlayerInput.up || PlayerInput.down || PlayerInput.left ||PlayerInput.right ){
+            SpriteCounter++;
+            if(SpriteCounter> 10){
+                if(SpriteNum == 1){
+                    SpriteNum = 2;
+                }
+                else if(SpriteNum == 2){
+                    SpriteNum = 1;
+                }
+                SpriteCounter = 0;
             }
-            else if(SpriteNum == 2){
-                SpriteNum = 1;
-            }
-            SpriteCounter = 0;
         }
-
     }
 
 

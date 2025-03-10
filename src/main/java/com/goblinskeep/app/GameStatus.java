@@ -5,5 +5,6 @@ public enum GameStatus {
     PAUSED,
     MENU,
     END,
-    RESTART
+    RESTART,
+    INSTRUCTIONS
 }
