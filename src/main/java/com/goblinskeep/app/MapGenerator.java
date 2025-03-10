@@ -140,7 +140,7 @@ public class MapGenerator {
 
 
     public void leverTouched(MainObject collisionObject){
-        if (keysCollected == keysNeeded){
+        if (keysCollected >= keysNeeded){
             exitOpen = true;
             keysNeeded = -1;
             Lever lever = gp.obj.findLever();
@@ -148,7 +148,10 @@ public class MapGenerator {
             Exit door = gp.obj.findDoor();
             door.open();
             gp.ui.showMessage("Exit Opened");
-
+        }
+        else
+        {
+            gp.ui.showMessage("Get more Keys!");
         }
     }
     public TileManager getTileM(){
@@ -166,6 +169,10 @@ public class MapGenerator {
         if (exitOpen){
             gameEnded = true;
             gameWin = true;
+        }
+        else
+        {
+            gp.ui.showMessage("Door locked!");
         }
     }
 
