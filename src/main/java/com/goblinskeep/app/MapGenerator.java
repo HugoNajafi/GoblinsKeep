@@ -2,10 +2,7 @@ package com.goblinskeep.app;
 
 
 import com.goblinskeep.entity.SmartGoblin;
-import com.goblinskeep.objects.Exit;
-import com.goblinskeep.objects.Key;
-import com.goblinskeep.objects.Lever;
-import com.goblinskeep.objects.MainObject;
+import com.goblinskeep.objects.*;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -56,6 +53,10 @@ public class MapGenerator {
                     switch (num) {
                         case 2:
                             gp.obj.addObject(row,col,new Key());
+                            gp.tileM.mapTileNum[col][row] = 0;
+                            break;
+                        case 4:
+                            gp.obj.addObject(row,col,new Trap());
                             gp.tileM.mapTileNum[col][row] = 0;
                             break;
                         case 5:
@@ -163,6 +164,9 @@ public class MapGenerator {
         score += 100;
     }
 
+    public void trapHit(){
+        score -= 100;
+    }
     public int getScore() {
         return score;
     }

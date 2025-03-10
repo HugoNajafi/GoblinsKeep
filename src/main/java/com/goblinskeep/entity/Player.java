@@ -116,10 +116,11 @@ public class Player extends Entity{
             String objName = collisionObject.name;
             switch (objName){
                 case "key":
-                    System.out.println("key collision successful");
                     gp.map.keyCollected();
                     gp.obj.removeObject(collisionObject.worldY,collisionObject.worldX);
                     break;
+                case "trap":
+                    gp.map.trapHit();
                 case "lever":
                     gp.map.leverTouched(collisionObject);
                     break;
