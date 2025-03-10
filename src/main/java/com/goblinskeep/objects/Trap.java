@@ -11,6 +11,6 @@ public class Trap extends MainObject {
         } catch (IOException e){
             System.out.printf(e.getMessage());
         }
-        collision = true;
+        collision = false;
     }
 }

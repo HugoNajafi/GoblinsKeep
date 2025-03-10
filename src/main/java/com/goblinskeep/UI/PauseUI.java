@@ -15,7 +15,7 @@ public class PauseUI extends DefaultUI {
 
         borderThickness = 3;
         g2.setStroke(new BasicStroke(3));
-        g2.setFont(UIFont);
+        g2.setFont(gameFont);
         String title = "PAUSED";
         int x = getCenteredXAxisText(title, g2);
         int y = gp.tileSize * 3;
@@ -27,7 +27,7 @@ public class PauseUI extends DefaultUI {
         String restart = "RESTART";
 
         borderThickness = 2;
-        g2.setFont(UIFont.deriveFont(40f));
+        g2.setFont(gameFont.deriveFont(40f));
         drawTextWithBorder(g2,resume, getCenteredXAxisText(resume, g2), gp.tileSize * 8);
         if(cursorSelection == 0){
             drawTextWithBorder(g2,">",getCenteredXAxisText(resume, g2) - gp.tileSize, gp.tileSize * 8);
