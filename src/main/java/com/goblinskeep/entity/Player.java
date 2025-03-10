@@ -119,8 +119,13 @@ public class Player extends Entity{
                     gp.map.keyCollected();
                     gp.obj.removeObject(collisionObject.worldY,collisionObject.worldX);
                     break;
+                case "bonus":
+                    gp.map.collectedBonus();
+                    gp.obj.removeObject(collisionObject.worldY,collisionObject.worldX);
+                    break;
                 case "trap":
                     gp.map.trapHit();
+                    break;
                 case "lever":
                     gp.map.leverTouched(collisionObject);
                     break;

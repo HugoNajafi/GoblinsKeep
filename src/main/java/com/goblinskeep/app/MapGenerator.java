@@ -55,6 +55,10 @@ public class MapGenerator {
                             gp.obj.addObject(row,col,new Key());
                             gp.tileM.mapTileNum[col][row] = 0;
                             break;
+                        case 3:
+                            gp.obj.addObject(row,col, new Bonus());
+                            gp.tileM.mapTileNum[col][row] = 0;
+                            break;
                         case 4:
                             gp.obj.addObject(row,col,new Trap());
                             gp.tileM.mapTileNum[col][row] = 0;
