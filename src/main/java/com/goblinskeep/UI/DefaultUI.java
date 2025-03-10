@@ -8,6 +8,7 @@ import java.io.InputStream;
 
 public abstract class DefaultUI {
     Font gameFont;
+    Font UIFont;
     GamePanel gp;
 
     int cursorSelection = 0;
@@ -18,6 +19,7 @@ public abstract class DefaultUI {
         this.gp = gp;
 
         gameFont = createNewFont("/font/SuperPixel-m2L8j.ttf");
+        UIFont = createNewFont("/font/pixelpurl.ttf");
 
 
     }

@@ -14,7 +14,6 @@ public class UI extends DefaultUI{
     public String message = "";
     public int messageCounter = 0;
     public boolean gameFinished = false;
-    private Graphics2D g2;
     public PauseUI pauseUI;
 
     public double playTime;
@@ -32,7 +31,6 @@ public class UI extends DefaultUI{
     }
 
     public void draw(Graphics2D g2) {
-        this.g2 = g2;
         if (gp.status == GameStatus.PLAYING) {
             drawPlaying(g2);
         } else if (gp.status == GameStatus.PAUSED){
@@ -43,7 +41,7 @@ public class UI extends DefaultUI{
     public void drawPlaying(Graphics2D g2) {
         //draw key counter on screen
         borderThickness = 1;
-        g2.setFont(gameFont.deriveFont(20f));
+        g2.setFont(UIFont.deriveFont(20f));
         g2.setColor(Color.white);
         g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2 - 10, gp.tileSize, gp.tileSize, null);
         drawTextWithBorder(g2, "x = " + gp.map.getKeysCollected(), gp.tileSize * 3/2 , gp.tileSize);
