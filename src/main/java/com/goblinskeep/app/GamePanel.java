@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
+import com.goblinskeep.UI.InstructionsUI;
 import com.goblinskeep.keyboard.MenuInputHandler;
 import com.goblinskeep.UI.EndUI;
 import com.goblinskeep.UI.MenuUI;
@@ -61,8 +62,11 @@ public class GamePanel extends JPanel implements Runnable
     public GameStatus status;
     public MapGenerator map;
     private MenuUI menuUI = new MenuUI(this);
+    public InstructionsUI instructionsUI = new InstructionsUI(this);
     private MenuInputHandler keyboard = new MenuInputHandler(this);
     
+
+
 
     /**
      * Constructor
@@ -155,7 +159,6 @@ public class GamePanel extends JPanel implements Runnable
          * (So we need to perform this operation inversely)
          * 
          */
-        // Player.getAction();
         if (status == GameStatus.PLAYING) {
             if (map.gameEnded()){ //this doesnt change so game bricks at the menu
                 status = GameStatus.END; //change later to WIN/LOSE
@@ -185,6 +188,8 @@ public class GamePanel extends JPanel implements Runnable
             menuUI.draw(g2);
         } else if (status == GameStatus.END) {
             endUI.draw(g2);
+        } else if (status == GameStatus.INSTRUCTIONS) {
+            instructionsUI.draw(g2);
         } else {
             tileM.draw(g2, gamestate);
             obj.draw(g2,this);

@@ -27,7 +27,7 @@ public class TileManager {
         this.gp = gp;
         
         // We need 8 different tile types now
-        tile = new Tile[10];
+        tile = new Tile[20];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
     }
@@ -38,8 +38,11 @@ public class TileManager {
     private void getTileImage() {
         try {
             mapNumToTile("/tiles/ground1.png", 0, false);
-            mapNumToTile("/tiles/wall1.png", 1, true);
+            mapNumToTile("/tiles/middleWall.png", 1, true);
             mapNumToTile("/tiles/grass_tile.png", 8, false);
+            mapNumToTile("/tiles/rightWall.png", 10, true);
+            mapNumToTile("/tiles/leftWall.png", 11, true);
+
         } catch (IOException e){
             System.out.println("tile image loading failed: " + e.getMessage());
         }

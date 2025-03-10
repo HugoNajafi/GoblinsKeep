@@ -29,6 +29,12 @@ public class EndUI extends DefaultUI {
             drawBackground(g2, loseBackgroundImage);
             title = "YOU LOSE";
         }
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.35f));
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+        // Reset the composite to full opacity
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
         borderThickness = 3;
         g2.setStroke(new BasicStroke(3));
@@ -84,8 +90,8 @@ public class EndUI extends DefaultUI {
 
     private void loadBackgroundImages() {
         try {
-            winBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/backgrounds/win_background.png"));
-            loseBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/backgrounds/lose_background.png"));
+            winBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/UI_img/win.png"));
+            loseBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/UI_img/lose.png"));
         } catch (Exception e) {
             System.out.println("Need End screen images");
         }
