@@ -1,15 +1,10 @@
 package com.goblinskeep.tile;
 
 import java.awt.Graphics2D;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.app.CellType;
 import com.goblinskeep.app.Gamestate;
-import com.goblinskeep.objects.*;
 
 /**
  * handles all types of tiles and maps the image to an array called tile[] and has the draw method for tiles
@@ -37,8 +32,8 @@ public class TileManager {
      */
     private void getTileImage() {
         try {
-            mapNumToTile("/tiles/ground1.png", 0, false);
-            mapNumToTile("/tiles/wall1.png", 1, true);
+            mapNumToTile("/tiles/floor.png", 0, false);
+            mapNumToTile("/tiles/wall.png", 1, true);
             mapNumToTile("/tiles/grass_tile.png", 8, false);
         } catch (IOException e){
             System.out.println("tile image loading failed: " + e.getMessage());
