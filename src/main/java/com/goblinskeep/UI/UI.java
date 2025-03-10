@@ -13,7 +13,6 @@ public class UI extends DefaultUI{
     public boolean messageOn = false;
     public String message = "";
     public int messageCounter = 0;
-    public boolean gameFinished = false;
     public PauseUI pauseUI;
 
     public double playTime;
@@ -41,7 +40,7 @@ public class UI extends DefaultUI{
     public void drawPlaying(Graphics2D g2) {
         //draw key counter on screen
         borderThickness = 1;
-        g2.setFont(UIFont.deriveFont(20f));
+        g2.setFont(UIFont.deriveFont(40f));
         g2.setColor(Color.white);
         g2.drawImage(keyImage, gp.tileSize/2, gp.tileSize/2 - 10, gp.tileSize, gp.tileSize, null);
         drawTextWithBorder(g2, "x = " + gp.map.getKeysCollected(), gp.tileSize * 3/2 , gp.tileSize);

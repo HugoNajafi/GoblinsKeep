@@ -12,5 +12,9 @@ public class Key extends MainObject {
             System.out.printf(e.getMessage());
         }
         collision = true;
+        defaultCollisionAreaX += 6;
+        defaultCollisionAreaY += 6;
+        collisionArea.height -= 12;
+        collisionArea.width -= 12;
     }
 }

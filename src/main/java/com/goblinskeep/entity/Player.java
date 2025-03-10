@@ -58,55 +58,53 @@ public class Player extends Entity{
         // Reset collision flag
         collisionOn = false;
 
-        // Check collision first based on direction
-        if(PlayerInput.up == true || PlayerInput.down == true || PlayerInput.left == true || PlayerInput.right == true){
+        // find direction player intends to move toward
+        if (PlayerInput.up) {
+            direction = Direction.UP;
+        } else if (PlayerInput.down) {
+            direction = Direction.DOWN;
+        } else if (PlayerInput.left) {
+            direction = Direction.LEFT;
+        } else if (PlayerInput.right) {
+            direction = Direction.RIGHT;
+        }
+        // Check collision before moving
+        gp.collisionChecker.checkTile(this);
 
+        //check if collision with object before moving
+        MainObject collisionObj = gp.collisionChecker.checkObjectCollision(this, true);
+        handleObject(collisionObj);
+        Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getSmartGoblinIterator());
+        if (target != null){
+            collisionOn = true;
+            gp.map.playerCollisionWithEnemy();
+            System.out.println("collision detected between player and goblin");
+        }
+
+        // Move if no collision
+        if (!collisionOn) {
             if (PlayerInput.up) {
-                direction = Direction.UP;
+                this.WorldY -= Direction.UP.getDy() * this.getSpeed();
             } else if (PlayerInput.down) {
-                direction = Direction.DOWN;
+                this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
             } else if (PlayerInput.left) {
-                direction = Direction.LEFT;
+                this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
             } else if (PlayerInput.right) {
-                direction = Direction.RIGHT;
-            }
-            // Check collision before moving
-            gp.collisionChecker.checkTile(this);
-
-            //check if collision with object before moving
-            MainObject collisionObj = gp.collisionChecker.checkObjectCollision(this, true);
-            handleObject(collisionObj);
-            Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getSmartGoblinIterator());
-            if (target != null){
-                collisionOn = true;
-                gp.map.playerCollisionWithEnemy();
-                System.out.println("collision detected between player and goblin");
-            }
-
-            // Move if no collision
-            if (!collisionOn) {
-                if (PlayerInput.up) {
-                    this.WorldY -= Direction.UP.getDy() * this.getSpeed();
-                } else if (PlayerInput.down) {
-                    this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
-                } else if (PlayerInput.left) {
-                    this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-                } else if (PlayerInput.right) {
-                    this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
-                }
-            }
-
-            SpriteCounter++;
-            if(SpriteCounter> 10){
-                if(SpriteNum == 1){
-                    SpriteNum = 2;
-                }
-                else if(SpriteNum == 2){
-                    SpriteNum = 1;
-                }
-                SpriteCounter = 0;
+                this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
             }
         }
+
+        SpriteCounter++;
+        if(SpriteCounter> 10){
+            if(SpriteNum == 1){
+                SpriteNum = 2;
+            }
+            else if(SpriteNum == 2){
+                SpriteNum = 1;
+            }
+            SpriteCounter = 0;
+        }
+
     }
 
 

@@ -39,7 +39,7 @@ public class EndUI extends DefaultUI {
         drawTextWithBorder(g2,title2, getCenteredXAxisText(title2,g2), y + gp.tileSize + gp.tileSize/2);
 
         borderThickness = 2;
-        g2.setFont(UIFont.deriveFont(20f));
+        g2.setFont(UIFont.deriveFont(35f));
         int keysCollected = gp.map.getKeysCollected();
         int regularScore = gp.map.getScore();
         int totalScore = keysCollected * 250 + regularScore;
@@ -49,11 +49,11 @@ public class EndUI extends DefaultUI {
         String scoreBreakdown = "Keys Collected: " + keysCollected + " * 250 = " + (keysCollected * 250);
         String scoreBreakdown2 = "Regular Score: " + regularScore;
         String time = String.format("Time: %02d:%02d", playTime / 60, playTime % 60);
-        drawTextWithBorder(g2, "Score Breakdown:", getCenteredXAxisText(scoreText, g2) - gp.tileSize * 5 + 17, y + gp.tileSize * 2);
+        drawTextWithBorder(g2, "Score Breakdown:", getCenteredXAxisText(scoreText, g2) - gp.tileSize * 5 + 19, y + gp.tileSize * 2);
         drawTextWithBorder(g2, scoreBreakdown, getCenteredXAxisText(scoreBreakdown, g2) - 3 * gp.tileSize, y + gp.tileSize * 2 + gp.tileSize/2);
         drawTextWithBorder(g2, scoreBreakdown2, getCenteredXAxisText(scoreBreakdown, g2) - 3 * gp.tileSize, y + gp.tileSize * 3);
 
-        g2.setFont(UIFont.deriveFont(30f));
+        g2.setFont(UIFont.deriveFont(60f));
         drawTextWithBorder(g2, scoreText, getCenteredXAxisText(scoreText, g2) ,  gp.tileSize * 5);
         drawTextWithBorder(g2, time , getCenteredXAxisText(time, g2) , gp.tileSize * 6);
 

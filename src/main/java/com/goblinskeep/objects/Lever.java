@@ -12,6 +12,10 @@ public class Lever extends MainObject {
             System.out.printf(e.getMessage());
         }
         collision = false;
+        defaultCollisionAreaX += 6;
+        defaultCollisionAreaY += 24;
+        collisionArea.height -= 24;
+        collisionArea.width -= 12;
     }
 
     public void activate(){
