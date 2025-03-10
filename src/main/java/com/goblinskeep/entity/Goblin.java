@@ -17,6 +17,7 @@ import com.goblinskeep.app.GamePanel;
 public abstract class Goblin extends Entity{
     GamePanel gp;
     Player player;
+    protected Direction drawDirection = Direction.UP;
 
     public Goblin(){
         super();
@@ -49,7 +50,7 @@ public abstract class Goblin extends Entity{
     public void draw(Graphics2D g2){
         BufferedImage image = null;
 
-        switch (direction){
+        switch (drawDirection){
             case Direction.UP:
                 if(SpriteNum == 1){
                     image = up1;

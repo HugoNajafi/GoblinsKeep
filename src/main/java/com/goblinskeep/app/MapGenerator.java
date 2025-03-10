@@ -19,6 +19,7 @@ public class MapGenerator {
     private Player player;
     private ObjectManager obj;
     private TileManager tileM;
+    private List<Point> goblinSpawnPositions = new ArrayList<>();
 
     public int keysNeeded = 3;
     private boolean exitOpen = false;
@@ -85,6 +86,11 @@ public class MapGenerator {
                             obj.addObject(row,col, new Exit());
                             tileM.mapTileNum[col][row] = 1;
                             break;
+                        case 11:
+                            System.out.println("col: " + col + " row: " + row);
+                            goblinSpawnPositions.add(new Point(col, row));
+                            tileM.mapTileNum[col][row] = 0;
+                            break;
                         default:
                             tileM.mapTileNum[col][row] = num;
                             break;
@@ -110,7 +116,7 @@ public class MapGenerator {
 
     private void setGoblins(){
         goblins = new ArrayList<>();
-        for (Point position : getGoblinPositions()){
+        for (Point position : goblinSpawnPositions){
             position.x *= gp.tileSize;
             position.y *= gp.tileSize;
             SmartGoblin goblin = new SmartGoblin(gp, gp.Player);
@@ -124,14 +130,7 @@ public class MapGenerator {
 
     }
 
-    private List<Point> getGoblinPositions(){
-        List<Point> positions = new ArrayList<>();
 
-        //add list of positions below
-        positions.add(new Point(20, 20));
-
-        return positions;
-    }
 
 
     public ArrayList<SmartGoblin> getGoblins(){
