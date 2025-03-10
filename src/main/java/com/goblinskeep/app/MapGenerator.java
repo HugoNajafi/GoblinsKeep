@@ -35,7 +35,6 @@ public class MapGenerator {
         obj = new ObjectManager(gp);
         tileM = new TileManager(gp);
         setMap();
-        setPlayerPosition();
         setGoblins();
     }
 
@@ -78,6 +77,10 @@ public class MapGenerator {
                             obj.addObject(row,col,new Lever());
                             tileM.mapTileNum[col][row] = 0;
                             break;
+                        case 6:
+                            setPlayerPosition(col, row);
+                            tileM.mapTileNum[col][row] = 0;
+                            break;
                         case 7:
                             obj.addObject(row,col, new Exit());
                             tileM.mapTileNum[col][row] = 1;
@@ -99,9 +102,9 @@ public class MapGenerator {
         }
     }
 
-    private void setPlayerPosition(){
-        player.WorldX = 6 * gp.tileSize;
-        player.WorldY = 6 * gp.tileSize;
+    private void setPlayerPosition(int x, int y){
+        player.WorldX = x * gp.tileSize;
+        player.WorldY = y * gp.tileSize;
     }
 
 
@@ -217,22 +220,4 @@ public class MapGenerator {
         }
     }
 
-    public void resetMap() {
-
-        setMap();
-        setPlayerPosition();
-
-        score = 0;
-        keysCollected = 0;
-        keysNeeded = 3;
-        counter = 0;
-
-        exitOpen = false;
-        gameWin = false;
-        gameEnded = false;
-
-
-        goblins.clear();
-        setGoblins();
-    }
 }

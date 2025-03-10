@@ -37,8 +37,8 @@ public class GamePanel extends JPanel implements Runnable
     public  final int maxScreenRow = 12; //Height of game
     public  final int screenWidth = tileSize * maxScreenCol; //Scalling
     public  final int screenHeight = tileSize * maxScreenRow; //Scalling
-    public  final int maxWorldCol = 50;
-    public  final int maxWorldRow = 50;
+    public  final int maxWorldCol = 58;
+    public  final int maxWorldRow = 66;
     
     //FPS
     private int FPS = 60;
