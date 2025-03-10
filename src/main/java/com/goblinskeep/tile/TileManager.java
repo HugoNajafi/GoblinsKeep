@@ -36,8 +36,8 @@ public class TileManager {
      */
     private void getTileImage() {
         try {
-            mapNumToTile("/tiles/ground1.png", 0, false);
-            mapNumToTile("/tiles/wall1.png", 1, true);
+            mapNumToTile("/tiles/floor.png", 0, false);
+            mapNumToTile("/tiles/wall.png", 1, true);
             mapNumToTile("/tiles/grass_tile.png", 8, false);
 
         } catch (IOException e){
