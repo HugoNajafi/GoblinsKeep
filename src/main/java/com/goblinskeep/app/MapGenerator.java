@@ -5,6 +5,7 @@ import com.goblinskeep.entity.SmartGoblin;
 import com.goblinskeep.objects.Exit;
 import com.goblinskeep.objects.Key;
 import com.goblinskeep.objects.Lever;
+import com.goblinskeep.objects.MainObject;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -16,8 +17,7 @@ import java.util.List;
 public class MapGenerator {
     private GamePanel gp;
     private ArrayList<SmartGoblin> goblins;
-    private Lever lever = new Lever();
-    public int keysNeeded = 2;
+    public int keysNeeded = 3;
     private boolean exitOpen = false;
     private boolean gameEnded = false;
     private int keysCollected = 0;
@@ -55,16 +55,16 @@ public class MapGenerator {
                     int num = Integer.parseInt(numbers[col]);
                     switch (num) {
                         case 2:
-                            gp.obj.addObject(col,row,new Key());
+                            gp.obj.addObject(row,col,new Key());
                             gp.tileM.mapTileNum[col][row] = 0;
                             break;
                         case 5:
-                            gp.obj.addObject(col,row,new Lever());
+                            gp.obj.addObject(row,col,new Lever());
                             gp.tileM.mapTileNum[col][row] = 0;
                             break;
                         case 7:
-                            gp.obj.addObject(col,row, new Exit());
-                            gp.tileM.mapTileNum[col][row] = 0;
+                            gp.obj.addObject(row,col, new Exit());
+                            gp.tileM.mapTileNum[col][row] = 1;
                             break;
                         default:
                             gp.tileM.mapTileNum[col][row] = num;
@@ -120,12 +120,16 @@ public class MapGenerator {
     }
 
 
-    public void leverTouched(){
+    public void leverTouched(MainObject collisionObject){
         if (keysCollected == keysNeeded){
             exitOpen = true;
             keysNeeded = -1;
-            gp.ui.showMessage("Exit Opened");
+            Lever lever = gp.obj.findLever();
             lever.activate();
+            Exit door = gp.obj.findDoor();
+            door.open();
+            gp.ui.showMessage("Exit Opened");
+
         }
     }
 

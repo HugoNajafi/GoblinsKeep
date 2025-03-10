@@ -2,6 +2,7 @@ package com.goblinskeep.objects;
 
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.app.MapGenerator;
 import com.goblinskeep.entity.Entity;
 
 import java.awt.*;
@@ -10,10 +11,12 @@ import java.util.HashMap;
 public class ObjectManager {
     public HashMap<String, MainObject> anObject;
     public GamePanel gp;
+    public MapGenerator map;
 
     public ObjectManager(GamePanel gp){
         anObject = new HashMap<>();
         this.gp = gp;
+        this.map = gp.map;
     }
     private String generateKey(int x, int y){
         return x + "," + y;
@@ -27,6 +30,26 @@ public class ObjectManager {
 
     public MainObject findObject(int playerX, int playerY){
         return anObject.get(generateKey(playerX, playerY));
+    }
+
+    public Exit findDoor(){
+        for(MainObject i: anObject.values()){
+            if (i instanceof Exit)
+            {
+                return ((Exit) i);
+            }
+        }
+        return null;
+    }
+
+    public Lever findLever(){
+        for(MainObject i: anObject.values()){
+            if (i instanceof Lever)
+            {
+                return ((Lever) i);
+            }
+        }
+        return null;
     }
 
     public void removeObject(int x, int y) {

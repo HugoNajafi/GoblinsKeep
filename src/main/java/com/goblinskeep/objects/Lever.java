@@ -7,7 +7,7 @@ public class Lever extends MainObject {
     public Lever() {
         name = "lever";
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/Diamond.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/objects/lever1.png"));
         } catch (IOException e){
             System.out.printf(e.getMessage());
         }
@@ -16,8 +16,7 @@ public class Lever extends MainObject {
 
     public void activate(){
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/Life.png"));
-
+            image = ImageIO.read(getClass().getResourceAsStream("/objects/lever2.png"));
         } catch (IOException e){
             System.out.printf(e.getMessage());
         }

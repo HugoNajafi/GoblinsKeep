@@ -96,19 +96,7 @@ public class GamePanel extends JPanel implements Runnable
         this.setFocusable(true);
         this.repaint();
     }
-    
-    public GamePanel(int PlayerX, int PlayerY){
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.black);
-        this.tileM = new TileManager(this);
-        this.PlayerInput = new PlayerInputHandler();
-        this.Player = new Player(PlayerX, PlayerY, this, PlayerInput);
-        //Double buffer improves rendering
-        this.setDoubleBuffered(true);
-        this.addKeyListener(PlayerInput);
-        this.setFocusable(true);
-        this.repaint();
-    }
+
 
     public void startGameThread(){
         gameThread = new Thread(this);
@@ -118,7 +106,8 @@ public class GamePanel extends JPanel implements Runnable
     public void setUpGame(){
         status = GameStatus.MENU; //in the future change this to MENU
     }
-    
+
+
     @Override
     /**
      * GAME LOOP
@@ -155,6 +144,8 @@ public class GamePanel extends JPanel implements Runnable
         }
         
     }
+
+
     public void update(){
         // System.out.println("Updating");
         /*
@@ -184,6 +175,10 @@ public class GamePanel extends JPanel implements Runnable
     
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        /*
+         * Graphics2D extends Graphics and provides more methods
+         * coordinate transformations, color management etc
+         */
         Graphics2D g2 = (Graphics2D)g;
         if (status == GameStatus.MENU){
             menuUI.draw(g2);
@@ -198,15 +193,11 @@ public class GamePanel extends JPanel implements Runnable
             }
             ui.draw(g2);
         }
-        /*
-        * Graphics2D extends Graphics and provides more methods
-        * coordinate transformations, color management etc
-        */
 
-        
         g2.dispose();
         
     }
+
 
     public Iterator<SmartGoblin> getSmartGoblinIterator(){
         return goblins.iterator();
