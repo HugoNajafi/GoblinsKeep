@@ -14,18 +14,16 @@ public abstract class MainObject {
     public Rectangle collisionArea = new Rectangle(0, 0, 48, 48);;
     public int defaultCollisionAreaX, defaultCollisionAreaY;
 
-    public void draw(Graphics2D g2, GamePanel gp){
+    public void draw(Graphics2D g2, GamePanel gp) {
         int screenX = worldX - gp.Player.WorldX + gp.Player.screenX;
         int screenY = worldY - gp.Player.WorldY + gp.Player.screenY;
 
+        //camera logic, draw only around the player
         if (worldX + gp.tileSize > gp.Player.WorldX - gp.Player.screenX &&
-            worldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
-            worldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
-            worldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY) {
-                g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-//                g2.drawImage(image, worldX, worldY, gp.tileSize, gp.tileSize, null);
-
+                worldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
+                worldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
+                worldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY){
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
         }
-
     }
 }

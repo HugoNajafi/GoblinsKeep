@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.objects.*;
 
 
 
@@ -35,14 +36,28 @@ public class Player extends Entity{
         getPlayerImage();
     }
 
-    public void getAction() {
+    public void getPlayerImage() {
+
+        try{
+            up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/Player/down1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/Player/down2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/Player/right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/Player/right2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/Player/left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/Player/left2.png"));
+
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void update() {
         // Reset collision flag
         collisionOn = false;
-        
-        // // Store original position
-        // int originalX = this.WorldX;
-        // int originalY = this.WorldY;
-        
+
         // Check collision first based on direction
         if(PlayerInput.up == true || PlayerInput.down == true || PlayerInput.left == true || PlayerInput.right == true){
 
@@ -59,8 +74,8 @@ public class Player extends Entity{
             gp.collisionChecker.checkTile(this);
 
             //check if collision with object before moving
-            int objIndex = gp.collisionChecker.checkObject(this, true);
-            handleObject(objIndex);
+            MainObject collisionObj = gp.collisionChecker.checkObjectCollision(this, true);
+            handleObject(collisionObj);
             Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getSmartGoblinIterator());
             if (target != null){
                 collisionOn = true;
@@ -80,7 +95,7 @@ public class Player extends Entity{
                     this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
                 }
             }
-            
+
             SpriteCounter++;
             if(SpriteCounter> 10){
                 if(SpriteNum == 1){
@@ -93,27 +108,36 @@ public class Player extends Entity{
             }
         }
     }
-        public void getPlayerImage() {
 
-        try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/Player/idle.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/Player/idle.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/Player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/Player/right2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/Player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/Player/left2.png"));
 
-        }catch(IOException e) {
-            e.printStackTrace();
+    public void handleObject(MainObject collisionObject) {
+        //if null then an object was not collected
+        if (collisionObject != null){
+            String objName = collisionObject.name;
+            switch (objName){
+                case "key":
+                    gp.map.keyCollected();
+                    gp.obj.removeObject(collisionObject.worldY,collisionObject.worldX);
+                    break;
+                case "bonus":
+                    gp.map.collectedBonus();
+                    gp.obj.removeObject(collisionObject.worldY,collisionObject.worldX);
+                    break;
+                case "trap":
+                    gp.map.trapHit();
+                    break;
+                case "lever":
+                    gp.map.leverTouched(collisionObject);
+                    break;
+                case "exit":
+                    gp.map.exitTouched();
+                    break;
+            }
         }
     }
 
+
     public void draw(Graphics2D g2){
-        // g2.setColor(Color.white);
-        // // System.out.println("Player x: " + Player.getX() + "y: " + Player.getY());
-        // g2.fillRect(this.WorldX, this.WorldY, gp.tileSize, gp.tileSize);
 
         BufferedImage image = null;
 
@@ -154,22 +178,5 @@ public class Player extends Entity{
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
     }
-    public void handleObject(int index) {
-        //if 999 then an object was not collected
-        if (index != 999){
-            String objName = gp.obj[index].name;
-            switch (objName){
-                case "key":
-                    gp.map.keyCollected();
-                    gp.obj[index] = null;
-                    break;
-                case "lever":
-                    gp.map.leverTouched();
-                    break;
-                case "exit":
-                    gp.map.exitTouched();
-                    break;
-            }
-        }
-    }
+
 }

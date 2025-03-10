@@ -2,6 +2,7 @@ package com.goblinskeep.entity;
 
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.Direction;
+import com.goblinskeep.objects.*;
 
 import java.util.Iterator;
 
@@ -73,57 +74,53 @@ public class CollisionChecker {
         }
     }
 
-    public int checkObject(Entity entity, boolean player){
-        int index = 999;
-        for (int i = 0; i < gp.obj.length; i++){
-            if (gp.obj[i] == null) {
-                continue;
-            }
-            //need to test if this works the same
+    public MainObject checkObjectCollision(Entity entity, boolean player){
+        
+        MainObject returnObject = null;
+        
+        for(MainObject object: gp.obj.anObject.values()){
+        
             entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
             entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
 
-            //get world position of the collision area for the Objects
-            gp.obj[i].collisionArea.x = gp.obj[i].worldX + gp.obj[i].defaultCollisionAreaX;
-            gp.obj[i].collisionArea.y = gp.obj[i].worldY + gp.obj[i].defaultCollisionAreaY;
+            object.collisionArea.x = object.worldX + object.defaultCollisionAreaX;
+            object.collisionArea.y = object.worldY + object.defaultCollisionAreaY;
 
-            //check if there is a collision based on the way the Entity is facing
             switch (entity.direction){
                 case Direction.UP:
                     entity.collisionArea.y -= entity.speed;
-                    if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
-                        index = handleEntityCollision(entity, player, i);
-                    }
-                    break;
-                case Direction.LEFT:
-                    entity.collisionArea.x -= entity.speed;
-                    if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
-                        index = handleEntityCollision(entity, player, i);
+                    if (entity.collisionArea.intersects(object.collisionArea)){
+                        returnObject = handleEntityCollision(entity, player,object);
                     }
                     break;
                 case Direction.DOWN:
                     entity.collisionArea.x += entity.speed;
-                    if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
-                        index = handleEntityCollision(entity, player, i);
+                    if (entity.collisionArea.intersects(object.collisionArea)){
+                        returnObject = handleEntityCollision(entity, player,object);
+                    }
+                    break;
+                case Direction.LEFT:
+                    entity.collisionArea.x -= entity.speed;
+                    if (entity.collisionArea.intersects(object.collisionArea)){
+                        returnObject = handleEntityCollision(entity, player,object);
                     }
                     break;
                 case Direction.RIGHT:
                     entity.collisionArea.y += entity.speed;
-                    if (entity.collisionArea.intersects(gp.obj[i].collisionArea)){
-                        index = handleEntityCollision(entity, player, i);
+                    if (entity.collisionArea.intersects(object.collisionArea)){
+                        returnObject = handleEntityCollision(entity, player,object);
                     }
                     break;
             }
 
-            //reset the collision area positions for future use
-            //uncomment if broken
             entity.collisionArea.x = entity.hitboxDefaultX;
             entity.collisionArea.y = entity.hitboxDefaultY;
-            gp.obj[i].collisionArea.x = gp.obj[i].defaultCollisionAreaX;
-            gp.obj[i].collisionArea.y = gp.obj[i].defaultCollisionAreaY;
+            object.collisionArea.x = object.defaultCollisionAreaX;
+            object.collisionArea.y = object.defaultCollisionAreaY;
         }
-        return index;
+        return returnObject;
     }
+
 
     public Entity playerCollisionWithEnemy(Entity entity, Iterator<? extends Entity> targets){
         while (targets.hasNext()){
@@ -187,6 +184,8 @@ public class CollisionChecker {
         return null;
 
     }
+
+
     public boolean checkPlayer(Entity entity){
         entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
         entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
@@ -194,7 +193,6 @@ public class CollisionChecker {
         //get world position of the collision area for the Objects
         gp.Player.collisionArea.x = gp.Player.WorldX + gp.Player.hitboxDefaultX;
         gp.Player.collisionArea.y = gp.Player.WorldY + gp.Player.hitboxDefaultY;
-
 
         switch (entity.direction){
             case Direction.UP:
@@ -232,13 +230,13 @@ public class CollisionChecker {
     }
 
 
-    private int handleEntityCollision(Entity entity, boolean player, int index){
-        if (gp.obj[index].collision){
+    private MainObject handleEntityCollision(Entity entity, boolean player, MainObject object){
+        if (object.collision){
             entity.collisionOn = true;
         }
         if (player){
-            return index;
+            return object;
         }
-        return 999;
+        return null;
     }
 }
