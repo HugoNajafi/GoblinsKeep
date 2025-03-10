@@ -161,6 +161,7 @@ public class GamePanel extends JPanel implements Runnable
                 status = GameStatus.END; //change later to WIN/LOSE
             } else {
                 Player.update();
+                map.update();
                 for (SmartGoblin goblin : goblins) {
                     goblin.getAction();
                 }

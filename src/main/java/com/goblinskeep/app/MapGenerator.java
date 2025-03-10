@@ -20,6 +20,8 @@ public class MapGenerator {
     private int keysCollected = 0;
     private boolean gameWin = false;
     private int score = 0;
+    private int counter = 0;
+    private boolean canDeductPoints = true;
 
     public MapGenerator(GamePanel gp){
         this.gp = gp;
@@ -169,7 +171,10 @@ public class MapGenerator {
     }
 
     public void trapHit(){
-        score -= 100;
+        if(canDeductPoints) {
+            score -= 100;
+            canDeductPoints = false;
+        }
     }
     public int getScore() {
         return score;
@@ -177,5 +182,15 @@ public class MapGenerator {
 
     public boolean gameEnded(){
         return gameEnded;
+    }
+
+    public void update(){
+        if(!canDeductPoints){
+            counter+=1;
+            if(counter == 120){
+                counter = 0;
+                canDeductPoints = true;
+            }
+        }
     }
 }
