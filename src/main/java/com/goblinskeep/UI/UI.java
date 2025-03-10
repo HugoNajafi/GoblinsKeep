@@ -15,6 +15,12 @@ public class UI extends DefaultUI{
     public int messageCounter = 0;
     public PauseUI pauseUI;
 
+    public void restart(){
+        messageOn = false;
+        messageCounter =0;
+        playTime = 0;
+    }
+
     public double playTime;
     public UI(GamePanel gp) {
         super(gp);

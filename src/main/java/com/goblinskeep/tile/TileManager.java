@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.CellType;
-import com.goblinskeep.app.Gamestate;
 import com.goblinskeep.objects.*;
 
 /**
@@ -38,10 +37,8 @@ public class TileManager {
     private void getTileImage() {
         try {
             mapNumToTile("/tiles/ground1.png", 0, false);
-            mapNumToTile("/tiles/middleWall.png", 1, true);
+            mapNumToTile("/tiles/wall1.png", 1, true);
             mapNumToTile("/tiles/grass_tile.png", 8, false);
-            mapNumToTile("/tiles/rightWall.png", 10, true);
-            mapNumToTile("/tiles/leftWall.png", 11, true);
 
         } catch (IOException e){
             System.out.println("tile image loading failed: " + e.getMessage());
@@ -68,9 +65,8 @@ public class TileManager {
     /**
      * draw function for the tiles and objects
      * @param g2: graphics 2D to draw it
-     * @param gamestate
      */
-    public void draw(Graphics2D g2, Gamestate gamestate) {
+    public void draw(Graphics2D g2) {
 
         int worldRow = 0;
         int worldCol = 0;
