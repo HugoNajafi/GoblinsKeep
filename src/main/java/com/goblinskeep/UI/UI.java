@@ -37,6 +37,10 @@ public class UI extends DefaultUI{
         }
     }
 
+    public void resetTime() {
+        playTime = 0.0;
+    }
+
     public void drawPlaying(Graphics2D g2) {
         //draw key counter on screen
         borderThickness = 1;

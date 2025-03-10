@@ -67,7 +67,7 @@ public class MenuInputHandler implements KeyListener {
                             gp.status = GameStatus.PLAYING;
                             break;
                         case RESTART:
-                            gp.status = GameStatus.PLAYING;
+                            gp.status = GameStatus.RESTART;
                             break;
                         case QUIT:
                             System.exit(0);

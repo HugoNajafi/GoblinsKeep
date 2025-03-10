@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 
 import com.goblinskeep.keyboard.MenuInputHandler;
@@ -209,6 +210,9 @@ public class GamePanel extends JPanel implements Runnable
     }
 
     public void restartGame() {
+        ui.resetTime();
+        MapGenerator map = new MapGenerator(this);
+        map.resetMap();
 
     }
 

@@ -193,4 +193,23 @@ public class MapGenerator {
             }
         }
     }
+
+    public void resetMap() {
+
+        setMap();
+        setPlayerPosition();
+
+        score = 0;
+        keysCollected = 0;
+        keysNeeded = 3;
+        counter = 0;
+
+        exitOpen = false;
+        gameWin = false;
+        gameEnded = false;
+
+
+        goblins.clear();
+        setGoblins();
+    }
 }
