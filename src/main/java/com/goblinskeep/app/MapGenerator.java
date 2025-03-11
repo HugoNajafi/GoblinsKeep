@@ -63,19 +63,19 @@ public class MapGenerator {
                     int num = Integer.parseInt(numbers[col]);
                     switch (num) {
                         case 2:
-                            obj.addObject(row,col,new Key());
+                            obj.addObject(col, row,new Key());
                             tileM.mapTileNum[col][row] = 0;
                             break;
                         case 3:
-                            obj.addObject(row,col, new Bonus());
+                            obj.addObject(col, row, new Bonus());
                             tileM.mapTileNum[col][row] = 0;
                             break;
                         case 4:
-                            obj.addObject(row,col,new Trap());
+                            obj.addObject(col, row,new Trap());
                             tileM.mapTileNum[col][row] = 0;
                             break;
                         case 5:
-                            obj.addObject(row,col,new Lever());
+                            obj.addObject(col, row,new Lever());
                             tileM.mapTileNum[col][row] = 0;
                             break;
                         case 6:
@@ -83,13 +83,16 @@ public class MapGenerator {
                             tileM.mapTileNum[col][row] = 0;
                             break;
                         case 7:
-                            obj.addObject(row,col, new Exit());
+                            obj.addObject(col, row, new Exit());
                             tileM.mapTileNum[col][row] = 0;
                             break;
                         case 11:
-                            System.out.println("col: " + col + " row: " + row);
                             goblinSpawnPositions.add(new Point(col, row));
                             tileM.mapTileNum[col][row] = 0;
+                            break;
+                        case 12:
+                            obj.addObject(col, row, new Tree(1));
+                            tileM.mapTileNum[col][row] = 8;
                             break;
                         default:
                             tileM.mapTileNum[col][row] = num;

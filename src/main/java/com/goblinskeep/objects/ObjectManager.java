@@ -6,7 +6,10 @@ import com.goblinskeep.app.MapGenerator;
 import com.goblinskeep.entity.Entity;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class ObjectManager {
     public HashMap<String, MainObject> anObject;
@@ -24,8 +27,8 @@ public class ObjectManager {
 
     public void addObject(int x, int y, MainObject newObject){
         anObject.put(generateKey(x,y), newObject);
-        newObject.worldY = x * gp.tileSize;
-        newObject.worldX = y * gp.tileSize;
+        newObject.worldY = y * gp.tileSize;
+        newObject.worldX = x * gp.tileSize;
     }
 
     public MainObject findObject(int playerX, int playerY){
