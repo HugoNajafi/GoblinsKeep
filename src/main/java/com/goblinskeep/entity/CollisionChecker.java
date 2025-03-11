@@ -4,6 +4,7 @@ import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.objects.*;
 
+import java.awt.*;
 import java.util.Iterator;
 
 public class CollisionChecker {
@@ -14,10 +15,10 @@ public class CollisionChecker {
     }
 
     public void checkTile(Entity entity) {
-        int entityLeftWorldX = entity.WorldX + entity.collisionArea.x;
-        int entityRightWorldX = entity.WorldX + entity.collisionArea.x + entity.collisionArea.width;
-        int entityTopWorldY = entity.WorldY + entity.collisionArea.y;
-        int entityBottomWorldY = entity.WorldY + entity.collisionArea.y + entity.collisionArea.height;
+        int entityLeftWorldX = entity.WorldX + entity.hitboxDefaultX;
+        int entityRightWorldX = entity.WorldX + entity.hitboxDefaultX + entity.collisionArea.width;
+        int entityTopWorldY = entity.WorldY + entity.hitboxDefaultY;
+        int entityBottomWorldY = entity.WorldY + entity.hitboxDefaultY + entity.collisionArea.height;
 
         int entityLeftCol = entityLeftWorldX / gp.tileSize;
         int entityRightCol = entityRightWorldX / gp.tileSize;
@@ -25,11 +26,11 @@ public class CollisionChecker {
         int entityBottomRow = entityBottomWorldY / gp.tileSize;
 
         int tileNum1, tileNum2;
-        
+
         // Calculate the position after potential movement
         int speed = entity.getSpeed();
         Direction dir = entity.direction;
-        
+
         switch (dir) {
             case UP:
                 // Calculate the new row after moving up
@@ -74,12 +75,175 @@ public class CollisionChecker {
         }
     }
 
+
+    public Entity playerCollisionWithEnemy(Entity entity, Iterator<? extends Entity> targets){
+        while (targets.hasNext()){
+            Entity target = targets.next();
+            if (target == null){
+                continue;
+            }
+            entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
+            entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+
+            //get world position of the collision area for the Objects
+            target.collisionArea.x = target.WorldX + target.hitboxDefaultX;
+            target.collisionArea.y = target.WorldY + target.hitboxDefaultY;
+
+
+            switch (entity.direction){
+                case Direction.UP:
+                    entity.collisionArea.y -= entity.speed;
+                    if (entity.collisionArea.intersects(target.collisionArea) || isTouchingEdges(entity.collisionArea, target.collisionArea)){
+                        if (target.collisionOn){
+                            System.out.println("yo");
+                            entity.collisionOn = true;
+                            return target;
+                        }
+                    }
+                    break;
+                case Direction.LEFT:
+                    entity.collisionArea.x -= entity.speed;
+                    if (entity.collisionArea.intersects(target.collisionArea) || isTouchingEdges(entity.collisionArea, target.collisionArea)){
+                        if (target.collisionOn){
+                            entity.collisionOn = true;
+                            return target;
+                        }
+                    }
+                    break;
+                case Direction.DOWN:
+                    entity.collisionArea.y += entity.speed;
+                    if (entity.collisionArea.intersects(target.collisionArea) || isTouchingEdges(entity.collisionArea, target.collisionArea)){
+                        if (target.collisionOn){
+                            entity.collisionOn = true;
+                            return target;
+                        }
+                    }
+                    break;
+                case Direction.RIGHT:
+                    entity.collisionArea.x += entity.speed;
+                    if (entity.collisionArea.intersects(target.collisionArea) || isTouchingEdges(entity.collisionArea, target.collisionArea)){
+                        if (target.collisionOn){
+//                            System.out.print("Player: " + (entity.WorldX + entity.hitboxDefaultX + entity.collisionArea.width));
+//                            System.out.println("  Goblin: " + (target.WorldX + target.hitboxDefaultX));
+                            entity.collisionOn = true;
+                            return target;
+                        }
+                    }
+                    break;
+            }
+        }
+        return null;
+
+    }
+    public boolean checkPlayer(Entity entity){
+        entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
+        entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+
+        //get world position of the collision area for the Objects
+        gp.Player.collisionArea.x = gp.Player.WorldX + gp.Player.hitboxDefaultX;
+        gp.Player.collisionArea.y = gp.Player.WorldY + gp.Player.hitboxDefaultY;
+
+
+        switch (entity.direction){
+            case Direction.UP:
+                entity.collisionArea.y -= entity.speed;
+                if (entity.collisionArea.intersects(gp.Player.collisionArea) || isTouchingEdges(entity.collisionArea, gp.Player.collisionArea)){
+                    return true;
+                }
+                break;
+            case Direction.LEFT:
+                entity.collisionArea.x -= entity.speed;
+                if (entity.collisionArea.intersects(gp.Player.collisionArea) || isTouchingEdges(entity.collisionArea, gp.Player.collisionArea)){
+                    return true;
+                }
+                break;
+            case Direction.DOWN:
+                entity.collisionArea.y += entity.speed;
+                if (entity.collisionArea.intersects(gp.Player.collisionArea) || isTouchingEdges(entity.collisionArea, gp.Player.collisionArea)){
+                    return true;
+                }
+                break;
+            case Direction.RIGHT:
+                entity.collisionArea.x += entity.speed;
+                if (entity.collisionArea.intersects(gp.Player.collisionArea) || isTouchingEdges(entity.collisionArea, gp.Player.collisionArea)){
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    private boolean isTouchingEdges(Rectangle rect1, Rectangle rect2) {
+        return (rect1.x + rect1.width == rect2.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y) ||  // Right touch
+                (rect2.x + rect2.width == rect1.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y) ||  // Left touch
+                (rect1.y + rect1.height == rect2.y && rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x) ||  // Bottom touch
+                (rect2.y + rect2.height == rect1.y && rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x);   // Top touch
+//        return false;
+
+    }
+
+    public void checkEnemyCollision(Entity entity, Iterator<? extends Entity> otherEntities) {
+        entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
+        entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+
+        // Calculate potential new position based on direction
+        Rectangle potentialPosition = new Rectangle(entity.collisionArea);
+        switch (entity.direction) {
+            case Direction.UP:
+                potentialPosition.y -= entity.speed;
+                break;
+            case Direction.DOWN:
+                potentialPosition.y += entity.speed;
+                break;
+            case Direction.LEFT:
+                potentialPosition.x -= entity.speed;
+                break;
+            case Direction.RIGHT:
+                potentialPosition.x += entity.speed;
+                break;
+        }
+
+        // Check collision with all other entities
+        while (otherEntities.hasNext()) {
+            Entity other = otherEntities.next();
+            if (other == null || other == entity) {
+                continue;
+            }
+
+            // Update other entity's collision area
+            other.collisionArea.x = other.WorldX + other.hitboxDefaultX;
+            other.collisionArea.y = other.WorldY + other.hitboxDefaultY;
+
+            // Check if potential movement would cause collision
+            if (potentialPosition.intersects(other.collisionArea) ||
+                    isTouchingEdges(potentialPosition, other.collisionArea)) {
+//                entity.collisionOn = true;
+
+                // Instead of just random direction, use a smarter approach:
+                // Calculate direction away from the other entity
+                int dx = entity.WorldX - other.WorldX;
+                int dy = entity.WorldY - other.WorldY;
+
+                // Determine best escape direction based on relative positions
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    // Horizontal separation is larger, move horizontally
+                    entity.direction = dx > 0 ? Direction.RIGHT : Direction.LEFT;
+                } else {
+                    // Vertical separation is larger, move vertically
+                    entity.direction = dy > 0 ? Direction.DOWN : Direction.UP;
+                }
+                break;
+            }
+        }
+    }
+
+
     public MainObject checkObjectCollision(Entity entity, boolean player){
-        
+
         MainObject returnObject = null;
-        
+
         for(MainObject object: gp.obj.anObject.values()){
-        
+
             entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
             entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
 
@@ -120,115 +284,6 @@ public class CollisionChecker {
         }
         return returnObject;
     }
-
-
-    public Entity playerCollisionWithEnemy(Entity entity, Iterator<? extends Entity> targets){
-        while (targets.hasNext()){
-            Entity target = targets.next();
-            if (target == null){
-                continue;
-            }
-            entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
-            entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
-
-            //get world position of the collision area for the Objects
-            target.collisionArea.x = target.WorldX + target.hitboxDefaultX;
-            target.collisionArea.y = target.WorldY + target.hitboxDefaultY;
-
-
-            switch (entity.direction){
-                case Direction.UP:
-                    entity.collisionArea.y -= entity.speed;
-                    if (entity.collisionArea.intersects(target.collisionArea)){
-                        if (target.collisionOn){
-                            entity.collisionOn = true;
-                            return target;
-                        }
-                    }
-                    break;
-                case Direction.LEFT:
-                    entity.collisionArea.x -= entity.speed;
-                    if (entity.collisionArea.intersects(target.collisionArea)){
-                        if (target.collisionOn){
-                            entity.collisionOn = true;
-                            return target;
-                        }
-                    }
-                    break;
-                case Direction.DOWN:
-                    entity.collisionArea.x += entity.speed;
-                    if (entity.collisionArea.intersects(target.collisionArea)){
-                        if (target.collisionOn){
-                            entity.collisionOn = true;
-                            return target;
-                        }
-                    }
-                    break;
-                case Direction.RIGHT:
-                    entity.collisionArea.y += entity.speed;
-                    if (entity.collisionArea.intersects(target.collisionArea)){
-                        if (target.collisionOn){
-                            entity.collisionOn = true;
-                            return target;
-                        }
-                    }
-                    break;
-            }
-            //reset the collision area positions for future use
-            //uncomment if broken
-            entity.collisionArea.x = entity.hitboxDefaultX;
-            entity.collisionArea.y = entity.hitboxDefaultY;
-            target.collisionArea.x = target.hitboxDefaultX;
-            target.collisionArea.y = target.hitboxDefaultY;
-        }
-        return null;
-
-    }
-
-
-    public boolean checkPlayer(Entity entity){
-        entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
-        entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
-
-        //get world position of the collision area for the Objects
-        gp.Player.collisionArea.x = gp.Player.WorldX + gp.Player.hitboxDefaultX;
-        gp.Player.collisionArea.y = gp.Player.WorldY + gp.Player.hitboxDefaultY;
-
-        switch (entity.direction){
-            case Direction.UP:
-                entity.collisionArea.y -= entity.speed;
-                if (entity.collisionArea.intersects(gp.Player.collisionArea)){
-                    return true;
-                }
-                break;
-            case Direction.LEFT:
-                entity.collisionArea.x -= entity.speed;
-                if (entity.collisionArea.intersects(gp.Player.collisionArea)){
-                    return true;
-                }
-                break;
-            case Direction.DOWN:
-                entity.collisionArea.x += entity.speed;
-                if (entity.collisionArea.intersects(gp.Player.collisionArea)){
-                    return true;
-                }
-                break;
-            case Direction.RIGHT:
-                entity.collisionArea.y += entity.speed;
-                if (entity.collisionArea.intersects(gp.Player.collisionArea)){
-                    return true;
-                }
-                break;
-        }
-        //reset the collision area positions for future use
-        //uncomment if broken
-        entity.collisionArea.x = entity.hitboxDefaultX;
-        entity.collisionArea.y = entity.hitboxDefaultY;
-        gp.Player.collisionArea.x = gp.Player.hitboxDefaultX;
-        gp.Player.collisionArea.y = gp.Player.hitboxDefaultY;
-        return false;
-    }
-
 
     private MainObject handleEntityCollision(Entity entity, boolean player, MainObject object){
         if (object.collision){

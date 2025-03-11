@@ -53,11 +53,14 @@ public class SmartGoblin extends Goblin {
     }
     
     private void moveAlongPath() {
-        
+
         // Get the next target position
         
 //        Point target = path.get(pathIndex);
+
+        //assume this is the method that finds the direction for the goblin
         direction = Direction.UP;
+        drawDirection = drawDirection;
         // Convert from grid position to pixel position
 
         // Reset collision flag
@@ -67,6 +70,8 @@ public class SmartGoblin extends Goblin {
         // Check collision
         gp.collisionChecker.checkTile(this);
 
+        //ensure that the goblin does not collide with other goblins
+        gp.collisionChecker.checkEnemyCollision(this, gp.getSmartGoblinIterator());
         //comment this out for collisions between player to not work properly
         if (gp.collisionChecker.checkPlayer(this)){
             collisionOn = true;
