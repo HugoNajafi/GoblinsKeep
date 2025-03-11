@@ -17,7 +17,7 @@ public class ObjectManager {
     public MapGenerator map;
 
     public ObjectManager(GamePanel gp){
-        anObject = new HashMap<>();
+        anObject = new LinkedHashMap<>();
         this.gp = gp;
         this.map = gp.map;
     }

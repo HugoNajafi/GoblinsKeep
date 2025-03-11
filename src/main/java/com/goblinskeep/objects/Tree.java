@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Tree extends MainObject {
     public Tree(int type) {
+        name = "tree";
         if (type == 1){
             try {
                 image = ImageIO.read(getClass().getResourceAsStream("/objects/goodTree1.png"));

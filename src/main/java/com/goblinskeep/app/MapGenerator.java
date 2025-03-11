@@ -37,6 +37,8 @@ public class MapGenerator {
         tileM = new TileManager(gp);
         setMap();
         setGoblins();
+        keysCollected = 3;
+
     }
 
 
@@ -93,6 +95,18 @@ public class MapGenerator {
                         case 12:
                             obj.addObject(col, row, new Tree(1));
                             tileM.mapTileNum[col][row] = 8;
+                            break;
+                        case 13:
+                            obj.addObject(col, row, new Tree(0));
+                            tileM.mapTileNum[col][row] = 8;
+                            break;
+                        case 15:
+                            obj.addObject(col, row, new InvisibleBarrier());
+                            tileM.mapTileNum[col][row] = 8;
+                            break;
+                        case 16:
+                            obj.addObject(col, row, new InvisibleBarrier());
+                            tileM.mapTileNum[col][row] = 9;
                             break;
                         default:
                             tileM.mapTileNum[col][row] = num;

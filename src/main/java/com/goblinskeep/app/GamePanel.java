@@ -22,6 +22,7 @@ import com.goblinskeep.entity.SmartGoblin;
 import javax.swing.JPanel;
 
 import com.goblinskeep.keyboard.PlayerInputHandler;
+import com.goblinskeep.objects.Lever;
 import com.goblinskeep.objects.ObjectManager;
 import com.goblinskeep.tile.TileManager;
 
@@ -37,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable
     public  final int maxScreenRow = 12; //Height of game
     public  final int screenWidth = tileSize * maxScreenCol; //Scalling
     public  final int screenHeight = tileSize * maxScreenRow; //Scalling
-    public  final int maxWorldCol = 58;
+    public  final int maxWorldCol = 60;
     public  final int maxWorldRow = 66;
     
     //FPS
@@ -74,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable
         obj = map.getObj();
         tileM = map.getTileM();
         ui.restart();
+        map.leverTouched(new Lever());
     }
 
     /**
@@ -211,7 +213,6 @@ public class GamePanel extends JPanel implements Runnable
     }
 
     public void restartGame() {
-        System.out.println("yo");
         setGame();
     }
 

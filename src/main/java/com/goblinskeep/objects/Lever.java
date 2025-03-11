@@ -13,8 +13,8 @@ public class Lever extends MainObject {
         }
         collision = false;
         defaultCollisionAreaX += 6;
-        defaultCollisionAreaY += 24;
-        collisionArea.height -= 24;
+        defaultCollisionAreaY -= 12;
+        collisionArea.height -= 6;
         collisionArea.width -= 12;
     }
 

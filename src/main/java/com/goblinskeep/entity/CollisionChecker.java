@@ -95,7 +95,6 @@ public class CollisionChecker {
                     entity.collisionArea.y -= entity.speed;
                     if (entity.collisionArea.intersects(target.collisionArea) || isTouchingEdges(entity.collisionArea, target.collisionArea)){
                         if (target.collisionOn){
-                            System.out.println("yo");
                             entity.collisionOn = true;
                             return target;
                         }
@@ -253,25 +252,29 @@ public class CollisionChecker {
             switch (entity.direction){
                 case Direction.UP:
                     entity.collisionArea.y -= entity.speed;
-                    if (entity.collisionArea.intersects(object.collisionArea)){
+                    if (entity.collisionArea.intersects(object.collisionArea)
+                            ||  isTouchingEdges(entity.collisionArea, object.collisionArea)){
                         returnObject = handleEntityCollision(entity, player,object);
                     }
                     break;
                 case Direction.DOWN:
                     entity.collisionArea.x += entity.speed;
-                    if (entity.collisionArea.intersects(object.collisionArea)){
+                    if (entity.collisionArea.intersects(object.collisionArea)
+                            ||  isTouchingEdges(entity.collisionArea, object.collisionArea)){
                         returnObject = handleEntityCollision(entity, player,object);
                     }
                     break;
                 case Direction.LEFT:
                     entity.collisionArea.x -= entity.speed;
-                    if (entity.collisionArea.intersects(object.collisionArea)){
+                    if (entity.collisionArea.intersects(object.collisionArea)
+                            ||  isTouchingEdges(entity.collisionArea, object.collisionArea)){
                         returnObject = handleEntityCollision(entity, player,object);
                     }
                     break;
                 case Direction.RIGHT:
                     entity.collisionArea.y += entity.speed;
-                    if (entity.collisionArea.intersects(object.collisionArea)){
+                    if (entity.collisionArea.intersects(object.collisionArea)
+                            ||  isTouchingEdges(entity.collisionArea, object.collisionArea)){
                         returnObject = handleEntityCollision(entity, player,object);
                     }
                     break;

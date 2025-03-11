@@ -1,8 +1,8 @@
 package com.goblinskeep.entity;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.keyboard.PlayerInputHandler;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -116,11 +116,11 @@ public class Player extends Entity{
             switch (objName){
                 case "key":
                     gp.map.keyCollected();
-                    gp.obj.removeObject(collisionObject.worldY,collisionObject.worldX);
+                    gp.obj.removeObject(collisionObject.worldX, collisionObject.worldY);
                     break;
                 case "bonus":
                     gp.map.collectedBonus();
-                    gp.obj.removeObject(collisionObject.worldY,collisionObject.worldX);
+                    gp.obj.removeObject(collisionObject.worldX, collisionObject.worldY);
                     break;
                 case "trap":
                     gp.map.trapHit();
@@ -129,8 +129,11 @@ public class Player extends Entity{
                     gp.map.leverTouched(collisionObject);
                     break;
                 case "exit":
-                    gp.map.exitTouched();
                     break;
+                case "invisible":
+                    gp.map.exitTouched();
+                default:
+                    collisionOn = true;
             }
         }
     }
