@@ -84,7 +84,7 @@ public class MapGenerator {
                             break;
                         case 7:
                             obj.addObject(row,col, new Exit());
-                            tileM.mapTileNum[col][row] = 1;
+                            tileM.mapTileNum[col][row] = 0;
                             break;
                         case 11:
                             System.out.println("col: " + col + " row: " + row);

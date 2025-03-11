@@ -11,7 +11,7 @@ public class Exit extends MainObject {
         } catch (IOException e){
             System.out.printf(e.getMessage());
         }
-        collision = false;
+        collision = true;
     }
 
     public void open(){
@@ -20,5 +20,6 @@ public class Exit extends MainObject {
         } catch (IOException e){
             System.out.printf(e.getMessage());
         }
+        this.collision = false;
     }
 }
