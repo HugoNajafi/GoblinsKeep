@@ -7,7 +7,7 @@ public class Exit extends MainObject {
     public Exit() {
         name = "exit";
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/door3.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/objects/door1.png"));
         } catch (IOException e){
             System.out.printf(e.getMessage());
         }
@@ -16,7 +16,7 @@ public class Exit extends MainObject {
 
     public void open(){
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/door4.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/objects/door2.png"));
         } catch (IOException e){
             System.out.printf(e.getMessage());
         }

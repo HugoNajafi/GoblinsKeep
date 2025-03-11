@@ -39,6 +39,7 @@ public class TileManager {
             mapNumToTile("/tiles/floor.png", 0, false);
             mapNumToTile("/tiles/wall.png", 1, true);
             mapNumToTile("/tiles/grass_tile.png", 8, false);
+            mapNumToTile("/tiles/dirt.png", 9, false);
 
         } catch (IOException e){
             System.out.println("tile image loading failed: " + e.getMessage());
