@@ -1,11 +1,18 @@
 package com.goblinskeep.objects;
 
-import com.goblinskeep.app.GamePanel;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 
+import com.goblinskeep.app.GamePanel;
+
+/**
+ * Represents a decorative tree in the game.
+ *
+ * - The tree is purely **visual** and does not interact with the player.
+ * - It does **not have collision**, meaning the player can walk through it.
+ * - Different tree variations can be used to enhance the game's environment.
+ */
 public class Tree extends MainObject {
     public Tree(int type) {
         name = "tree";
