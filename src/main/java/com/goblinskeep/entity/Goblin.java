@@ -1,36 +1,53 @@
 package com.goblinskeep.entity;
 
-// import java.awt.Color;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-// import java.io.IOException;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 import com.goblinskeep.app.Direction;
-
-// import javax.imageio.ImageIO;
-
 import com.goblinskeep.app.GamePanel;
 
+/**
+ * Represents a goblin enemy in the game.
+ * This is an abstract class that defines common goblin behavior and appearance.
+ * Goblins are hostile NPCs that interact with the player and game environment.
+ */
 public abstract class Goblin extends Entity{
-    GamePanel gp;
-    Player player;
+
+    /** Reference to the main game panel. */
+    protected GamePanel gp;
+
+    /** Reference to the player, used for AI movement and interaction. */
+    protected Player player;
+
+    /** The direction in which the goblin is currently facing/drawn. */
     protected Direction drawDirection = Direction.UP;
 
-    public Goblin(){
-        super();
 
-    }
-
+    /**
+     * Constructs a goblin with references to the game panel and player.
+     *
+     * @param gp     The game panel instance.
+     * @param player The player instance.
+     */
     public Goblin(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
-        // getGoblinImage();
     }
+
+
+    /**
+     * Defines the goblin's behavior (to be implemented by subclasses).
+     * This method should contain movement and AI logic.
+     */
     public abstract void getAction();
 
+
+    /**
+     * Loads and assigns sprite images for goblin animations in different directions.
+     * Called when initializing the goblin's appearance.
+     */
     public void getGoblinImage(){
         try{
             up1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_up_1.png"));
@@ -46,10 +63,17 @@ public abstract class Goblin extends Entity{
             e.printStackTrace();
         }
     }
-    
+
+
+    /**
+     * Draws the goblin on the screen based on its movement direction.
+     *
+     * @param g2 The graphics context used for rendering.
+     */
     public void draw(Graphics2D g2){
         BufferedImage image = null;
 
+        // Select the appropriate sprite based on movement direction
         switch (drawDirection){
             case Direction.UP:
                 if(SpriteNum == 1){
@@ -84,10 +108,12 @@ public abstract class Goblin extends Entity{
                 }
                 break;
         }
-//        g2.drawImage(image, WorldX, WorldY, gp.tileSize, gp.tileSize, null);
+
+        // Calculate screen position relative to the player's position
         int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
         int screenY = WorldY - gp.Player.WorldY + gp.Player.screenY;
 
+        // Only draw the goblin if it's within the player's visible area
         if (WorldX + gp.tileSize > gp.Player.WorldX - gp.Player.screenX &&
                 WorldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
                 WorldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
