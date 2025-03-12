@@ -33,10 +33,8 @@ public class App
         // Add the game panel to the window
         window.add(gamepanel);
 
-        /**
-         * Adjusts the window size based on the preferred size of its components.
-         * This ensures that the GamePanel fits properly within the JFrame.
-         */
+        //Adjusts the window size based on the preferred size of its components.
+        //This ensures that the GamePanel fits properly within the JFrame.
         window.pack();
 
         // Center the window on the screen
