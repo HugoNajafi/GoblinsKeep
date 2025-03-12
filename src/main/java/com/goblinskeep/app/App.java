@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 /**
  * The main entry point of the Goblin's Keep game.
- * This class initializes the game window and starts the game loop.
+ * This class initializes the game window and starts the game loop.d
  */
 public class App 
 {
