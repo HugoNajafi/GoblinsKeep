@@ -13,6 +13,7 @@ import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.SmartGoblin;
 
+import com.goblinskeep.pathfinding.Pathfinding;
 import com.goblinskeep.tile.TileManager;
 
 import com.goblinskeep.keyboard.MenuInputHandler;
@@ -105,7 +106,7 @@ public class GamePanel extends JPanel implements Runnable
     /** Handles keyboard input when in the menu. */
     private MenuInputHandler keyboard = new MenuInputHandler(this);
 
-
+    public Pathfinding pathFinder;
     /**
      * Constructs a new GamePanel, initializing the game screen, input handlers, and game state.
      */
@@ -138,6 +139,7 @@ public class GamePanel extends JPanel implements Runnable
         this.Player.speed = 5;
         obj = map.getObj();
         tileM = map.getTileM();
+        pathFinder = new Pathfinding(this);
         ui.restart();
     }
 

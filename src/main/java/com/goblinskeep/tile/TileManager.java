@@ -93,4 +93,8 @@ public class TileManager {
             }
         }
     }
+
+    public boolean checkCollisionOfTile(int tileNum){
+        return tile[tileNum].collision;
+    }
 }
