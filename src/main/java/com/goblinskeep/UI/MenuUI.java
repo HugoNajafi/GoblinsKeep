@@ -8,12 +8,20 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Represents the main menu UI component.
+ */
 public class MenuUI extends DefaultUI{
-    GamePanel gp;
-    BufferedImage keyImage;
+    public GamePanel gp;
+    public BufferedImage keyImage;
     private BufferedImage backgroundImage;
 
-    double playTime;
+
+    /**
+     * Constructs a MenuUI with the specified GamePanel.
+     *
+     * @param gp the GamePanel instance
+     */
     public MenuUI(GamePanel gp) {
         super(gp);
         this.gp = gp;
@@ -28,6 +36,7 @@ public class MenuUI extends DefaultUI{
     }
 
 
+
     public void draw(Graphics2D g2) {
         if (backgroundImage != null) {
             g2.drawImage(backgroundImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
@@ -39,12 +48,14 @@ public class MenuUI extends DefaultUI{
         int x = getCenteredXAxisText(title, g2);
         int y = gp.tileSize * 3;
         g2.setColor(Color.WHITE);
+        //draw title text
         drawTextWithBorder(g2,title, x, y);
 
         String play = "PLAY";
         String instructions = "INSTRUCTIONS";
         String quit = "QUIT";
 
+        //draw menu options
         borderThickness = 2;
         g2.setFont(gameFont.deriveFont(40f));
         drawTextWithBorder(g2,play, getCenteredXAxisText(play, g2), gp.tileSize * 8);
@@ -67,6 +78,11 @@ public class MenuUI extends DefaultUI{
 
     }
 
+    /**
+     * Gets the current option selected in the menu.
+     *
+     * @return the current option
+     */
     @Override
     public Options getCurrentOption() {
         switch (cursorSelection){
