@@ -12,14 +12,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MapGenerator {
     private GamePanel gp;
     private ArrayList<SmartGoblin> goblins;
+    private List<Bonus> bonuses = new ArrayList<>();
     private Player player;
     private ObjectManager obj;
     private TileManager tileM;
     private List<Point> goblinSpawnPositions = new ArrayList<>();
+    private int currentTime = 0;
+    private int currentTimeCounter = 0;
+    private Random random = new Random();
 
     public int keysNeeded = 5;
     private boolean exitOpen = false;
@@ -68,7 +73,11 @@ public class MapGenerator {
                             tileM.mapTileNum[col][row] = 0;
                             break;
                         case 3:
-                            obj.addObject(col, row, new Bonus());
+                            int start = random.nextInt(30);
+                            int survival = random.nextInt(30);
+                            Bonus newBonus = new Bonus(start,survival);
+                            obj.addObject(col, row, newBonus);
+                            bonuses.add(newBonus);
                             tileM.mapTileNum[col][row] = 0;
                             break;
                         case 4:
@@ -214,8 +223,13 @@ public class MapGenerator {
         return gameWin;
     }
 
-    public void collectedBonus(){
-        score += 100;
+    public void collectedBonus(Bonus bonus){
+        if (bonus.isAlive(currentTime)){
+            score += 100;
+            gp.obj.removeObject(bonus.worldX,bonus.worldY);
+            bonuses.remove(bonus);
+        }
+
     }
 
     public void trapHit(){
@@ -237,6 +251,14 @@ public class MapGenerator {
     }
 
     public void update(){
+        currentTimeCounter++;
+        if (currentTimeCounter >= 60){
+            currentTime++;
+            currentTimeCounter = 0;
+            for (Bonus bonus : bonuses){
+                bonus.updateState(currentTime);
+            }
+        }
         if(!canDeductPoints){
             counter+=1;
             if(counter == 120){
