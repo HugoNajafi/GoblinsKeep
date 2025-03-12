@@ -38,6 +38,8 @@ public abstract class Entity {
     /** Flag to determine if the entity is currently colliding with something. */
     public boolean collisionOn;
 
+    public int actionLockCounter = 0;
+
 
     /**
      * Default constructor that initializes the entity with default speed and collision settings.

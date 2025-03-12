@@ -93,13 +93,15 @@ public class Player extends Entity{
             direction = Direction.RIGHT;
         }
 
+        gp.debugMode = PlayerInput.debugMode;
+
         // Check collision with tiles before moving
         gp.collisionChecker.checkTile(this);
         MainObject collisionObj = gp.collisionChecker.checkObjectCollision(this, true);
         handleObject(collisionObj);
 
         //check if collision with object before moving
-        Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getSmartGoblinIterator());
+        Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getGoblinIterator());
         if (target != null){
             collisionOn = true;
             gp.map.playerCollisionWithEnemy();
@@ -207,6 +209,12 @@ public class Player extends Entity{
                 break;
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        if(gp.debugMode){
+            g2.setColor(Color.BLUE);
+            g2.drawRect(screenX + hitboxDefaultX, screenY + hitboxDefaultY, 
+                       collisionArea.width, collisionArea.height);
+        }
 
     }
 

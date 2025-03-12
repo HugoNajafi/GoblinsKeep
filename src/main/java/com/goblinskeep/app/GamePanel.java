@@ -2,6 +2,7 @@ package com.goblinskeep.app;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -10,10 +11,11 @@ import javax.swing.JPanel;
 
 
 import com.goblinskeep.entity.CollisionChecker;
+import com.goblinskeep.entity.Goblin;
 import com.goblinskeep.entity.Player;
-import com.goblinskeep.entity.SmartGoblin;
+// import com.goblinskeep.entity.SmartGoblin;
 
-import com.goblinskeep.pathFinder.Pathfinding;
+// import com.goblinskeep.pathFinder.Pathfinding;
 import com.goblinskeep.tile.TileManager;
 
 import com.goblinskeep.keyboard.MenuInputHandler;
@@ -25,6 +27,8 @@ import com.goblinskeep.UI.InstructionsUI;
 import com.goblinskeep.UI.EndUI;
 import com.goblinskeep.UI.MenuUI;
 import com.goblinskeep.UI.UI;
+
+import com.goblinskeep.entity.pathFinder;
 
 
 /**
@@ -79,7 +83,7 @@ public class GamePanel extends JPanel implements Runnable
     public Thread gameThread;
 
     /** List of goblins (enemy entities) in the game. */
-    private ArrayList<SmartGoblin> goblins;
+    private ArrayList<Goblin> goblins;
 
 
     /** Object manager responsible for handling interactable objects. */
@@ -106,7 +110,9 @@ public class GamePanel extends JPanel implements Runnable
     /** Handles keyboard input when in the menu. */
     private MenuInputHandler keyboard = new MenuInputHandler(this);
 
-    public Pathfinding pathFinder;
+    public pathFinder pathFinder;
+
+    public boolean debugMode;
     /**
      * Constructs a new GamePanel, initializing the game screen, input handlers, and game state.
      */
@@ -139,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable
         this.Player.speed = 5;
         obj = map.getObj();
         tileM = map.getTileM();
-        pathFinder = new Pathfinding(this);
+        pathFinder = new pathFinder(this);
         ui.restart();
     }
 
@@ -202,8 +208,8 @@ public class GamePanel extends JPanel implements Runnable
             } else {
                 Player.update();
                 map.update();
-                for (SmartGoblin goblin : goblins) {
-                    goblin.getAction();
+                for (Goblin goblin : goblins) {
+                    goblin.update();
                 }
             }
         } else if (status == GameStatus.PAUSED) {
@@ -239,10 +245,25 @@ public class GamePanel extends JPanel implements Runnable
             tileM.draw(g2);
             obj.draw(g2,this);
             Player.draw(g2);
-            for (SmartGoblin goblin : goblins) {
+            for (Goblin goblin : goblins) {
                 goblin.draw(g2);
             }
             ui.draw(g2);
+        }
+
+        if(debugMode){
+            g2.setFont(new Font("Arial", Font.BOLD, 20));
+            g2.setColor(Color.BLACK);
+
+            int x = 10;
+            int y = 400;
+            int lineHeight = 20;
+
+            g2.drawString("WorldX :" + Player.WorldX, x, y); y += lineHeight;
+            g2.drawString("WorldY :" + Player.WorldY, x, y); y += lineHeight;
+            g2.drawString("Col :" + (Player.WorldY + Player.hitboxDefaultX), x, y); y += lineHeight;
+            g2.drawString("Row :" + (Player.WorldY + Player.hitboxDefaultY), x, y); y += lineHeight;
+
         }
 
         g2.dispose();
@@ -254,7 +275,7 @@ public class GamePanel extends JPanel implements Runnable
      *
      * @return An iterator for the list of goblins.
      */
-    public Iterator<SmartGoblin> getSmartGoblinIterator(){
+    public Iterator<Goblin> getGoblinIterator(){
         return goblins.iterator();
     }
 

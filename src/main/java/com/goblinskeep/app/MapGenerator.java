@@ -1,8 +1,10 @@
 package com.goblinskeep.app;
 
 
+import com.goblinskeep.entity.Goblin;
 import com.goblinskeep.entity.Player;
-import com.goblinskeep.entity.SmartGoblin;
+import com.goblinskeep.entity.RegularGoblin;
+// import com.goblinskeep.entity.SmartGoblin;
 import com.goblinskeep.objects.*;
 import com.goblinskeep.tile.TileManager;
 
@@ -21,7 +23,7 @@ import java.util.Random;
  */
 public class MapGenerator {
     private GamePanel gp;
-    private ArrayList<SmartGoblin> goblins;
+    private ArrayList<Goblin> goblins;
     private List<Bonus> bonuses = new ArrayList<>();
     private Player player;
     private ObjectManager obj;
@@ -171,12 +173,12 @@ public class MapGenerator {
         for (Point position : goblinSpawnPositions){
             position.x *= gp.tileSize;
             position.y *= gp.tileSize;
-            SmartGoblin goblin = new SmartGoblin(gp, gp.Player);
+            Goblin goblin = new RegularGoblin(gp, gp.Player);
             goblin.setX(position.x);
             goblin.setY(position.y);
-            goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
-            goblin.hitboxDefaultX = 8;
-            goblin.hitboxDefaultY = 16;
+            // goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
+            // goblin.hitboxDefaultX = 8;
+            // goblin.hitboxDefaultY = 16;
             goblins.add(goblin);
         }
 
@@ -282,7 +284,7 @@ public class MapGenerator {
 
 
     /** @return The list of goblins currently in the game. */
-    public ArrayList<SmartGoblin> getGoblins(){
+    public ArrayList<Goblin> getGoblins(){
         return goblins;
     }
 

@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
  * Handles keyboard input for player movement.
  */
 public class PlayerInputHandler implements KeyListener {
-    public boolean up, down, left, right;
+    public boolean up, down, left, right, debugMode;
 
     /**
      * This method is not used but must be implemented as part of the KeyListener interface.
@@ -46,6 +46,9 @@ public class PlayerInputHandler implements KeyListener {
             case KeyEvent.VK_D:
             case KeyEvent.VK_RIGHT:
                 right = true;
+                break;
+            case KeyEvent.VK_F:
+                debugMode = !debugMode;
                 break;
         }
 

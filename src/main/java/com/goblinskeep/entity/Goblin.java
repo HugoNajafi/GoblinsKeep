@@ -24,6 +24,8 @@ public abstract class Goblin extends Entity{
     /** The direction in which the goblin is currently facing/drawn. */
     protected Direction drawDirection = Direction.UP;
 
+    public boolean onPath;
+
 
     /**
      * Constructs a goblin with references to the game panel and player.
@@ -34,6 +36,12 @@ public abstract class Goblin extends Entity{
     public Goblin(GamePanel gp, Player player){
         this.gp = gp;
         this.player = player;
+        this.speed = 2;
+        this.collisionArea = new Rectangle(11, 17, 23, 23); // Set collision area
+        this.hitboxDefaultX = collisionArea.x;
+        this.hitboxDefaultY = collisionArea.y;
+        direction = Direction.DOWN;
+        getGoblinImage();
     }
 
 
@@ -62,6 +70,20 @@ public abstract class Goblin extends Entity{
         }catch(IOException e) {
             e.printStackTrace();
         }
+    }
+    public void update(){
+        int xDistance = Math.abs(WorldX - gp.Player.WorldX);
+        int yDistance = Math.abs(WorldY - gp.Player.WorldY);
+        int tileDistance = (xDistance + yDistance)/gp.tileSize;
+    
+        if(onPath == false && tileDistance < 5){
+            onPath = true;
+        }
+        if(onPath == true && tileDistance > 20){
+            onPath = false;
+        }
+
+        getAction();
     }
 
 
@@ -120,6 +142,25 @@ public abstract class Goblin extends Entity{
                 WorldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY){
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
+        }
+        if(gp.debugMode){
+            g2.setColor(Color.RED);
+            g2.drawRect(screenX + hitboxDefaultX, screenY + hitboxDefaultY, 
+            collisionArea.width, collisionArea.height);
+        }
+        if(gp.debugMode && onPath){
+            g2.setColor(Color.GREEN);
+            if(this instanceof RegularGoblin){
+                RegularGoblin rg = (RegularGoblin)this;
+                for(int i=0; i<rg.getPath().size(); i++){
+                    int WorldX1 = rg.getPath().get(i).col * gp.tileSize;
+                    int WorldY1 = rg.getPath().get(i).row * gp.tileSize;
+                    int screenX1 = WorldX1 - gp.Player.WorldX + gp.Player.screenX;
+                    int screenY1 = WorldY1 - gp.Player.WorldY + gp.Player.screenY;
+    
+                    g2.drawRect(screenX1, screenY1, gp.tileSize, gp.tileSize);
+                }
+            }
         }
 
     }
