@@ -1,10 +1,9 @@
-package com.goblinskeep.pathfinding;
+package com.goblinskeep.pathFinder;
 
 
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.entity.Entity;
-import com.goblinskeep.tile.Tile;
 import com.goblinskeep.tile.TileManager;
 
 import java.util.ArrayList;

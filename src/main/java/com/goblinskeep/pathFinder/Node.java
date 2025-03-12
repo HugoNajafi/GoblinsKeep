@@ -1,4 +1,4 @@
-package com.goblinskeep.pathfinding;
+package com.goblinskeep.pathFinder;
 
 
 public class Node {

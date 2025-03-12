@@ -13,7 +13,7 @@ import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.SmartGoblin;
 
-import com.goblinskeep.pathfinding.Pathfinding;
+import com.goblinskeep.pathFinder.Pathfinding;
 import com.goblinskeep.tile.TileManager;
 
 import com.goblinskeep.keyboard.MenuInputHandler;
