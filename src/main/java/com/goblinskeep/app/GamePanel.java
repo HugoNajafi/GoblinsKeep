@@ -22,13 +22,11 @@ import com.goblinskeep.keyboard.MenuInputHandler;
 import com.goblinskeep.keyboard.PlayerInputHandler;
 
 import com.goblinskeep.objects.ObjectManager;
-
+import com.goblinskeep.pathFinder.pathFinder;
 import com.goblinskeep.UI.InstructionsUI;
 import com.goblinskeep.UI.EndUI;
 import com.goblinskeep.UI.MenuUI;
 import com.goblinskeep.UI.UI;
-
-import com.goblinskeep.entity.pathFinder;
 
 
 /**

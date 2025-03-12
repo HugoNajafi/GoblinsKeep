@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.pathFinder.Node;
 
 public class RegularGoblin extends Goblin {
     public ArrayList<Node> myPath = new ArrayList<>();

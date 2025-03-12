@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.pathFinder.Circle;
 
 /**
  * Represents a goblin enemy in the game.
@@ -25,6 +26,10 @@ public abstract class Goblin extends Entity{
     protected Direction drawDirection = Direction.UP;
 
     public boolean onPath;
+
+    public boolean inSight;
+
+    public int LOSradius = 120;
 
 
     /**
@@ -76,14 +81,71 @@ public abstract class Goblin extends Entity{
         int yDistance = Math.abs(WorldY - gp.Player.WorldY);
         int tileDistance = (xDistance + yDistance)/gp.tileSize;
     
-        if(onPath == false && tileDistance < 5){
+        // if(onPath == false && tileDistance < 5){
+        //     onPath = true;
+        // }
+        // if(onPath == true && tileDistance > 20){
+        //     onPath = false;
+        // }
+        checkLOS();
+        if(!onPath && inSight){
             onPath = true;
         }
-        if(onPath == true && tileDistance > 20){
+        if(onPath && !inSight && tileDistance > 10){
             onPath = false;
         }
-
         getAction();
+    }
+
+    /**
+     * Checks, line of sight of Goblin, and if Player is within the lineofSight
+     * Then the Goblin chases the player, if player goes behind an obstacle then 
+     * The LOS (line of sight) is broken and the goblin will go to the last seen position
+     */
+    public void checkLOS(){
+        // int PlayerLeftWorldX = gp.Player.WorldX + gp.Player.hitboxDefaultX;
+        // int PlayerRightWorldX = gp.Player.WorldX + gp.Player.hitboxDefaultX + gp.Player.collisionArea.width;
+        // int PlayerTopWorldY = gp.Player.WorldY + gp.Player.hitboxDefaultY;
+        // int PlayerBottomWorldY = gp.Player.WorldY + gp.Player.hitboxDefaultY + gp.Player.collisionArea.height;
+
+        // int PlayerLeftCol = PlayerLeftWorldX / gp.tileSize;
+        // int PlayerRightCol = PlayerRightWorldX / gp.tileSize;
+        // int PlayerTopRow = PlayerTopWorldY / gp.tileSize;
+        // int PlayerBottomRow = PlayerBottomWorldY / gp.tileSize;
+        int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
+        int screenY = WorldY - gp.Player.WorldY + gp.Player.screenY;
+
+        int PlayerX = gp.Player.screenX + gp.Player.hitboxDefaultX + (gp.Player.collisionArea.width/2);
+        int PlayerY = gp.Player.screenY + gp.Player.hitboxDefaultY + (gp.Player.collisionArea.height/2);
+
+        int goblinCenterX = (screenX + hitboxDefaultX + (collisionArea.width/2));
+        int goblinCenterY = (screenY + hitboxDefaultY + (collisionArea.height/2));
+        Circle LOSrange = new Circle(LOSradius, goblinCenterX, goblinCenterY);
+        if(LOSrange.intersects(PlayerX, PlayerY)){
+            inSight = true;
+        }else{
+            inSight = false;
+        }
+        // for(int i=0; i< gp.Player.collisionArea.width; i++){
+        //     //Scan the top row and check for collision
+        //     if(LOSrange.intersects(PlayerLeftCol + i, PlayerTopRow)){
+        //         inSight = true;
+        //     }
+        //     //Scan the bottom row and check for collision 
+        //     if(LOSrange.intersects(PlayerLeftCol + i, PlayerBottomRow)){
+        //         inSight = true;
+        //     } 
+        // }
+        // for(int i=0; i< gp.Player.collisionArea.height; i++){
+        //     //Scan the LeftSide and check for collision
+        //     if(LOSrange.intersects(PlayerLeftCol, PlayerBottomRow-i)){
+        //         inSight = true;
+        //     }
+        //     //Scan the Rightside and check for collision 
+        //     if(LOSrange.intersects(PlayerRightCol, PlayerBottomRow - i)){
+        //         inSight = true;
+        //     } 
+        // }
     }
 
 
@@ -143,11 +205,13 @@ public abstract class Goblin extends Entity{
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
         }
+        //Draw CollisionArea
         if(gp.debugMode){
             g2.setColor(Color.RED);
             g2.drawRect(screenX + hitboxDefaultX, screenY + hitboxDefaultY, 
             collisionArea.width, collisionArea.height);
         }
+        //Draw Path
         if(gp.debugMode && onPath){
             g2.setColor(Color.GREEN);
             if(this instanceof RegularGoblin){
@@ -162,6 +226,31 @@ public abstract class Goblin extends Entity{
                 }
             }
         }
+        //Draw Line of Sight Radius
+        if(gp.debugMode){
+            // int x = gp.tileSize-(LOSradius/2);
+            // int y = gp.tileSize-(LOSradius/2);
+            // double Ax =Math.pow((screenX + hitboxDefaultX + (collisionArea.width/2)) - (gp.Player.screenX + gp.Player.hitboxDefaultX + (gp.Player.collisionArea.width/2)),2); 
+            // double Bx = Math.pow((screenY + hitboxDefaultY + (collisionArea.height/2)) - gp.Player.screenY + gp.Player.hitboxDefaultY + (gp.Player.collisionArea.height/2),2);
+            // double Distance =  Math.sqrt(Ax + Bx);
+            // String result = String.format("%.2f", Distance);
+
+            // int x = 10;
+            // int y = 380;
+            // g2.setFont(new Font("Arial", Font.BOLD, 20));
+            // g2.setColor(Color.BLACK);
+            // g2.drawString("GobDistance :" + result, x, y);
+             
+            
+            
+            g2.setColor(Color.BLUE);
+            g2.drawOval(screenX + hitboxDefaultX + (collisionArea.width/2) - LOSradius, screenY + hitboxDefaultY + (collisionArea.height/2) - LOSradius, LOSradius*2, LOSradius*2);
+            if(inSight){
+                g2.drawLine(screenX + hitboxDefaultX + (collisionArea.width/2), screenY + hitboxDefaultY + (collisionArea.height/2), gp.Player.screenX + gp.Player.hitboxDefaultX + (gp.Player.collisionArea.width/2), gp.Player.screenY + gp.Player.hitboxDefaultY + (gp.Player.collisionArea.height/2));
+            }
+
+        }
+
 
     }
 }
