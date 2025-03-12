@@ -1,14 +1,10 @@
 package com.goblinskeep.tile;
 
 import java.awt.Graphics2D;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.app.CellType;
-import com.goblinskeep.objects.*;
+
 
 /**
  * handles all types of tiles and maps the image to an array called tile[] and has the draw method for tiles
