@@ -75,7 +75,6 @@ public class GamePanel extends JPanel implements Runnable
         obj = map.getObj();
         tileM = map.getTileM();
         ui.restart();
-        map.leverTouched(new Lever());
     }
 
     /**

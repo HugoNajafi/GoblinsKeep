@@ -7,11 +7,15 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InstructionsUI extends DefaultUI{
     GamePanel gp;
     BufferedImage keyImage;
     private BufferedImage backgroundImage;
+    private List<String> messages = new ArrayList<>();
+
 
     double playTime;
     public InstructionsUI(GamePanel gp) {
@@ -25,6 +29,8 @@ public class InstructionsUI extends DefaultUI{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        createMessage();
+
     }
 
 
@@ -33,7 +39,7 @@ public class InstructionsUI extends DefaultUI{
             g2.drawImage(backgroundImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
         }
         borderThickness = 3;
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
@@ -47,6 +53,11 @@ public class InstructionsUI extends DefaultUI{
         g2.setColor(Color.WHITE);
         drawTextWithBorder(g2,title, x, y);
 
+        borderThickness = 1;
+        g2.setFont(UIFont.deriveFont(25f));
+        for (int i = 0; i < messages.size(); i++){
+            drawTextWithBorder(g2,messages.get(i), getCenteredXAxisText(messages.get(i), g2), (gp.tileSize/2) * (8 + i) );
+        }
 
 
         String menu = "BACK TO MENU";
@@ -59,6 +70,22 @@ public class InstructionsUI extends DefaultUI{
         }
 
     }
+
+    private void createMessage(){
+        messages.add("After getting trapped in the Goblin kings maze-like castle,");
+        messages.add("you must now find your way out and escape to the woods");
+        messages.add("MOVEMENT: WASD or Arrow Keys to move UP,LEFT,DOWN,RIGHT");
+        messages.add("HOW TO ESCAPE: ");
+        messages.add("Collect the 5 key fragments to unlock the lever");
+        messages.add("After the lever is unlocked find it and activate it to open the escape door");
+        messages.add("Once the escape door is opened, find it to escape out the castle");
+        messages.add("Collect meat to increase your score");
+        messages.add("If you step into an acid puddle you will lose score");
+        messages.add("If the roaming goblins capture you or your score becomes negative you will lose");
+        messages.add("");
+        messages.add("Credits: Arun Paudel, Hugo Najafi, Maxime Nereyabagabo, Srinivas Suggu");
+    }
+
 
     @Override
     public Options getCurrentOption() {

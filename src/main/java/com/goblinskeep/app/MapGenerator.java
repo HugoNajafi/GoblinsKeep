@@ -21,7 +21,7 @@ public class MapGenerator {
     private TileManager tileM;
     private List<Point> goblinSpawnPositions = new ArrayList<>();
 
-    public int keysNeeded = 3;
+    public int keysNeeded = 5;
     private boolean exitOpen = false;
     private boolean gameEnded = false;
     private int keysCollected = 0;
@@ -37,7 +37,6 @@ public class MapGenerator {
         tileM = new TileManager(gp);
         setMap();
         setGoblins();
-        keysCollected = 3;
 
     }
 
@@ -107,6 +106,10 @@ public class MapGenerator {
                         case 16:
                             obj.addObject(col, row, new InvisibleBarrier());
                             tileM.mapTileNum[col][row] = 9;
+                            break;
+                        case 22:
+                            obj.addObject(col, row, new Key());
+                            tileM.mapTileNum[col][row] = 8;
                             break;
                         default:
                             tileM.mapTileNum[col][row] = num;
