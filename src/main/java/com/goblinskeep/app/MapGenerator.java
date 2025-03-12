@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
+/**
+ * Generates and controls the game map, including object placement, enemy spawning,
+ * and tracking game progression.
+ */
 public class MapGenerator {
     private GamePanel gp;
     private ArrayList<SmartGoblin> goblins;
@@ -26,7 +31,9 @@ public class MapGenerator {
     private int currentTimeCounter = 0;
     private Random random = new Random();
 
+    /** Number of keys needed to unlock the lever*/
     public int keysNeeded = 5;
+
     private boolean exitOpen = false;
     private boolean gameEnded = false;
     private int keysCollected = 0;
@@ -35,6 +42,11 @@ public class MapGenerator {
     private int counter = 0;
     private boolean canDeductPoints = true;
 
+    /**
+     * Initializes the map generator and sets up the map and goblins.
+     *
+     * @param gp The main game panel.
+     */
     public MapGenerator(GamePanel gp){
         this.gp = gp;
         player = new Player(0, 0, gp, gp.PlayerInput);
@@ -45,14 +57,15 @@ public class MapGenerator {
 
     }
 
-
+    /** Loads the map from a predefined file. */
     public void setMap(){
         loadMap("/maps/world1.txt");
     }
 
     /**
-     * loads up the mapTileNum[][] array with indices for each position
-     * @param filePath: the file path where the txt map is
+     * Loads the map structure from a text file and initializes game objects.
+     *
+     * @param filePath The file path of the text-based map.
      */
     public void loadMap(String filePath){
         try {
@@ -67,6 +80,8 @@ public class MapGenerator {
                 while(col < gp.maxWorldCol){
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
+
+                    // Assign objects and tiles based on map file values
                     switch (num) {
                         case 2:
                             obj.addObject(col, row,new Key());
@@ -137,12 +152,20 @@ public class MapGenerator {
         }
     }
 
+
+    /**
+     * Sets the player's initial position.
+     *
+     * @param x The x-coordinate in tile units.
+     * @param y The y-coordinate in tile units.
+     */
     private void setPlayerPosition(int x, int y){
         player.WorldX = x * gp.tileSize;
         player.WorldY = y * gp.tileSize;
     }
 
 
+    /** Spawns goblins at predefined locations from the map. */
     private void setGoblins(){
         goblins = new ArrayList<>();
         for (Point position : goblinSpawnPositions){
@@ -160,19 +183,21 @@ public class MapGenerator {
     }
 
 
-
-
-    public ArrayList<SmartGoblin> getGoblins(){
-        return goblins;
-    }
-
-
+    /**
+     * Handles interaction when a player touches a lever.
+     *
+     * @param collisionObject The lever object that was activated.
+     */
     public void leverTouched(MainObject collisionObject){
         if (keysCollected >= keysNeeded){
             exitOpen = true;
             keysNeeded = -1;
+
+            //getting the only lever in the map
             Lever lever = gp.obj.findLever();
             lever.activate();
+
+            //getting the only door in the map
             Exit door = gp.obj.findDoor();
             door.open();
             gp.ui.showMessage("Exit Opened");
@@ -182,17 +207,9 @@ public class MapGenerator {
             gp.ui.showMessage("Get more Keys!");
         }
     }
-    public TileManager getTileM(){
-        return tileM;
-    }
 
-    public ObjectManager getObj(){
-        return obj;
-    }
 
-    public Player getPlayer(){
-        return player;
-    }
+    /** Handles interaction when the player reaches the exit. */
     public void exitTouched(){
         if (exitOpen){
             gameEnded = true;
@@ -204,24 +221,23 @@ public class MapGenerator {
         }
     }
 
+
+    /** Updates the number of collected keys. */
     public void keyCollected(){
         keysCollected++;
         if (keysCollected == keysNeeded){
             gp.ui.showMessage("Lever Unlocked");
         }
     }
-    public int getKeysCollected(){
-        return keysCollected;
-    }
 
+
+    /** Handles collision when the player encounters an enemy. */
     public void playerCollisionWithEnemy(){
         gameEnded = true;
         gameWin = false;
     }
 
-    public boolean isGameWin(){
-        return gameWin;
-    }
+
 
     public void collectedBonus(Bonus bonus){
         if (bonus.isAlive(currentTime)){
@@ -229,9 +245,10 @@ public class MapGenerator {
             gp.obj.removeObject(bonus.worldX,bonus.worldY);
             bonuses.remove(bonus);
         }
-
     }
 
+
+    /** Deducts points when the player steps on a trap. */
     public void trapHit(){
         if(canDeductPoints) {
             score -= 50;
@@ -242,14 +259,9 @@ public class MapGenerator {
             gameWin = false;
         }
     }
-    public int getScore() {
-        return score;
-    }
 
-    public boolean gameEnded(){
-        return gameEnded;
-    }
 
+    /** Updates the timers for score deductions. */
     public void update(){
         currentTimeCounter++;
         if (currentTimeCounter >= 60){
@@ -266,6 +278,53 @@ public class MapGenerator {
                 canDeductPoints = true;
             }
         }
+    }
+
+
+    /** @return The list of goblins currently in the game. */
+    public ArrayList<SmartGoblin> getGoblins(){
+        return goblins;
+    }
+
+
+    /** @return The tile manager handling the game tiles. */
+    public TileManager getTileM(){
+        return tileM;
+    }
+
+
+    /** @return The object manager handling game objects. */
+    public ObjectManager getObj(){
+        return obj;
+    }
+
+
+    /** @return The player instance. */
+    public Player getPlayer(){
+        return player;
+    }
+
+
+    /** @return The number of collected keys. */
+    public int getKeysCollected(){
+        return keysCollected;
+    }
+
+    /** @return The player's score. */
+    public int getScore() {
+        return score;
+    }
+
+
+    /** @return Whether the game has ended. */
+    public boolean gameEnded(){
+        return gameEnded;
+    }
+
+
+    /** @return Whether the player won the game. */
+    public boolean isGameWin(){
+        return gameWin;
     }
 
 }

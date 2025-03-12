@@ -3,7 +3,6 @@ package com.goblinskeep.entity;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.objects.*;
-
 import java.awt.*;
 import java.util.Iterator;
 

@@ -1,29 +1,46 @@
 package com.goblinskeep.entity;
+
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.keyboard.PlayerInputHandler;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.objects.*;
 
-
-
+/**
+ * Represents the player character in the game.
+ * The player can move, interact with objects, and collide with enemies.
+ */
 public class Player extends Entity{
+
+    /** Reference to the main game panel. */
     public GamePanel gp;
+
+    /** Handles user input for player movement. */
     PlayerInputHandler PlayerInput;
 
+    /** The player's screen position in the x-axis (centered). */
     public final int screenX;
+
+    /** The player's screen position in the y-axis (centered). */
     public final int screenY;
 
+
+    /**
+     * Constructs a Player entity with a starting position.
+     *
+     * @param startX   The player's initial x-coordinate.
+     * @param startY   The player's initial y-coordinate.
+     * @param gp       The game panel.
+     * @param PlayerInput Handles player input.
+     */
     public Player(int startX, int startY, GamePanel gp, PlayerInputHandler PlayerInput) {
         super(startX, startY);  // Pass values up to GameObject constructor
         this.gp = gp;
         this.PlayerInput = PlayerInput;
+
         // Set a default direction
         this.direction = Direction.DOWN;
 
@@ -31,11 +48,17 @@ public class Player extends Entity{
         this.collisionArea = new Rectangle(8, 16, 32, 32); // Adjust these values to fit your sprite
         this.hitboxDefaultX = 8;
         this.hitboxDefaultY = 16;
+
+        // Set player's screen position (centered)
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+
         getPlayerImage();
     }
 
+
+    /** Loads the player's sprite images for different movement directions. */
     public void getPlayerImage() {
 
         try{
@@ -54,11 +77,12 @@ public class Player extends Entity{
     }
 
 
+    /** Updates the player's movement and collision logic. */
     public void update() {
         // Reset collision flag
         collisionOn = false;
 
-        // find direction player intends to move toward
+        // Determine direction based on player input
         if (PlayerInput.up) {
             direction = Direction.UP;
         } else if (PlayerInput.down) {
@@ -68,20 +92,20 @@ public class Player extends Entity{
         } else if (PlayerInput.right) {
             direction = Direction.RIGHT;
         }
-        // Check collision before moving
-        gp.collisionChecker.checkTile(this);
 
-        //check if collision with object before moving
+        // Check collision with tiles before moving
+        gp.collisionChecker.checkTile(this);
         MainObject collisionObj = gp.collisionChecker.checkObjectCollision(this, true);
         handleObject(collisionObj);
+
+        //check if collision with object before moving
         Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getSmartGoblinIterator());
         if (target != null){
             collisionOn = true;
             gp.map.playerCollisionWithEnemy();
-            System.out.println("collision detected between player and goblin");
         }
 
-        // Move if no collision
+        // Move player if no collision detected
         if (!collisionOn) {
             if (PlayerInput.up) {
                 this.WorldY -= Direction.UP.getDy() * this.getSpeed();
@@ -94,21 +118,22 @@ public class Player extends Entity{
             }
         }
 
+        // Update animation frames when moving
         if (PlayerInput.up || PlayerInput.down || PlayerInput.left ||PlayerInput.right ){
             SpriteCounter++;
             if(SpriteCounter> 10){
-                if(SpriteNum == 1){
-                    SpriteNum = 2;
-                }
-                else if(SpriteNum == 2){
-                    SpriteNum = 1;
-                }
+                SpriteNum = (SpriteNum == 1) ? 2: 1;
                 SpriteCounter = 0;
             }
         }
     }
 
 
+    /**
+     * Handles interactions when the player collides with an object.
+     *
+     * @param collisionObject The object the player collides with.
+     */
     public void handleObject(MainObject collisionObject) {
         //if null then an object was not collected
         if (collisionObject != null){
@@ -138,6 +163,11 @@ public class Player extends Entity{
     }
 
 
+    /**
+     * Draws the player's sprite on the screen based on movement direction.
+     *
+     * @param g2 The graphics object used to draw the player.
+     */
     public void draw(Graphics2D g2){
 
         BufferedImage image = null;
