@@ -8,6 +8,9 @@ import com.goblinskeep.app.GameStatus;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Handles keyboard input for all UI menu systems in the game.
+ */
 public class MenuInputHandler implements KeyListener {
     private GamePanel gp;
     private MenuUI menuUI;
@@ -17,6 +20,11 @@ public class MenuInputHandler implements KeyListener {
     private boolean cursorRelease = true;
 
 
+    /**
+     * Constructs a MenuInputHandler with the specified GamePanel.
+     *
+     * @param gp the GamePanel instance
+     */
     public MenuInputHandler(GamePanel gp) {
         this.gp = gp;
         menuUI = gp.getMenuUI();
@@ -25,9 +33,15 @@ public class MenuInputHandler implements KeyListener {
         instructionsUI = gp.instructionsUI;
     }
 
+    /**
+     * This method is not used but must be implemented as part of the KeyListener interface.
+     *
+     * @param e the KeyEvent
+     */
     @Override
     public void keyTyped(KeyEvent e) {
-        // throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        // This method is not used
+
     }
 
     @Override
@@ -37,6 +51,7 @@ public class MenuInputHandler implements KeyListener {
         switch(code){
             case KeyEvent.VK_ESCAPE:
             case KeyEvent.VK_P:
+                // Toggle between playing and paused status
                 if (gp.status == GameStatus.PLAYING){
                     gp.status = GameStatus.PAUSED;
                 } else if (gp.status == GameStatus.PAUSED){
@@ -47,6 +62,7 @@ public class MenuInputHandler implements KeyListener {
             case KeyEvent.VK_ENTER:
             case KeyEvent.VK_UP:
             case KeyEvent.VK_DOWN:
+                // Handle menu navigation and selection for each UI when their state is active
                 if (gp.status == GameStatus.MENU){
                     handleMenuKeyEvent(menuUI, GameStatus.MENU, code);
                 } else if (gp.status == GameStatus.PAUSED) {
@@ -61,6 +77,13 @@ public class MenuInputHandler implements KeyListener {
 
     }
 
+    /**
+     * Handles key events for menu navigation and selection for each game status.
+     *
+     * @param ui the UI component to handle
+     * @param status the current game status
+     * @param keyCode the key code of the pressed key
+     */
     private void handleMenuKeyEvent(DefaultUI ui, GameStatus status, int keyCode) {
         if (gp.status == status) {
             switch (keyCode) {
@@ -88,12 +111,14 @@ public class MenuInputHandler implements KeyListener {
                     break;
                 case KeyEvent.VK_UP:
                     if (cursorRelease) {
+                        // Move cursor up in the menu
                         ui.moveCursorUp();
                         cursorRelease = false;
                     }
                     break;
                 case KeyEvent.VK_DOWN:
                     if (cursorRelease) {
+                        // Move cursor down in the menu
                         ui.moveCursorDown();
                         cursorRelease = false;
                     }
@@ -102,7 +127,11 @@ public class MenuInputHandler implements KeyListener {
         }
     }
 
-
+    /**
+     * Detects when the UP or DOWN arrow key is released and updates the cursor release field.
+     *
+     * @param e The KeyEvent containing the released key information.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
