@@ -28,6 +28,7 @@ public abstract class Goblin extends Entity{
     public boolean onPath;
 
     public boolean inSight;
+    public boolean viewBlocked;
 
     public int LOSradius = 120;
 
@@ -88,6 +89,7 @@ public abstract class Goblin extends Entity{
         //     onPath = false;
         // }
         checkLOS();
+
         if(!onPath && inSight){
             onPath = true;
         }
@@ -121,6 +123,12 @@ public abstract class Goblin extends Entity{
         int goblinCenterX = (screenX + hitboxDefaultX + (collisionArea.width/2));
         int goblinCenterY = (screenY + hitboxDefaultY + (collisionArea.height/2));
         Circle LOSrange = new Circle(LOSradius, goblinCenterX, goblinCenterY);
+        // if(LOSrange.checkView(PlayerX, PlayerY)){
+        //     viewBlocked = true;
+        // }else{
+        //     viewBlocked = false;
+        // }
+        LOSrange.checkView(PlayerX, PlayerY);
         if(LOSrange.intersects(PlayerX, PlayerY)){
             inSight = true;
         }else{
@@ -212,7 +220,7 @@ public abstract class Goblin extends Entity{
             collisionArea.width, collisionArea.height);
         }
         //Draw Path
-        if(gp.debugMode && onPath){
+        if(gp.debugMode && onPath && !viewBlocked){
             g2.setColor(Color.GREEN);
             if(this instanceof RegularGoblin){
                 RegularGoblin rg = (RegularGoblin)this;
