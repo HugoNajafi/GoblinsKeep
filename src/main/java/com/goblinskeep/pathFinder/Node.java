@@ -1,19 +1,17 @@
 package com.goblinskeep.pathFinder;
 
+
 /**
  * Represents a node in the pathfinding grid.
  */
-public class Node {
 
+public class Node {
     Node parent;
     public int col;
     public int row;
-    int gCost;
-    int hCost;
-    int fCost;
-    boolean blocked;
-    boolean open;
-    boolean checked;
+    int gCost, hCost, fCost;
+    boolean solid, open, explored;
+
 
 
     /**
@@ -22,10 +20,9 @@ public class Node {
      * @param col the column position of the node
      * @param row the row position of the node
      */
-    public Node(int col, int row)
-    {
+    public Node(int col, int row) {
         this.col = col;
         this.row = row;
     }
-
+    
 }
