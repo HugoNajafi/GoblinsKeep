@@ -6,16 +6,29 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Represents the Game ENDED UI component, displaying the win or lose screen.
+ */
 public class EndUI extends DefaultUI {
     private BufferedImage winBackgroundImage;
     private BufferedImage loseBackgroundImage;
 
+    /**
+     * Constructs an EndUI with the specified GamePanel.
+     *
+     * @param gp the GamePanel instance
+     */
     public EndUI(GamePanel gp){
         super(gp);
         loadBackgroundImages();
         totalSelections = 3;
     }
 
+    /**
+     * Draws the end game UI.
+     *
+     * @param g2 the Graphics2D object used for drawing
+     */
     public void draw(Graphics2D g2) {
         g2.setFont(gameFont);
         String title = "";
@@ -29,6 +42,7 @@ public class EndUI extends DefaultUI {
             drawBackground(g2, loseBackgroundImage);
             title = "YOU LOSE";
         }
+        // composite for dimming background image
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.35f));
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -36,6 +50,7 @@ public class EndUI extends DefaultUI {
         // Reset the composite to full opacity
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
+        //displaying Title text
         borderThickness = 3;
         g2.setStroke(new BasicStroke(3));
         int x = getCenteredXAxisText(title, g2);
@@ -44,6 +59,7 @@ public class EndUI extends DefaultUI {
         drawTextWithBorder(g2,title, x, y);
         drawTextWithBorder(g2,title2, getCenteredXAxisText(title2,g2), y + gp.tileSize + gp.tileSize/2);
 
+        //displaying score texts
         borderThickness = 2;
         g2.setFont(UIFont.deriveFont(35f));
         int keysCollected = gp.map.getKeysCollected();
@@ -69,6 +85,7 @@ public class EndUI extends DefaultUI {
         String quit = "QUIT";
 
 
+        //displaying UI menu options
         borderThickness = 2;
         g2.setFont(gameFont.deriveFont(30f));
         drawTextWithBorder(g2,restart, getCenteredXAxisText(restart, g2), gp.tileSize * 9);
@@ -88,6 +105,9 @@ public class EndUI extends DefaultUI {
 
     }
 
+    /**
+     * Loads the background images for the win and lose screens.
+     */
     private void loadBackgroundImages() {
         try {
             winBackgroundImage = ImageIO.read(getClass().getResourceAsStream("/UI_img/win.png"));
@@ -97,12 +117,23 @@ public class EndUI extends DefaultUI {
         }
     }
 
+    /**
+     * Draws the background image.
+     *
+     * @param g2 the Graphics object used for drawing
+     * @param background the background image to draw
+     */
     private void drawBackground(Graphics g2, BufferedImage background){
         if (background != null) {
             g2.drawImage(background, 0, 0, gp.screenWidth, gp.screenHeight, null);
         }
     }
 
+    /**
+     * Gets the current option selected in the menu.
+     *
+     * @return the current option
+     */
     @Override
     public Options getCurrentOption() {
         switch (cursorSelection){

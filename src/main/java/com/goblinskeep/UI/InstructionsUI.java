@@ -10,14 +10,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the instructions UI component, displaying game instructions.
+ */
 public class InstructionsUI extends DefaultUI{
-    GamePanel gp;
-    BufferedImage keyImage;
+    public GamePanel gp;
+    public BufferedImage keyImage;
     private BufferedImage backgroundImage;
     private List<String> messages = new ArrayList<>();
 
-
-    double playTime;
+    /**
+     * Constructs an InstructionsUI with the specified GamePanel.
+     *
+     * @param gp the GamePanel instance
+     */
     public InstructionsUI(GamePanel gp) {
         super(gp);
         this.gp = gp;
@@ -33,12 +39,17 @@ public class InstructionsUI extends DefaultUI{
 
     }
 
-
+    /**
+     * Draws the instructions UI.
+     *
+     * @param g2 the Graphics2D object used for drawing
+     */
     public void draw(Graphics2D g2) {
         if (backgroundImage != null) {
             g2.drawImage(backgroundImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
         }
         borderThickness = 3;
+        //dim the background image
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -51,8 +62,10 @@ public class InstructionsUI extends DefaultUI{
         int x = getCenteredXAxisText(title, g2);
         int y = gp.tileSize * 2;
         g2.setColor(Color.WHITE);
+        //draw title text
         drawTextWithBorder(g2,title, x, y);
 
+        //draw instructions text
         borderThickness = 1;
         g2.setFont(UIFont.deriveFont(25f));
         for (int i = 0; i < messages.size(); i++){
@@ -62,6 +75,7 @@ public class InstructionsUI extends DefaultUI{
 
         String menu = "BACK TO MENU";
 
+        //draw menu option
         borderThickness = 2;
         g2.setFont(gameFont.deriveFont(40f));
         drawTextWithBorder(g2,menu, getCenteredXAxisText(menu, g2), gp.tileSize * 11);
@@ -71,6 +85,9 @@ public class InstructionsUI extends DefaultUI{
 
     }
 
+    /**
+     * Creates the instruction messages to be displayed.
+     */
     private void createMessage(){
         messages.add("After getting trapped in the Goblin kings maze-like castle,");
         messages.add("you must now find your way out and escape to the woods");
@@ -87,6 +104,11 @@ public class InstructionsUI extends DefaultUI{
     }
 
 
+    /**
+     * Gets the current option selected in the menu.
+     *
+     * @return the current option
+     */
     @Override
     public Options getCurrentOption() {
         switch (cursorSelection){

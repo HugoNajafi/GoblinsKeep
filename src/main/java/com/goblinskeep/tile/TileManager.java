@@ -94,6 +94,12 @@ public class TileManager {
         }
     }
 
+    /**
+     * Checks if the tile has collision enabled.
+     *
+     * @param tileNum the index of the tile
+     * @return true if the tile has collision enabled, false otherwise
+     */
     public boolean checkCollisionOfTile(int tileNum){
         return tile[tileNum].collision;
     }

@@ -4,15 +4,28 @@ import com.goblinskeep.app.GamePanel;
 
 import java.awt.*;
 
+/**
+ * Represents the pause menu UI component.
+ */
 public class PauseUI extends DefaultUI {
 
+    /**
+     * Constructs a PauseUI with the specified GamePanel.
+     *
+     * @param gp the GamePanel instance
+     */
     public PauseUI(GamePanel gp){
         super(gp);
         totalSelections = 3;
     }
 
+    /**
+     * Draws the pause menu UI.
+     *
+     * @param g2 the Graphics2D object used for drawing
+     */
     public void draw(Graphics2D g2) {
-
+        //draw title text
         borderThickness = 3;
         g2.setStroke(new BasicStroke(3));
         g2.setFont(gameFont);
@@ -26,6 +39,7 @@ public class PauseUI extends DefaultUI {
         String menu = "BACK TO MENU";
         String restart = "RESTART";
 
+        //draw text options
         borderThickness = 2;
         g2.setFont(gameFont.deriveFont(40f));
         drawTextWithBorder(g2,resume, getCenteredXAxisText(resume, g2), gp.tileSize * 8);
@@ -45,6 +59,11 @@ public class PauseUI extends DefaultUI {
 
     }
 
+    /**
+     * Gets the current option selected in the menu.
+     *
+     * @return the current option
+     */
     @Override
     public Options getCurrentOption() {
         switch (cursorSelection){

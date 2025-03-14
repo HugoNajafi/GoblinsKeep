@@ -7,6 +7,9 @@ import com.goblinskeep.objects.Key;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Represents the main in game UI component for the game, handling both playing and paused states.
+ */
 public class UI extends DefaultUI{
     GamePanel gp;
     BufferedImage keyImage;
@@ -14,14 +17,11 @@ public class UI extends DefaultUI{
     public String message = "";
     public int messageCounter = 0;
     public PauseUI pauseUI;
-
-    public void restart(){
-        messageOn = false;
-        messageCounter =0;
-        playTime = 0;
-    }
-
     public double playTime;
+
+    /**
+     * Restarts the UI state, resetting messages and play time.
+     */
     public UI(GamePanel gp) {
         super(gp);
         this.gp = gp;
@@ -30,11 +30,30 @@ public class UI extends DefaultUI{
         this.pauseUI = new PauseUI(gp);
     }
 
+    /**
+     * Restarts the UI state, resetting messages and play time.
+     */
+    public void restart(){
+        messageOn = false;
+        messageCounter =0;
+        playTime = 0;
+    }
+
+    /**
+     * Displays a message on the screen.
+     *
+     * @param text the message text to display
+     */
     public void showMessage(String text){
         message = text;
         messageOn = true;
     }
 
+    /**
+     * Draws the UI based on the current game status.
+     *
+     * @param g2 the Graphics2D object used for drawing
+     */
     public void draw(Graphics2D g2) {
         if (gp.status == GameStatus.PLAYING) {
             drawPlaying(g2);
@@ -43,12 +62,14 @@ public class UI extends DefaultUI{
         }
     }
 
-    public void resetTime() {
-        playTime = 0.0;
-    }
 
+    /**
+     * Draws the UI elements for the playing state.
+     *
+     * @param g2 the Graphics2D object used for drawing
+     */
     public void drawPlaying(Graphics2D g2) {
-        //draw key counter on screen
+        //draw key counter on screen and score
         borderThickness = 1;
         g2.setFont(UIFont.deriveFont(40f));
         g2.setColor(Color.white);
