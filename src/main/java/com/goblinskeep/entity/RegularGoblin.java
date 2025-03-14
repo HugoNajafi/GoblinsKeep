@@ -10,9 +10,22 @@ import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.pathFinder.Node;
 
+/**
+ * Represents a regular goblin entity that can move randomly or follow a path.
+ */
 public class RegularGoblin extends Goblin {
+
+    /**
+     * The path that the goblin follows.
+     */
     public ArrayList<Node> myPath = new ArrayList<>();
-    
+
+    /**
+     * Constructs a RegularGoblin with the specified GamePanel and Player.
+     *
+     * @param gp the GamePanel instance
+     * @param player the Player instance
+     */
     public RegularGoblin(GamePanel gp, Player player) {
         super(gp, player);
         
@@ -20,7 +33,10 @@ public class RegularGoblin extends Goblin {
         // this.direction = Direction.DOWN;
 
     }
-    
+
+    /**
+     * Determines the action of the regular goblin, including random movement or pathfinding.
+     */
     @Override
     public void getAction() {
         if(onPath){
@@ -42,6 +58,9 @@ public class RegularGoblin extends Goblin {
         moveAlongPath();
     }
 
+    /**
+     * Moves the regular goblin along the path found by the pathfinder.
+     */
     private void moveAlongPath(){
         collisionOn = false;
 
@@ -98,10 +117,18 @@ public class RegularGoblin extends Goblin {
     }
 
 
+    /**
+     * Returns the path that the goblin follows.
+     *
+     * @return the path as an ArrayList of Nodes
+     */
     public ArrayList<Node> getPath() {
         return myPath;
     }
 
+    /**
+     * Moves the goblin in a random direction.
+     */
     private void randomMovement(){
         
         actionLockCounter++;
@@ -129,6 +156,12 @@ public class RegularGoblin extends Goblin {
 
     }
 
+
+    /**
+     * Interacts with the player if within a specified range.
+     *
+     * @param hitDistance the range within which the goblin interacts with the player
+     */
     public void interactPlayer(int hitDistance) {
 
         double playerMiddleX = gp.Player.WorldX + gp.Player.hitboxDefaultX + ((double) gp.Player.collisionArea.width / 2);

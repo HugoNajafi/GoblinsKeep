@@ -8,6 +8,9 @@ import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.entity.Entity;
 import com.goblinskeep.entity.RegularGoblin;
 
+/**
+ * Handles the pathfinding logic for entities in the game.
+ */
 public class pathFinder {
     GamePanel gp;
     Node[][] node;
@@ -17,12 +20,20 @@ public class pathFinder {
     Node startNode, goalNode, currentNode;
     boolean goalReached = false;
     int step = 0;
-    
+
+    /**
+     * Constructs a pathFinder instance with the specified GamePanel.
+     *
+     * @param gp the GamePanel instance
+     */
     public pathFinder(GamePanel gp){
         this.gp = gp;
         createNodes();
     }
 
+    /**
+     * Creates nodes for the pathfinding grid.
+     */
     public void createNodes(){
         node = new Node[gp.maxWorldCol][gp.maxWorldRow];
 
@@ -40,6 +51,9 @@ public class pathFinder {
         }
     }
 
+    /**
+     * Resets the nodes to their initial state.
+     */
     public void resetNodes(){
         int col = 0;
         int row = 0;
@@ -61,6 +75,14 @@ public class pathFinder {
         step = 0;
     }
 
+    /**
+     * Sets the start and goal nodes for the pathfinding.
+     *
+     * @param startCol the column of the start node
+     * @param startRow the row of the start node
+     * @param goalCol the column of the goal node
+     * @param goalRow the row of the goal node
+     */
     public void setNodes(int startCol, int startRow, int goalCol, int goalRow){
         if(goalCol >= gp.maxWorldCol || goalCol < 0 || goalRow >= gp.maxWorldRow || goalRow < 0 ||
         startCol >= gp.maxWorldCol || startCol < 0 || startRow >= gp.maxWorldRow || startRow < 0) {
@@ -96,6 +118,11 @@ public class pathFinder {
         }
     }
 
+    /**
+     * Calculates the cost for a node.
+     *
+     * @param node the node to calculate the cost for
+     */
     public void getCost(Node node){
 
         //G cost (Cummulative cost function)
@@ -114,6 +141,11 @@ public class pathFinder {
         node.fCost = node.gCost + node.hCost;
     }
 
+    /**
+     * Searches for a path from the start node to the goal node.
+     *
+     * @return true if the goal is reached, false otherwise
+     */
     public boolean search(){
         while(goalReached == false && step < 500){
             int col = currentNode.col;
@@ -166,6 +198,11 @@ public class pathFinder {
 
 
 
+    /**
+     * Opens a node for pathfinding.
+     *
+     * @param node the node to open
+     */
     public void openNode(Node node){
         if(node.open == false && node.explored == false && node.solid == false){
             node.open = true;
@@ -174,6 +211,9 @@ public class pathFinder {
         }
     }
 
+    /**
+     * Tracks the path from the goal node to the start node.
+     */
     public void trackThePath(){
         Node current = goalNode;
 
@@ -183,6 +223,13 @@ public class pathFinder {
         }
     }
 
+    /**
+     * Searches for a path for an entity to a goal position.
+     *
+     * @param goalCol the column of the goal position
+     * @param goalRow the row of the goal position
+     * @param entity the entity to find the path for
+     */
     public void searchPath(int goalCol, int goalRow, Entity entity){
         // System.out.println(myPath);
         if (!(entity instanceof RegularGoblin)) {
