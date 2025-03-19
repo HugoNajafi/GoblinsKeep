@@ -109,20 +109,7 @@ public class CollisionChecker {
             target.collisionArea.y = target.WorldY + target.hitboxDefaultY;
 
             // Check collision based on movement direction
-            switch (entity.direction){
-                case Direction.UP:
-                    entity.collisionArea.y -= entity.speed;
-                    break;
-                case Direction.LEFT:
-                    entity.collisionArea.x -= entity.speed;
-                    break;
-                case Direction.DOWN:
-                    entity.collisionArea.y += entity.speed;
-                    break;
-                case Direction.RIGHT:
-                    entity.collisionArea.x += entity.speed;
-                    break;
-            }
+            updateCollisionArea(entity);
             if (entity.collisionArea.intersects(target.collisionArea) || isTouchingEdges(entity.collisionArea, target.collisionArea)){
                 if (target.collisionOn){
                     entity.collisionOn = true;
@@ -148,20 +135,7 @@ public class CollisionChecker {
         gp.Player.collisionArea.x = gp.Player.WorldX + gp.Player.hitboxDefaultX;
         gp.Player.collisionArea.y = gp.Player.WorldY + gp.Player.hitboxDefaultY;
 
-        switch (entity.direction){
-            case Direction.UP:
-                entity.collisionArea.y -= entity.speed;
-                break;
-            case Direction.LEFT:
-                entity.collisionArea.x -= entity.speed;
-                break;
-            case Direction.DOWN:
-                entity.collisionArea.y += entity.speed;
-                break;
-            case Direction.RIGHT:
-                entity.collisionArea.x += entity.speed;
-                break;
-        }
+        updateCollisionArea(entity);
         return entity.collisionArea.intersects(gp.Player.collisionArea) || isTouchingEdges(entity.collisionArea, gp.Player.collisionArea);
     }
 
@@ -193,20 +167,7 @@ public class CollisionChecker {
 
         // Calculate potential new position based on direction
         Rectangle potentialPosition = new Rectangle(entity.collisionArea);
-        switch (entity.direction) {
-            case Direction.UP:
-                potentialPosition.y -= entity.speed;
-                break;
-            case Direction.DOWN:
-                potentialPosition.y += entity.speed;
-                break;
-            case Direction.LEFT:
-                potentialPosition.x -= entity.speed;
-                break;
-            case Direction.RIGHT:
-                potentialPosition.x += entity.speed;
-                break;
-        }
+        updateCollisionArea(entity);
 
         // Check collision with all other entities
         while (otherEntities.hasNext()) {
@@ -265,20 +226,7 @@ public class CollisionChecker {
             object.collisionArea.y = object.worldY + object.defaultCollisionAreaY;
 
             // Check collision based on entity's movement direction
-            switch (entity.direction){
-                case Direction.UP:
-                    entity.collisionArea.y -= entity.speed;
-                    break;
-                case Direction.DOWN:
-                    entity.collisionArea.x += entity.speed;
-                    break;
-                case Direction.LEFT:
-                    entity.collisionArea.x -= entity.speed;
-                    break;
-                case Direction.RIGHT:
-                    entity.collisionArea.y += entity.speed;
-                    break;
-            }
+            updateCollisionArea(entity);
 
             // Check if the entity collides with the object
             if (entity.collisionArea.intersects(object.collisionArea) ||
@@ -316,5 +264,28 @@ public class CollisionChecker {
         }
 
         return null;
+    }
+
+
+    /**
+     * Updates the collision area based on the entity's direction and speed.
+     *
+     * @param entity The entity whose collision area is to be updated.
+     */
+    private void updateCollisionArea(Entity entity) {
+        switch (entity.direction) {
+            case UP:
+                entity.collisionArea.y -= entity.speed;
+                break;
+            case DOWN:
+                entity.collisionArea.y += entity.speed;
+                break;
+            case LEFT:
+                entity.collisionArea.x -= entity.speed;
+                break;
+            case RIGHT:
+                entity.collisionArea.x += entity.speed;
+                break;
+        }
     }
 }
