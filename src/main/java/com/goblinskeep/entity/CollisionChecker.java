@@ -111,10 +111,10 @@ public class CollisionChecker {
             // Check collision based on movement direction
             updateCollisionArea(entity);
             if (entity.collisionArea.intersects(target.collisionArea) || isTouchingEdges(entity.collisionArea, target.collisionArea)){
-                if (target.collisionOn){
-                    entity.collisionOn = true;
-                    return target;
-                }
+                System.out.println("yo");
+                entity.collisionOn = true;
+                return target;
+
             }
         }
         return null;
