@@ -110,8 +110,7 @@ public class CollisionChecker {
 
             // Check collision based on movement direction
             updateCollisionArea(entity);
-            if (entity.collisionArea.intersects(target.collisionArea) || isTouchingEdges(entity.collisionArea, target.collisionArea)){
-                System.out.println("yo");
+            if (entity.collisionArea.intersects(target.collisionArea)){
                 entity.collisionOn = true;
                 return target;
 
@@ -136,22 +135,7 @@ public class CollisionChecker {
         gp.Player.collisionArea.y = gp.Player.WorldY + gp.Player.hitboxDefaultY;
 
         updateCollisionArea(entity);
-        return entity.collisionArea.intersects(gp.Player.collisionArea) || isTouchingEdges(entity.collisionArea, gp.Player.collisionArea);
-    }
-
-
-    /**
-     * Determines if two rectangles are touching at the edges.
-     *
-     * @param rect1 The first rectangle.
-     * @param rect2 The second rectangle.
-     * @return True if they are touching, false otherwise.
-     */
-    private boolean isTouchingEdges(Rectangle rect1, Rectangle rect2) {
-        return (rect1.x + rect1.width == rect2.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y) ||  // Right touch
-                (rect2.x + rect2.width == rect1.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y) ||  // Left touch
-                (rect1.y + rect1.height == rect2.y && rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x) ||  // Bottom touch
-                (rect2.y + rect2.height == rect1.y && rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x);   // Top touch
+        return entity.collisionArea.intersects(gp.Player.collisionArea);
     }
 
 
@@ -181,8 +165,7 @@ public class CollisionChecker {
             other.collisionArea.y = other.WorldY + other.hitboxDefaultY;
 
             // Check if potential movement would cause collision
-            if (potentialPosition.intersects(other.collisionArea) ||
-                    isTouchingEdges(potentialPosition, other.collisionArea)) {
+            if (potentialPosition.intersects(other.collisionArea)) {
 
                 // Instead of just random direction, use a smarter approach:
                 // Calculate direction away from the other entity
@@ -192,10 +175,19 @@ public class CollisionChecker {
                 // Determine best escape direction based on relative positions
                 if (Math.abs(dx) > Math.abs(dy)) {
                     // Horizontal separation is larger, move horizontally
-                    entity.direction = dx > 0 ? Direction.RIGHT : Direction.LEFT;
+                    if (dx > 0) {
+                        entity.direction = Direction.RIGHT;
+                    } else {
+                        entity.direction = Direction.LEFT;
+                    }
+
                 } else {
                     // Vertical separation is larger, move vertically
-                    entity.direction = dy > 0 ? Direction.DOWN : Direction.UP;
+                    if (dy > 0) {
+                        entity.direction = Direction.DOWN;
+                    } else {
+                        entity.direction = Direction.UP;
+                    }
                 }
                 break;
             }
@@ -229,8 +221,7 @@ public class CollisionChecker {
             updateCollisionArea(entity);
 
             // Check if the entity collides with the object
-            if (entity.collisionArea.intersects(object.collisionArea) ||
-                    isTouchingEdges(entity.collisionArea, object.collisionArea)) {
+            if (entity.collisionArea.intersects(object.collisionArea)) {
                 returnObject = handleEntityCollision(entity, player, object);
             }
 
