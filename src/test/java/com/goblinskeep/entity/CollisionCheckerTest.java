@@ -11,206 +11,248 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * tests for the CollisionChecker class.
+ */
 class CollisionCheckerTest {
     private GamePanel gp;
     private Player player;
     private CollisionChecker collisionChecker;
 
+    /**
+     * Sets up the test instances needed before each test.
+     */
     @BeforeEach
     void setUp() {
         gp = new GamePanel();
         player = gp.Player;
         collisionChecker = gp.collisionChecker;
     }
+
+    /**
+     * Moves the specified entity to the given position and direction.
+     *
+     * @param entity    the entity to move
+     * @param x         the x-coordinate to move to
+     * @param y         the y-coordinate to move to
+     * @param direction the direction to face
+     */
+    private void moveEntityToPosition(Entity entity, int x, int y, Direction direction) {
+        entity.WorldX = x;
+        entity.WorldY = y;
+        entity.direction = direction;
+    }
+
+    /**
+     * Tests if the player detects a collision when moving up.
+     */
     @Test
-    void checkTileCollisionUp(){
+    void testTileCollisionUp() {
         //move player next to the above wall and check whether it detects if a wall is above him
-        player.WorldY += gp.tileSize * 2;
-        player.WorldY -= 30;
-        player.WorldX += gp.tileSize + gp.tileSize/2;
-        player.direction = Direction.UP;
+        moveEntityToPosition(player,
+                player.WorldX + gp.tileSize + gp.tileSize / 2,
+                player.WorldY + gp.tileSize * 2 - 30, Direction.UP);
         collisionChecker.checkTile(player);
         assertTrue(player.collisionOn);
     }
 
+    /**
+     * Tests if the player detects a collision when moving down.
+     */
     @Test
-    void checkTileCollisionDown(){
+    void testTileCollisionDown() {
         //move player next to the above wall and check whether it detects if a wall is above him
-        player.WorldX -= gp.tileSize;
-        player.direction = Direction.DOWN;
+        moveEntityToPosition(player,player.WorldX - gp.tileSize, player.WorldY, Direction.DOWN);
         collisionChecker.checkTile(player);
         assertTrue(player.collisionOn);
     }
 
+    /**
+     * Tests if the player detects a collision when moving right.
+     */
     @Test
-    void checkTileCollisionRight(){
+    void testTileCollisionRight() {
         //move player next to the above wall and check whether it detects if a wall is above him
-        player.WorldX += gp.tileSize + 30;
-        player.direction = Direction.RIGHT;
+        moveEntityToPosition(player, player.WorldX + gp.tileSize + 30, player.WorldY, Direction.RIGHT);
         collisionChecker.checkTile(player);
         assertTrue(player.collisionOn);
     }
 
+    /**
+     * Tests if the player detects a collision when moving left.
+     */
     @Test
-    void checkTileCollisionLeft(){
+    void testTileCollisionLeft() {
         //move player next to the above wall and check whether it detects if a wall is above him
-        player.WorldX -= 30;
-        player.direction = Direction.LEFT;
+        moveEntityToPosition(player, player.WorldX - 30, player.WorldY, Direction.LEFT);
         collisionChecker.checkTile(player);
         assertTrue(player.collisionOn);
     }
 
+    /**
+     * Tests if the player does not detect any collisions in any direction.
+     */
     @Test
-    void checkTileNoCollisions(){
-        Direction[] dirs = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
+    void testTileNoCollisions() {
         //if any of the directions detects a tile then collision on will become true
-        for (Direction d : dirs){
-            player.direction = d;
+        Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
+        for (Direction direction : directions) {
+            player.direction = direction;
             collisionChecker.checkTile(player);
+            assertFalse(player.collisionOn);
         }
-        assertFalse(player.collisionOn);
     }
 
+    /**
+     * Tests if the player correctly detects a collision with an enemy.
+     */
     @Test
-    void checkValidPlayerCollisionWithEnemy(){
+    void testValidPlayerCollisionWithEnemy() {
         List<RegularGoblin> goblins = new ArrayList<>();
         RegularGoblin goblin = new RegularGoblin(gp, player);
-        goblin.WorldX = player.WorldX + 10;
-        goblin.WorldY = player.WorldY;
+        moveEntityToPosition(goblin, player.WorldX + 10, player.WorldY, Direction.RIGHT);
         goblins.add(goblin);
-        player.direction = Direction.RIGHT;
-        assertInstanceOf(RegularGoblin.class,
-                collisionChecker.playerCollisionWithEnemy(player, goblins.iterator()));
+        assertInstanceOf(RegularGoblin.class, collisionChecker.playerCollisionWithEnemy(player, goblins.iterator()));
     }
 
+    /**
+     * Tests if the player correctly handles no collision with an enemy.
+     */
     @Test
-    void checkInvalidPlayerCollisionWithEnemy(){
+    void testInvalidPlayerCollisionWithEnemy() {
         List<RegularGoblin> goblins = new ArrayList<>();
         RegularGoblin goblin = new RegularGoblin(gp, player);
-        goblin.WorldX = player.WorldX;
-        goblin.WorldY = player.WorldY + gp.tileSize;
+        moveEntityToPosition(goblin, player.WorldX, player.WorldY + gp.tileSize, Direction.DOWN);
         goblins.add(goblin);
         goblins.add(null);
-        player.direction = Direction.DOWN;
         assertNull(collisionChecker.playerCollisionWithEnemy(player, goblins.iterator()));
     }
 
+    /**
+     * Tests if an enemy correctly detects a collision with the player.
+     */
     @Test
-    void checkValidEnemyCollisionWithPlayer(){
+    void testValidEnemyCollisionWithPlayer() {
         RegularGoblin goblin = new RegularGoblin(gp, player);
-        goblin.WorldX = player.WorldX + 10;
-        goblin.WorldY = player.WorldY;
-        goblin.direction = Direction.LEFT;
+        moveEntityToPosition(goblin, player.WorldX + 10, player.WorldY, Direction.LEFT);
         assertTrue(collisionChecker.checkPlayer(goblin));
     }
 
+    /**
+     * Tests if an enemy correctly handles no collision with the player.
+     */
     @Test
-    void checkInvalidEnemyCollisionWithPlayer(){
+    void testInvalidEnemyCollisionWithPlayer() {
         RegularGoblin goblin = new RegularGoblin(gp, player);
-        goblin.WorldX = player.WorldX + gp.tileSize;
-        goblin.WorldY = player.WorldY;
-        goblin.direction = Direction.LEFT;
+        moveEntityToPosition(goblin, player.WorldX + gp.tileSize, player.WorldY, Direction.LEFT);
         assertFalse(collisionChecker.checkPlayer(goblin));
     }
 
+    /**
+     * Tests if an enemy correctly detects a collision with another enemy when moving up.
+     */
     @Test
-    void checkValidEnemyToEnemyUpCollision(){
+    void testValidEnemyToEnemyUpCollision() {
         RegularGoblin goblin1 = new RegularGoblin(gp, player);
         RegularGoblin goblin2 = new RegularGoblin(gp, player);
-        goblin1.WorldX = 50;
-        goblin1.WorldY = 50;
-        goblin2.WorldX = goblin1.WorldX;
-        goblin2.WorldY = goblin1.WorldY - 10;
-        goblin1.direction = Direction.UP;
+        moveEntityToPosition(goblin1, 50, 50, Direction.UP);
+        moveEntityToPosition(goblin2, goblin1.WorldX, goblin1.WorldY - 10, Direction.UP);
         List<RegularGoblin> goblins = new ArrayList<>();
         goblins.add(goblin2);
         goblins.add(goblin1);
         collisionChecker.checkEnemyCollision(goblin1, goblins.iterator());
-        assertInstanceOf(Direction.DOWN.getClass(), goblin1.direction);
+        assertEquals(Direction.DOWN, goblin1.direction);
     }
 
+    /**
+     * Tests if an enemy correctly detects a collision with another enemy when moving down.
+     */
     @Test
-    void checkValidEnemyToEnemyDownCollision(){
+    void testValidEnemyToEnemyDownCollision() {
         RegularGoblin goblin1 = new RegularGoblin(gp, player);
         RegularGoblin goblin2 = new RegularGoblin(gp, player);
-        goblin1.WorldX = 50;
-        goblin1.WorldY = 50;
-        goblin2.WorldX = goblin1.WorldX;
-        goblin2.WorldY = goblin1.WorldY + 10;
-        goblin1.direction = Direction.DOWN;
+        moveEntityToPosition(goblin1, 50, 50, Direction.DOWN);
+        moveEntityToPosition(goblin2, goblin1.WorldX, goblin1.WorldY + 10, Direction.DOWN);
         List<RegularGoblin> goblins = new ArrayList<>();
         goblins.add(goblin2);
         goblins.add(goblin1);
         collisionChecker.checkEnemyCollision(goblin1, goblins.iterator());
-        assertInstanceOf(Direction.UP.getClass(), goblin1.direction);
+        assertEquals(Direction.UP, goblin1.direction);
     }
 
+    /**
+     * Tests if an enemy correctly detects a collision with another enemy when moving right.
+     */
     @Test
-    void checkValidEnemyToEnemyRightCollision(){
+    void testValidEnemyToEnemyRightCollision() {
         RegularGoblin goblin1 = new RegularGoblin(gp, player);
         RegularGoblin goblin2 = new RegularGoblin(gp, player);
-        goblin1.WorldX = 50;
-        goblin1.WorldY = 50;
-        goblin2.WorldX = goblin1.WorldX + 10;
-        goblin2.WorldY = goblin1.WorldY;
-        goblin1.direction = Direction.RIGHT;
+        moveEntityToPosition(goblin1, 50, 50, Direction.RIGHT);
+        moveEntityToPosition(goblin2, goblin1.WorldX + 10, goblin1.WorldY, Direction.RIGHT);
         List<RegularGoblin> goblins = new ArrayList<>();
         goblins.add(null);
         goblins.add(goblin2);
         collisionChecker.checkEnemyCollision(goblin1, goblins.iterator());
-        assertInstanceOf(Direction.LEFT.getClass(), goblin1.direction);
+        assertEquals(Direction.LEFT, goblin1.direction);
     }
 
+    /**
+     * Tests if an enemy correctly detects a collision with another enemy when moving left.
+     */
     @Test
-    void checkValidEnemyToEnemyLeftCollision(){
+    void testValidEnemyToEnemyLeftCollision() {
         RegularGoblin goblin1 = new RegularGoblin(gp, player);
         RegularGoblin goblin2 = new RegularGoblin(gp, player);
-        goblin1.WorldX = 50;
-        goblin1.WorldY = 50;
-        goblin2.WorldX = goblin1.WorldX - 10;
-        goblin2.WorldY = goblin1.WorldY;
-        goblin1.direction = Direction.LEFT;
+        moveEntityToPosition(goblin1, 50, 50, Direction.LEFT);
+        moveEntityToPosition(goblin2, goblin1.WorldX - 10, goblin1.WorldY, Direction.LEFT);
         List<RegularGoblin> goblins = new ArrayList<>();
         goblins.add(null);
         goblins.add(goblin2);
         collisionChecker.checkEnemyCollision(goblin1, goblins.iterator());
-        assertInstanceOf(Direction.RIGHT.getClass(), goblin1.direction);
+        assertEquals(Direction.RIGHT, goblin1.direction);
     }
 
+    /**
+     * Tests if an enemy correctly handles no collision with another enemy in the vertical direction.
+     */
     @Test
-    void checkInvalidEnemyToEnemyVerticalCollision(){
+    void testInvalidEnemyToEnemyVerticalCollision() {
         RegularGoblin goblin1 = new RegularGoblin(gp, player);
         RegularGoblin goblin2 = new RegularGoblin(gp, player);
-        goblin1.WorldX = 50;
-        goblin1.WorldY = 50;
-        goblin2.WorldX = goblin1.WorldX + gp.tileSize + 10;
-        goblin2.WorldY = goblin1.WorldY;
-        goblin1.direction = Direction.RIGHT;
+        moveEntityToPosition(goblin1, 50, 50, Direction.RIGHT);
+        moveEntityToPosition(goblin2, goblin1.WorldX + gp.tileSize + 10, goblin1.WorldY, Direction.RIGHT);
         List<RegularGoblin> goblins = new ArrayList<>();
         goblins.add(goblin2);
         collisionChecker.checkEnemyCollision(goblin1, goblins.iterator());
-        assertInstanceOf(Direction.RIGHT.getClass(), goblin1.direction);
+        assertEquals(Direction.RIGHT, goblin1.direction);
     }
 
-
+    /**
+     * Tests if the player correctly detects a collision with an object.
+     */
     @Test
-    void checkValidPlayerCollisionWithObject(){
+    void testValidPlayerCollisionWithObject() {
         gp.obj.addObject(player.WorldX / gp.tileSize, player.WorldY / gp.tileSize, new Key());
         player.direction = Direction.UP;
         assertInstanceOf(Key.class, gp.collisionChecker.checkObjectCollision(player, true));
     }
 
+    /**
+     * Tests if the player correctly handles no collision with an object.
+     */
     @Test
-    void checkInvalidPlayerCollisionWithObject(){
+    void testInvalidPlayerCollisionWithObject() {
         gp.obj.addObject(player.WorldX / gp.tileSize, player.WorldY / gp.tileSize + 2, new Key());
         assertNull(gp.collisionChecker.checkObjectCollision(player, true));
     }
 
+    /**
+     * Tests if an enemy correctly handles no collision with an object.
+     */
     @Test
-    void enemyCollisionWithObject(){
+    void testEnemyCollisionWithObject() {
         gp.obj.addObject(player.WorldX / gp.tileSize, player.WorldY / gp.tileSize, new Key());
         player.direction = Direction.UP;
         assertNull(gp.collisionChecker.checkObjectCollision(player, false));
     }
-
 }
