@@ -84,7 +84,7 @@ public class MenuInputHandler implements KeyListener {
      * @param status the current game status
      * @param keyCode the key code of the pressed key
      */
-    private void handleMenuKeyEvent(DefaultUI ui, GameStatus status, int keyCode) {
+    public void handleMenuKeyEvent(DefaultUI ui, GameStatus status, int keyCode) {
         if (gp.status == status) {
             switch (keyCode) {
                 //for selecting an option
