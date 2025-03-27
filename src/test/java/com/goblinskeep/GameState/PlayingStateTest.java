@@ -19,7 +19,9 @@ public class PlayingStateTest {
     private MenuInputHandler inputHandler;
 
     /**
-     * Initializes GamePanel and InputHandler with the given status.
+     * Sets the initial game state and initializes the input handler.
+     *
+     * @param initialStatus The starting {@link GameStatus} (PLAYING or PAUSED)
      */
     private void setup(GameStatus initialStatus) {
         gp = new GamePanel();
@@ -27,6 +29,9 @@ public class PlayingStateTest {
         inputHandler = new MenuInputHandler(gp);
     }
 
+    /**
+     * Creates a synthetic KeyEvent for simulation purposes.
+     */
     private KeyEvent createKeyEvent(int keyCode) {
         return new KeyEvent(
                 new Canvas(),
@@ -38,31 +43,47 @@ public class PlayingStateTest {
         );
     }
 
+    /**
+     * Verifies that pressing Esc during PLAYING pauses the game.
+     */
     @Test
     void statusPausedWhenEscPressed() {
         setup(GameStatus.PLAYING);
         inputHandler.keyPressed(createKeyEvent(KeyEvent.VK_ESCAPE));
-        assertEquals(GameStatus.PAUSED, gp.status);
+        assertEquals(GameStatus.PAUSED, gp.status,
+                "Expected game status to be PAUSED when Esc is pressed during PLAYING");
     }
 
+    /**
+     * Verifies that pressing P during PLAYING pauses the game.
+     */
     @Test
     void statusPausedWhenPPressed() {
         setup(GameStatus.PLAYING);
         inputHandler.keyPressed(createKeyEvent(KeyEvent.VK_P));
-        assertEquals(GameStatus.PAUSED, gp.status);
+        assertEquals(GameStatus.PAUSED, gp.status,
+                "Expected game status to be PAUSED when P is pressed during PLAYING");
     }
 
+    /**
+     * Verifies that pressing Esc during PAUSED resumes gameplay.
+     */
     @Test
     void statusPlayingWhenEscPressedAfterPause() {
         setup(GameStatus.PAUSED);
         inputHandler.keyPressed(createKeyEvent(KeyEvent.VK_ESCAPE));
-        assertEquals(GameStatus.PLAYING, gp.status);
+        assertEquals(GameStatus.PLAYING, gp.status,
+                "Expected game status to return to PLAYING when Esc is pressed during PAUSED");
     }
 
+    /**
+     * Verifies that pressing P during PAUSED resumes gameplay.
+     */
     @Test
     void statusPlayingWhenPPressedAfterPause() {
         setup(GameStatus.PAUSED);
         inputHandler.keyPressed(createKeyEvent(KeyEvent.VK_P));
-        assertEquals(GameStatus.PLAYING, gp.status);
+        assertEquals(GameStatus.PLAYING, gp.status,
+                "Expected game status to return to PLAYING when P is pressed during PAUSED");
     }
 }
