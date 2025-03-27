@@ -1,19 +1,13 @@
 package com.goblinskeep.objects;
 
-
-// import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.MapGenerator;
-// import com.goblinskeep.entity.Entity;
 
 import java.awt.*;
-// import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-// import java.util.List;
 
-import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.app.MapGenerator;
 
 /**
  * Manages all interactive objects in the game.

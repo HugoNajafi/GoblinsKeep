@@ -4,7 +4,6 @@ package com.goblinskeep.app;
 import com.goblinskeep.entity.Goblin;
 import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.RegularGoblin;
-// import com.goblinskeep.entity.SmartGoblin;
 import com.goblinskeep.objects.*;
 import com.goblinskeep.tile.TileManager;
 
@@ -32,6 +31,8 @@ public class MapGenerator {
     private int currentTime = 0;
     private int currentTimeCounter = 0;
     private Random random = new Random();
+    public int[][] rawMapData; //for testing
+
 
     /** Number of keys needed to unlock the lever*/
     public int keysNeeded = 5;
@@ -54,6 +55,7 @@ public class MapGenerator {
         player = new Player(0, 0, gp, gp.PlayerInput);
         obj = new ObjectManager(gp);
         tileM = new TileManager(gp);
+        rawMapData = new int[gp.maxWorldCol][gp.maxWorldRow];
         setMap();
         setGoblins();
 
@@ -141,6 +143,7 @@ public class MapGenerator {
                             tileM.mapTileNum[col][row] = num;
                             break;
                     }
+                    rawMapData[col][row] = num;
                     col++;
                 }
                 if (col == gp.maxWorldCol){
