@@ -75,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable
     public CollisionChecker collisionChecker;
 
     /** Handles keyboard input for player movement. */
-    PlayerInputHandler PlayerInput = new PlayerInputHandler();
+    public PlayerInputHandler PlayerInput = new PlayerInputHandler();
 
     /** The game loop thread. */
     public Thread gameThread;

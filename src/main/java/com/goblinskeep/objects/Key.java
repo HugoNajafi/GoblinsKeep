@@ -11,7 +11,7 @@ public class Key extends MainObject {
         } catch (IOException e){
             System.out.printf(e.getMessage());
         }
-        collision = true;
+        collision = false;
         defaultCollisionAreaX += 6;
         defaultCollisionAreaY += 6;
         collisionArea.height -= 12;

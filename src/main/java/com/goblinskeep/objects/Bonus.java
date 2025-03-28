@@ -70,7 +70,7 @@ public class Bonus extends MainObject {
      */
 
     public boolean isAlive(int currentTime){
-        return startTime < currentTime && currentTime < startTime + survivalTime;
+        return startTime <= currentTime && currentTime < startTime + survivalTime;
     }
 
     /**
