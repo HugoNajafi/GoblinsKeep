@@ -33,7 +33,7 @@ public class ObjectManager {
      */
     public ObjectManager(GamePanel gp){
         anObject = new LinkedHashMap<>();
-        this.gp = gp;
+        this.gp = gp;//tilesize is 48
         this.map = gp.map;
     }
 
