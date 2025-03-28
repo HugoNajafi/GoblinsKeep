@@ -150,7 +150,6 @@ public class CollisionChecker {
         entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
 
         // Calculate potential new position based on direction
-        Rectangle potentialPosition = new Rectangle(entity.collisionArea);
         updateCollisionArea(entity);
 
         // Check collision with all other entities
@@ -165,7 +164,7 @@ public class CollisionChecker {
             other.collisionArea.y = other.WorldY + other.hitboxDefaultY;
 
             // Check if potential movement would cause collision
-            if (potentialPosition.intersects(other.collisionArea)) {
+            if (entity.collisionArea.intersects(other.collisionArea)) {
 
                 // Instead of just random direction, use a smarter approach:
                 // Calculate direction away from the other entity

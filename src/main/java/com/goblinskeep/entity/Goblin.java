@@ -88,13 +88,19 @@ public abstract class Goblin extends Entity{
         // if(onPath == true && tileDistance > 20){
         //     onPath = false;
         // }
-        checkLOS();
 
-        if(!onPath && inSight){
+        if (gp.debugMode){
+            checkLOS();
+
+            if(!onPath && inSight){
+                onPath = true;
+            }
+            if(onPath && !inSight && tileDistance > 10){
+                onPath = false;
+            }
+        } else {
             onPath = true;
-        }
-        if(onPath && !inSight && tileDistance > 10){
-            onPath = false;
+            inSight = true;
         }
         getAction();
     }
