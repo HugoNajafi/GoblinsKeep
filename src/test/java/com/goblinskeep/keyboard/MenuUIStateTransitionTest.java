@@ -35,7 +35,7 @@ public class MenuUIStateTransitionTest {
 
         gp.status = GameStatus.MENU;
         when(menuUI.getCurrentOption()).thenReturn(Options.INSTRUCTIONS);
-        inputHandler.handleMenuKeyEvent(menuUI, GameStatus.MENU, KeyEvent.VK_ENTER);
+        inputHandler.handleMenuKeyEvent(menuUI, GameStatus.MENU, KeyEvent.VK_SPACE);
         assertEquals(GameStatus.INSTRUCTIONS, gp.status);
     }
 
@@ -55,7 +55,7 @@ public class MenuUIStateTransitionTest {
 
         gp.status = GameStatus.PAUSED;
         when(pauseUI.getCurrentOption()).thenReturn(Options.MENU);
-        inputHandler.handleMenuKeyEvent(pauseUI, GameStatus.PAUSED, KeyEvent.VK_ENTER);
+        inputHandler.handleMenuKeyEvent(pauseUI, GameStatus.PAUSED, KeyEvent.VK_SPACE);
         assertEquals(GameStatus.MENU, gp.status);
     }
 

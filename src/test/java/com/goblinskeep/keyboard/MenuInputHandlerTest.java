@@ -51,6 +51,12 @@ public class MenuInputHandlerTest {
 
         inputHandler.keyPressed(key(KeyEvent.VK_P));
         assertEquals(GameStatus.PLAYING, gp.status);
+
+        //for coverage
+        gp.status = GameStatus.MENU;
+        inputHandler.keyPressed((key(KeyEvent.VK_P)));
+        assertEquals(GameStatus.MENU, gp.status); //pressing p shouldn't change anything
+
     }
 
     @Test
@@ -81,6 +87,7 @@ public class MenuInputHandlerTest {
 
         inputHandler.keyPressed(key(KeyEvent.VK_DOWN));//should increase the initialIndex by one
         inputHandler.keyPressed(key(KeyEvent.VK_DOWN));// Should not move again
+        inputHandler.keyPressed(key(KeyEvent.VK_UP));// Should not move again
 
         assertEquals(initialIndex+1, menuUI.cursorSelection, "Cursor should have moved down");
     }
@@ -123,5 +130,44 @@ public class MenuInputHandlerTest {
 
     }
 
+
+    @Test
+    void coverageForDefaultCases(){
+        inputHandler.keyPressed(key(KeyEvent.VK_Z));
+        inputHandler.keyReleased(key(KeyEvent.VK_Z));
+    }
+
+    //for additional line coverages
+    @Test
+    void keyPressedTriggersHandleMenuEventInMenuStatus() {
+        gp.status = GameStatus.MENU;
+        inputHandler.keyPressed(key(KeyEvent.VK_ENTER));
+        // Implicitly covered if no exception is thrown and menu option is RESTART
+        assertEquals(GameStatus.RESTART, gp.status);
+    }
+
+    @Test
+    void keyPressedTriggersHandleMenuEventInPausedStatus() {
+        gp.status = GameStatus.PAUSED;
+        gp.ui.pauseUI.cursorSelection = 0; // RESUME
+        inputHandler.keyPressed(key(KeyEvent.VK_SPACE));
+        assertEquals(GameStatus.PLAYING, gp.status);
+    }
+
+    @Test
+    void keyPressedTriggersHandleMenuEventInEndStatus() {
+        gp.status = GameStatus.END;
+        gp.endUI.cursorSelection = 0; // RESTART
+        inputHandler.keyPressed(key(KeyEvent.VK_ENTER));
+        assertEquals(GameStatus.RESTART, gp.status);
+    }
+
+    @Test
+    void keyPressedTriggersHandleMenuEventInInstructionsStatus() {
+        gp.status = GameStatus.INSTRUCTIONS;
+        gp.instructionsUI.cursorSelection = 0; // MENU
+        inputHandler.keyPressed(key(KeyEvent.VK_SPACE));
+        assertEquals(GameStatus.MENU, gp.status);
+    }
 
 }

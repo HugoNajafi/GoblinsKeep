@@ -98,4 +98,26 @@ public class PlayerInputHandlerTest {
         inputHandler.keyPressed(key(KeyEvent.KEY_PRESSED, KeyEvent.VK_F));
         assertEquals(original, inputHandler.debugMode, "Debug mode should toggle back on second F press");
     }
+
+    @Test
+    void keyTypedDoesNothingButIsCovered() {
+        KeyEvent k = new KeyEvent(
+                new Canvas(),
+                KeyEvent.KEY_TYPED,
+                System.currentTimeMillis(),
+                0,
+                KeyEvent.VK_UNDEFINED, // REQUIRED for KEY_TYPED
+                's'                    // must be a valid character
+        );
+
+        inputHandler.keyTyped(k);
+    }
+
+
+    @Test
+    void coverageForDefaultCases(){
+        inputHandler.keyPressed(key(KeyEvent.KEY_PRESSED, KeyEvent.VK_Z));
+        inputHandler.keyReleased(key(KeyEvent.KEY_RELEASED, KeyEvent.VK_Z));
+
+    }
 }
