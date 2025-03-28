@@ -152,7 +152,7 @@ public class Player extends Entity{
                     gp.map.trapHit();
                     break;
                 case "lever":
-                    gp.map.leverTouched(collisionObject);
+                    gp.map.leverTouched();
                     break;
                 case "exit":
                     break;

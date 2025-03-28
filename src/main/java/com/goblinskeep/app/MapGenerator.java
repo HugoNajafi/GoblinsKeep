@@ -191,9 +191,8 @@ public class MapGenerator {
     /**
      * Handles interaction when a player touches a lever.
      *
-     * @param collisionObject The lever object that was activated.
      */
-    public void leverTouched(MainObject collisionObject){
+    public void leverTouched(){
         if (keysCollected >= keysNeeded){
             exitOpen = true;
             keysNeeded = -1;
