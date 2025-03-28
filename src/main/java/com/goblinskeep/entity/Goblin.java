@@ -105,6 +105,10 @@ public abstract class Goblin extends Entity{
      * The LOS (line of sight) is broken and the goblin will go to the last seen position
      */
     public void checkLOS(){
+        if (!gp.debugMode){
+            inSight = true;
+            return;
+        }
         // int PlayerLeftWorldX = gp.Player.WorldX + gp.Player.hitboxDefaultX;
         // int PlayerRightWorldX = gp.Player.WorldX + gp.Player.hitboxDefaultX + gp.Player.collisionArea.width;
         // int PlayerTopWorldY = gp.Player.WorldY + gp.Player.hitboxDefaultY;

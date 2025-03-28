@@ -1,5 +1,6 @@
 package com.goblinskeep.entity;
 
+import java.awt.*;
 import java.util.ArrayList;
 // import java.awt.Rectangle;
 // import java.util.ArrayList;
@@ -28,6 +29,9 @@ public class RegularGoblin extends Goblin {
      */
     public RegularGoblin(GamePanel gp, Player player) {
         super(gp, player);
+        collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
+        hitboxDefaultX = 8;
+        hitboxDefaultY = 16;
         
         // // Set default direction and collisionArea
         // this.direction = Direction.DOWN;
