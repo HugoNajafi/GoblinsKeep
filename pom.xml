@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.goblinskeep</groupId>
   <artifactId>goblinskeep</artifactId>
@@ -8,10 +8,10 @@
   <name>goblinskeep</name>
   <url>http://maven.apache.org</url>
   <properties>
-          <maven.compiler.source>23</maven.compiler.source>
-          <maven.compiler.target>23</maven.compiler.target>
-          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      </properties>
+    <maven.compiler.source>23</maven.compiler.source>
+    <maven.compiler.target>23</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
