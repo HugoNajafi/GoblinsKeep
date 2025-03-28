@@ -1,8 +1,7 @@
-package com.goblinskeep.GameState;
+package com.goblinskeep.keyboard;
 
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.GameStatus;
-import com.goblinskeep.keyboard.MenuInputHandler;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -13,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit tests for verifying key-based toggling between PLAYING and PAUSED states.
  */
-public class PlayingStateTest {
+public class PlayingPauseMenuTest {
 
     private GamePanel gp;
     private MenuInputHandler inputHandler;

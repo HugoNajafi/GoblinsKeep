@@ -179,9 +179,6 @@ public class MapGenerator {
             Goblin goblin = new RegularGoblin(gp, gp.Player);
             goblin.setX(position.x);
             goblin.setY(position.y);
-            // goblin.collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
-            // goblin.hitboxDefaultX = 8;
-            // goblin.hitboxDefaultY = 16;
             goblins.add(goblin);
         }
 
