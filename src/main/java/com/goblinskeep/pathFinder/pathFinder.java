@@ -232,98 +232,91 @@ public class pathFinder {
      */
     public void searchPath(int goalCol, int goalRow, Entity entity){
         // System.out.println(myPath);
-        if (!(entity instanceof RegularGoblin)) {
-            System.out.println("Wrong entity passed, pass in RegularGoblin!");
-            return; // Exit if not a RegularGoblin
-        }
+
         
         RegularGoblin goblin = (RegularGoblin) entity;
-        if(goblin.onPath){
-            int startCol = (entity.WorldX + entity.hitboxDefaultX )/gp.tileSize;
-            int startRow = (entity.WorldY + entity.hitboxDefaultY)/gp.tileSize;
-            
-            gp.pathFinder.setNodes(startCol, startRow, goalCol, goalRow);
-            
-            boolean pathFound = gp.pathFinder.search();
-            // if (!pathFound) {
-            //     System.out.println("No path found from (" + startCol + "," + startRow + 
-            //                        ") to (" + goalCol + "," + goalRow + ")");
-            //     randomMovement();
-            // }
-            if(pathFound){
-                goblin.myPath.clear();
-                goblin.myPath.addAll(gp.pathFinder.pathList);
 
-                if(goblin.myPath.isEmpty()){
-                    goblin.onPath = false;
-                    return;
-                }
-                int nextX = gp.pathFinder.pathList.getFirst().col * gp.tileSize;
-                int nextY = gp.pathFinder.pathList.getFirst().row * gp.tileSize;
-    
-                int enLeftX = entity.WorldX + entity.hitboxDefaultX;
-                int enRightX = entity.WorldX + entity.hitboxDefaultX + entity.collisionArea.width;
-                int enTopY = entity.WorldY + entity.hitboxDefaultY;
-                int enBottomY = entity.WorldY + entity.hitboxDefaultY + entity.collisionArea.height;
-    
-                if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize){
-                    entity.direction = Direction.UP;
-                }
-                else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize){
-                    entity.direction = Direction.DOWN;
-                }
-                else if(enTopY >= nextY && enBottomY < nextY + gp.tileSize){
-                    if(enLeftX > nextX){
-                        entity.direction = Direction.LEFT;
-                    }
-                    else{
-                        entity.direction = Direction.RIGHT;
-                    }
-                }
-                else if(enTopY > nextY && enLeftX > nextX) {
-                    entity.direction = Direction.UP;
+        int startCol = (entity.WorldX + entity.hitboxDefaultX )/gp.tileSize;
+        int startRow = (entity.WorldY + entity.hitboxDefaultY)/gp.tileSize;
 
-                    gp.collisionChecker.checkTile(entity);
+        gp.pathFinder.setNodes(startCol, startRow, goalCol, goalRow);
 
-                    if(entity.collisionOn){
-                        entity.direction = Direction.LEFT;
-                    }
-                }
-                else if(enTopY > nextY && enLeftX < nextX){
-                    entity.direction = Direction.UP;
+        boolean pathFound = gp.pathFinder.search();
+        // if (!pathFound) {
+        //     System.out.println("No path found from (" + startCol + "," + startRow +
+        //                        ") to (" + goalCol + "," + goalRow + ")");
+        //     randomMovement();
+        // }
+        if(pathFound){
+            goblin.myPath.clear();
+            goblin.myPath.addAll(gp.pathFinder.pathList);
 
-                    gp.collisionChecker.checkTile(entity);
+            int nextX = gp.pathFinder.pathList.getFirst().col * gp.tileSize;
+            int nextY = gp.pathFinder.pathList.getFirst().row * gp.tileSize;
 
-                    if(entity.collisionOn){
-                        entity.direction = Direction.RIGHT;
-                    }
-                }
-                else if(enTopY < nextY && enLeftX > nextX){
-                    entity.direction = Direction.DOWN;
+            int enLeftX = entity.WorldX + entity.hitboxDefaultX;
+            int enRightX = entity.WorldX + entity.hitboxDefaultX + entity.collisionArea.width;
+            int enTopY = entity.WorldY + entity.hitboxDefaultY;
+            int enBottomY = entity.WorldY + entity.hitboxDefaultY + entity.collisionArea.height;
 
-                    gp.collisionChecker.checkTile(entity);
-
-                    if(entity.collisionOn){
-                        entity.direction = Direction.LEFT;
-                    }
-                }
-                else if(enTopY < nextY && enLeftX < nextX){
-                    entity.direction = Direction.DOWN;
-
-                    gp.collisionChecker.checkTile(entity);
-
-                    if(entity.collisionOn){
-                        entity.direction = Direction.RIGHT;
-                    }
-                }
-    
-                // int nextCol = gp.pathFinder.pathList.get(0).col;
-                // int nextRow = gp.pathFinder.pathList.get(0).row;
-                // if(nextCol == goalCol && nextRow == goalRow){
-                //     onPath = false;
-                // }
+            if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize){
+                entity.direction = Direction.UP;
             }
+            else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize){
+                entity.direction = Direction.DOWN;
+            }
+            else if(enTopY >= nextY && enBottomY < nextY + gp.tileSize){
+                if(enLeftX > nextX){
+                    entity.direction = Direction.LEFT;
+                }
+                else{
+                    entity.direction = Direction.RIGHT;
+                }
+            }
+            else if(enTopY > nextY && enLeftX > nextX) {
+                entity.direction = Direction.UP;
+
+                gp.collisionChecker.checkTile(entity);
+
+                if(entity.collisionOn){
+                    entity.direction = Direction.LEFT;
+                }
+            }
+            else if(enTopY > nextY && enLeftX < nextX){
+                entity.direction = Direction.UP;
+
+                gp.collisionChecker.checkTile(entity);
+
+                if(entity.collisionOn){
+                    entity.direction = Direction.RIGHT;
+                }
+            }
+            else if(enTopY < nextY && enLeftX > nextX){
+                entity.direction = Direction.DOWN;
+
+                gp.collisionChecker.checkTile(entity);
+
+                if(entity.collisionOn){
+                    entity.direction = Direction.LEFT;
+                }
+            }
+            else if(enTopY < nextY && enLeftX < nextX){
+                entity.direction = Direction.DOWN;
+
+                gp.collisionChecker.checkTile(entity);
+
+                if(entity.collisionOn){
+                    entity.direction = Direction.RIGHT;
+                }
+            }
+
+            // int nextCol = gp.pathFinder.pathList.get(0).col;
+            // int nextRow = gp.pathFinder.pathList.get(0).row;
+            // if(nextCol == goalCol && nextRow == goalRow){
+            //     onPath = false;
+            // }
         }
+
 
 
     }

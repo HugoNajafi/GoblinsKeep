@@ -1,5 +1,6 @@
 package com.goblinskeep.pathFinder;
 
+import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.GameStatus;
 import com.goblinskeep.entity.Goblin;
@@ -68,8 +69,7 @@ class pathFinderTest {
 
 
     @Test
-    void test1SearchPath() {
-       pathFinder pf = gp.pathFinder;
+    void testSearchPath() {
        RegularGoblin goblin = new RegularGoblin(gp, gp.Player);
         int goalCol = (gp.Player.WorldX + gp.Player.hitboxDefaultX +
                 (gp.Player.collisionArea.width / 2)) / gp.tileSize;
@@ -80,85 +80,119 @@ class pathFinderTest {
         goblin.onPath = true;
         int startCol = 43;
         int startRow = 18;
-        startCol = 130/2;
-        startRow = 45;
+
         goblin.WorldX = startCol * gp.tileSize;
         goblin.WorldY = startRow * gp.tileSize;
         goblin.myPath.clear();
         gp.pathFinder.searchPath(goalCol, goalRow, goblin);
-        assertFalse(goblin.myPath.isEmpty(),
-                "The goblin's path should contain nodes after searchPath is called successfully");
+        assertFalse(goblin.myPath.isEmpty());
         for (int i = 0; i < 3000; i++){
             goblin.update();
         }
+        assertTrue(gp.map.gameEnded());
     }
 
     @Test
-    void testing(){
+    void testPlayingTopLeft(){
         gp.status = GameStatus.PLAYING;
         for (int i = 0; i < 2000; i++) {
             gp.update();
         }
-//        Goblin goblin = gp.getGoblinIterator().next();
-//        List<Goblin> goblinList = new ArrayList<>();
-//        for (Iterator<Goblin> it = gp.getGoblinIterator(); it.hasNext(); ) {
-//            Goblin g = it.next();
-//            goblinList.add(g);
-//        }
-//        for (int i = 0; i < 2000; i++){
-//
-//            goblin.onPath =true;
-//            goblin.inSight = true;
-//            goblin.update();
-//        }
+        assertTrue(gp.map.gameEnded());
     }
 
     @Test
-    void testMotion(){
-        gp.startGameThread();
-
+    void testPlayingTopRight(){
+        movePlayer(10, 35);
+        gp.status = GameStatus.PLAYING;
+        for (int i = 0; i < 2000; i++) {
+            gp.update();
+        }
+        assertTrue(gp.map.gameEnded());
     }
 
     @Test
-    void testGameRunningWithPathfinder() throws InterruptedException {
-        // Start the game in a separate thread to avoid blocking the test
-        Thread gameThread = new Thread(() -> {
-            gp.startGameThread();
-        });
-        gameThread.start();
-
-        // Create and set up the goblin
-        RegularGoblin goblin = new RegularGoblin(gp, gp.Player);
-        goblin.onPath = true;
-
-        // Position the goblin
-        int startCol = 43;
-        int startRow = 18;
-        goblin.WorldX = startCol * gp.tileSize;
-        goblin.WorldY = startRow * gp.tileSize;
-        goblin.hitboxDefaultX = 8;
-        goblin.hitboxDefaultY = 16;
-        goblin.collisionArea = new Rectangle(goblin.hitboxDefaultX, goblin.hitboxDefaultY, 23, 23);
-
-        // Set goal position
-        int goalCol = gp.Player.WorldX/gp.tileSize;
-        int goalRow = gp.Player.WorldY/gp.tileSize;
-
-        // Call searchPath
-        gp.pathFinder.searchPath(goalCol, goalRow, goblin);
-
-        // Allow the game to run for a short time
-        Thread.sleep(5000);
-
-        // Stop the game thread
-        gp.gameThread = null;
-        gameThread.interrupt();
-
-        // Verify path was created
-        assertFalse(goblin.myPath.isEmpty(),
-                "The goblin's path should contain nodes after searchPath is called successfully");
-
-        // Additional assertions as needed
-        assertNotNull(goblin.direction);
+    void testPlayingBottomLeft(){
+        movePlayer(49, 12);
+        gp.status = GameStatus.PLAYING;
+        for (int i = 0; i < 3000; i++) {
+            gp.update();
+        }
+        assertTrue(gp.map.gameEnded());
     }
+
+    @Test
+    void testPlayingBottomRight(){
+        gp.status = GameStatus.PLAYING;
+        movePlayer(53, 34);
+        for (int i = 0; i < 2000; i++) {
+            gp.update();
+        }
+        assertTrue(gp.map.gameEnded());
+    }
+
+    @Test
+    void testPlayingMiddle(){
+        gp.status = GameStatus.PLAYING;
+        movePlayer(36, 32);
+        for (int i = 0; i < 2000; i++) {
+            gp.update();
+        }
+        assertTrue(gp.map.gameEnded());
+    }
+
+    private void movePlayer(int row, int col){
+        gp.Player.WorldX = col * gp.tileSize;
+        gp.Player.WorldY = row * gp.tileSize;
+    }
+
+    @Test
+    void testSetNodesWithInvalidCoordinates() {
+        pf.createNodes();
+
+        //test different invalid coordinate scenarios and verify the method does not error
+        pf.resetNodes();
+        pf.setNodes(0, 0, gp.maxWorldCol, 0);
+        assertNull(pf.goalNode, "goalNode should be null with invalid goalCol");
+
+        pf.resetNodes();
+        pf.setNodes(0, 0, -1, 0);
+        assertNull(pf.goalNode, "goalNode should be null with negative goalCol");
+
+        pf.resetNodes();
+        pf.setNodes(0, 0, 0, gp.maxWorldRow);
+        assertNull(pf.goalNode, "goalNode should be null with invalid goalRow");
+
+        pf.resetNodes();
+        pf.setNodes(0, 0, 0, -1);
+        assertNull(pf.goalNode, "goalNode should be null with negative goalRow");
+
+        pf.resetNodes();
+        pf.setNodes(gp.maxWorldCol, 0, 0, 0);
+        assertNull(pf.startNode, "startNode should be null with invalid startCol");
+
+        pf.resetNodes();
+        pf.setNodes(-1, 0, 0, 0);
+        assertNull(pf.startNode, "startNode should be null with negative startCol");
+
+        pf.resetNodes();
+        pf.setNodes(0, gp.maxWorldRow, 0, 0);
+        assertNull(pf.startNode, "startNode should be null with invalid startRow");
+
+        pf.resetNodes();
+        pf.setNodes(0, -1, 0, 0);
+        assertNull(pf.startNode, "startNode should be null with negative startRow");
+
+        pf.resetNodes();
+        pf.setNodes(-1, -1, gp.maxWorldCol, gp.maxWorldRow);
+        assertNull(pf.startNode, "startNode should be null with all invalid coordinates");
+        assertNull(pf.goalNode, "goalNode should be null with all invalid coordinates");
+
+        pf.resetNodes();
+        pf.setNodes(0, 0, gp.maxWorldCol - 1, gp.maxWorldRow - 1);
+        assertNotNull(pf.startNode, "startNode should be set with valid coordinates");
+        assertNotNull(pf.goalNode, "goalNode should be set with valid coordinates");
+    }
+
+
 }

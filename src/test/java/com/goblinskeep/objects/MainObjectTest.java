@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static org.mockito.Mockito.*;
 
@@ -37,6 +38,7 @@ class MainObjectTest {
         object.worldY = 120;
 
         object.draw(g2, gp);
+        verify(g2, atLeastOnce()).drawImage(any(BufferedImage.class), anyInt(), anyInt(), anyInt(), anyInt(), any());
     }
 
     /**

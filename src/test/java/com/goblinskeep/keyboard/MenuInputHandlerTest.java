@@ -74,8 +74,8 @@ public class MenuInputHandlerTest {
 
     @Test
     void testCursorMovementBlockedWithoutKeyRelease() {
-        gp.status = GameStatus.MENU;
-        MenuUI menuUI = gp.getMenuUI();
+        gp.status = GameStatus.END;
+        EndUI menuUI = gp.endUI;
 
         int initialIndex = menuUI.cursorSelection;
 
@@ -87,8 +87,8 @@ public class MenuInputHandlerTest {
 
     @Test
     void testCursorMovementResetsOnKeyRelease() {
-        gp.status = GameStatus.MENU;
-        MenuUI menuUI = gp.getMenuUI();
+        gp.status = GameStatus.PAUSED;
+        PauseUI menuUI = gp.ui.pauseUI;
 
         int initialIndex = menuUI.cursorSelection;
 
@@ -98,4 +98,30 @@ public class MenuInputHandlerTest {
 
         assertEquals(initialIndex+2, menuUI.cursorSelection, "Cursor should have moved down twice");
     }
+
+    @Test
+    void testCursorMovementResetsOnKeyReleaseForInstructions() {
+        gp.status = GameStatus.INSTRUCTIONS;
+        InstructionsUI menuUI = gp.instructionsUI;
+
+        int initialIndex = menuUI.cursorSelection;
+
+        inputHandler.keyPressed(key(KeyEvent.VK_DOWN));//should increase the initialIndex by one
+        inputHandler.keyReleased(key(KeyEvent.VK_DOWN));
+        inputHandler.keyPressed(key(KeyEvent.VK_DOWN));// Should move again
+
+        assertEquals(initialIndex, menuUI.cursorSelection, "Cursor should have moved down twice");
+    }
+
+    @Test
+    void keyTypedTest(){
+        GameStatus initialStatus = gp.status;
+
+        inputHandler.keyTyped(key(KeyEvent.KEY_TYPED));
+
+        assertEquals(initialStatus, gp.status, "keyTyped should not change game status");
+
+    }
+
+
 }

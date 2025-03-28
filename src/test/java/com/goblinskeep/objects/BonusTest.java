@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -81,7 +82,10 @@ class BonusTest {
         GamePanel gp = new GamePanel();
 
         // Call draw method and verify draw is called
+        bonus.worldX = gp.Player.WorldX;
+        bonus.worldY = gp.Player.WorldY;
         bonus.draw(g2, gp);
+        verify(g2, atLeastOnce()).drawImage(any(BufferedImage.class), anyInt(), anyInt(), anyInt(), anyInt(), any());
     }
 
     /**

@@ -5,10 +5,10 @@ import com.goblinskeep.entity.Player;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for the Tree class.
@@ -52,8 +52,9 @@ class TreeTest {
         player.WorldY = 100;
         tree.worldX = 120;
         tree.worldY = 120;
-
-        tree.draw(mock(Graphics2D.class), gp);
+        Graphics2D g2 = mock(Graphics2D.class);
+        tree.draw(g2, gp);
+        verify(g2, atLeastOnce()).drawImage(any(BufferedImage.class), anyInt(), anyInt(), anyInt(), anyInt(), any());
     }
 
     /**
