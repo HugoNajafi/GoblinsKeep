@@ -164,6 +164,40 @@ public class Player extends Entity{
         }
     }
 
+    public BufferedImage getSpriteForDirection(){
+        BufferedImage image = null;
+        switch (direction){
+            case Direction.UP:
+                if (SpriteNum == 1) {
+                    image = up1;
+                } else if (SpriteNum == 2) {
+                    image = up2;
+                }
+                break;
+            case Direction.DOWN:
+                if (SpriteNum == 1) {
+                    image = down1;
+                } else if (SpriteNum == 2) {
+                    image = down2;
+                }
+                break;
+            case Direction.LEFT:
+                if (SpriteNum == 1) {
+                    image = left1;
+                } else if (SpriteNum == 2) {
+                    image = left2;
+                }
+                break;
+            case Direction.RIGHT:
+                if (SpriteNum == 1) {
+                    image = right1;
+                } else if (SpriteNum == 2) {
+                    image = right2;
+                }
+                break;
+        }
+        return image;
+    }
 
     /**
      * Draws the player's sprite on the screen based on movement direction.
@@ -172,42 +206,7 @@ public class Player extends Entity{
      */
     public void draw(Graphics2D g2){
 
-        BufferedImage image = null;
-
-        switch (direction){
-            case Direction.UP:
-                if(SpriteNum == 1){
-                    image = up1;
-                }
-                if(SpriteNum == 2){
-                    image = up2;
-                }
-                break;
-            case Direction.DOWN:
-                if(SpriteNum == 1){
-                    image = down1;
-                }
-                if(SpriteNum == 2){
-                    image = down2;
-                }
-                break;
-            case Direction.LEFT:
-                if(SpriteNum == 1){
-                    image = left1;
-                }
-                if(SpriteNum == 2){
-                    image = left2;
-                }
-                break;
-            case Direction.RIGHT:
-                if(SpriteNum == 1){
-                    image = right1;
-                }
-                if(SpriteNum == 2){
-                    image = right2;
-                }
-                break;
-        }
+        BufferedImage image = getSpriteForDirection();
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
         if(gp.debugMode){
