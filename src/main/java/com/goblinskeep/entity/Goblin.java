@@ -80,11 +80,44 @@ public abstract class Goblin extends Entity{
         getAction();
     }
 
-    /**
-     * Checks, line of sight of Goblin, and if Player is within the lineofSight
-     * Then the Goblin chases the player, if player goes behind an obstacle then 
-     * The LOS (line of sight) is broken and the goblin will go to the last seen position
-     */
+    public BufferedImage getSpriteForDirection(){
+        BufferedImage image = null;
+        switch (drawDirection){
+            case Direction.UP:
+                if (SpriteNum == 1) {
+                    image = up1;
+                }
+                if (SpriteNum == 2) {
+                    image = up2;
+                }
+                break;
+            case Direction.DOWN:
+                if (SpriteNum == 1) {
+                    image = down1;
+                }
+                if (SpriteNum == 2) {
+                    image = down2;
+                }
+                break;
+            case Direction.LEFT:
+                if (SpriteNum == 1) {
+                    image = left1;
+                }
+                if (SpriteNum == 2) {
+                    image = left2;
+                }
+                break;
+            case Direction.RIGHT:
+                if (SpriteNum == 1) {
+                    image = right1;
+                }
+                if (SpriteNum == 2) {
+                    image = right2;
+                }
+                break;
+        }
+        return image;
+    }
 
     /**
      * Draws the goblin on the screen based on its movement direction.
@@ -92,44 +125,8 @@ public abstract class Goblin extends Entity{
      * @param g2 The graphics context used for rendering.
      */
     public void draw(Graphics2D g2){
-        BufferedImage image = null;
 
-        // Select the appropriate sprite based on movement direction
-        switch (drawDirection){
-            case Direction.UP:
-                if(SpriteNum == 1){
-                    image = up1;
-                }
-                if(SpriteNum == 2){
-                    image = up2;
-                }
-                break;
-            case Direction.DOWN:
-                if(SpriteNum == 1){
-                    image = down1;
-                }
-                if(SpriteNum == 2){
-                    image = down2;
-                }
-                break;
-            case Direction.LEFT:
-                if(SpriteNum == 1){
-                    image = left1;
-                }
-                if(SpriteNum == 2){
-                    image = left2;
-                }
-                break;
-            case Direction.RIGHT:
-                if(SpriteNum == 1){
-                    image = right1;
-                }
-                if(SpriteNum == 2){
-                    image = right2;
-                }
-                break;
-        }
-
+        BufferedImage image = getSpriteForDirection();
         // Calculate screen position relative to the player's position
         int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
         int screenY = WorldY - gp.Player.WorldY + gp.Player.screenY;
