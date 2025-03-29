@@ -77,7 +77,7 @@ public class RegularGoblin extends Goblin {
                 this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
             } else if (direction == Direction.LEFT) {
                 this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-            } else if (direction == Direction.RIGHT) {
+            } else  { //Direction.RIGHT
                 this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
             }
             SpriteCounter++;
@@ -85,7 +85,7 @@ public class RegularGoblin extends Goblin {
                 if(SpriteNum == 1){
                     SpriteNum = 2;
                 }
-                else if(SpriteNum == 2){
+                else { //SpriteNum
                     SpriteNum = 1;
                 }
                 SpriteCounter = 0;
