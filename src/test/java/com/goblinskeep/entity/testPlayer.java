@@ -12,19 +12,14 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
-
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.MapGenerator;
-import com.goblinskeep.entity.CollisionChecker;
-import com.goblinskeep.entity.Player;
 import com.goblinskeep.keyboard.PlayerInputHandler;
 import com.goblinskeep.objects.Bonus;
 import com.goblinskeep.objects.InvisibleBarrier;
