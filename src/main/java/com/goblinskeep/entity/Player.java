@@ -170,28 +170,32 @@ public class Player extends Entity{
             case Direction.UP:
                 if (SpriteNum == 1) {
                     image = up1;
-                } else if (SpriteNum == 2) {
+                }
+                if (SpriteNum == 2) {
                     image = up2;
                 }
                 break;
             case Direction.DOWN:
                 if (SpriteNum == 1) {
                     image = down1;
-                } else if (SpriteNum == 2) {
+                }
+                if (SpriteNum == 2) {
                     image = down2;
                 }
                 break;
             case Direction.LEFT:
                 if (SpriteNum == 1) {
                     image = left1;
-                } else if (SpriteNum == 2) {
+                }
+                if (SpriteNum == 2) {
                     image = left2;
                 }
                 break;
             case Direction.RIGHT:
                 if (SpriteNum == 1) {
                     image = right1;
-                } else if (SpriteNum == 2) {
+                }
+                if (SpriteNum == 2) {
                     image = right2;
                 }
                 break;
