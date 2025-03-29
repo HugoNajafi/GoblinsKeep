@@ -1,5 +1,6 @@
 package com.goblinskeep.entity;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -24,6 +25,7 @@ public class testGoblin {
     // Mocked dependencies
     private GamePanel gp;
     private Goblin regularGoblin;
+    private Player player;
 
     @BeforeEach
     void setUp(){
@@ -32,13 +34,61 @@ public class testGoblin {
 
     }
 
-    //AI moves left since it is running with pathfinding
+    //AI moves left since it is running with pathfinding. It goes straight to the player, and stops 1 tile away from the player.
+    // The player is at (0,0) and the goblin is at (12,0). The goblin moves left to (1,0) and stops there.
     private void moveleft(){
-
+        gp.Player.WorldX = 0;
+        gp.Player.WorldY = 0;
+        regularGoblin.WorldX = 12;
+        regularGoblin.WorldY = 0;
+        Goblin goblin = gp.getGoblinIterator().next();
+        for (int i = 0; i < 11; i++){
+            goblin.update();
+        }
     }
-    
+    private void moveright(){
+        gp.Player.WorldX = 0;
+        gp.Player.WorldY = 0;
+        regularGoblin.WorldX = 12;
+        regularGoblin.WorldY = 0;
+        Goblin goblin = gp.getGoblinIterator().next();
+        for (int i = 0; i < 11; i++){
+            goblin.update();
+        }
+    }
+    private void moveup(){
+        gp.Player.WorldX = 0;
+        gp.Player.WorldY = 0;
+        regularGoblin.WorldX = 12;
+        regularGoblin.WorldY = 0;
+        Goblin goblin = gp.getGoblinIterator().next();
+        for (int i = 0; i < 11; i++){
+            goblin.update();
+        }
+    }
+    private void movedown(){
+        gp.Player.WorldX = 0;
+        gp.Player.WorldY = 0;
+        regularGoblin.WorldX = 0;
+        regularGoblin.WorldY = 0;
+        Goblin goblin = gp.getGoblinIterator().next();
+        for (int i = 0; i < 11; i++){
+            goblin.update();
+        }
+    }
+
     public void checkSpritechange(){
 
+    }
+
+    public void testUpdate(){
+        gp.Player.WorldX = 0;
+        gp.Player.WorldY = 0;
+        regularGoblin.WorldX = 12;
+        regularGoblin.WorldY = 0;
+        regularGoblin.update();
+        assertTrue(regularGoblin.onPath);
+        assertTrue(regularGoblin.inSight);
     }
 
     @Test
