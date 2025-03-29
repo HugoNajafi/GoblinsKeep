@@ -69,15 +69,4 @@ public class RegularGoblinTest {
     }
 
 
-
-//    @Test
-//    void testUpdate() {
-//        GamePanel gamePanel = new GamePanel();
-//        RegularGoblin goblin = new RegularGoblin(gamePanel);
-//
-//        // Just call update for coverage
-//        goblin.update();
-//    }
-
-
 }
