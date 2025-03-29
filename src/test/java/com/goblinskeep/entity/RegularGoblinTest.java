@@ -64,8 +64,6 @@ public class RegularGoblinTest {
         Goblin goblin = gp.getGoblinIterator().next();
         for (int i = 0; i < 2000; i++){
             goblin.update();
-            System.out.println("GoblinX: " + goblin.WorldX);
-            System.out.println("GoblinY: " + goblin.WorldY);
         }
         assertTrue(gp.map.gameEnded());
     }
