@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.image.ImageObserver;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.MapGenerator;
@@ -21,41 +22,24 @@ import com.goblinskeep.objects.ObjectManager;
 
 public class testGoblin {
     // Mocked dependencies
-    public GamePanel mockGamePanel;
-    public PlayerInputHandler mockPlayerInput;
-    public CollisionChecker mockCollisionChecker;
-    public Player player;
-    public Goblin goblin;
-    public MapGenerator mockMap;
-    public ObjectManager mockObj;
+    private GamePanel gp;
+    private Goblin regularGoblin;
 
     @BeforeEach
-    public void setup() {
-        // Initialize mocks
-        mockGamePanel = mock(GamePanel.class);
-        mockPlayerInput = mock(PlayerInputHandler.class);
-        mockCollisionChecker = mock(CollisionChecker.class);
-        mockMap = mock(MapGenerator.class);
-        mockObj = mock(ObjectManager.class);
+    void setUp(){
+        gp = new GamePanel();
+        regularGoblin =  new RegularGoblin(gp, gp.Player);
 
-        mockGamePanel.collisionChecker = mockCollisionChecker;
-        mockGamePanel.map = mockMap;
-        mockGamePanel.obj = mockObj;
-
-        player = new Player(0, 0, mockGamePanel, mockPlayerInput);
-        Goblin goblin = new RegularGoblin(mockGamePanel, player);
-
-        try {
-            player = spy(player);
-            goblin = spy(goblin);
-            doNothing().when(player).getPlayerImage(); // Disable image loading for tests
-            doNothing().when(goblin).getGoblinImage(); // Disable image loading for tests
-        } catch (Exception e) {
-            fail("Failed to create player spy: " + e.getMessage());
-        }
     }
 
-    public void tes
+    //AI moves left since it is running with pathfinding
+    private void moveleft(){
+
+    }
+    
+    public void checkSpritechange(){
+
+    }
 
     @Test
     private void testDraw(){
