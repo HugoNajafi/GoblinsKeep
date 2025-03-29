@@ -209,11 +209,6 @@ public class Player extends Entity{
         BufferedImage image = getSpriteForDirection();
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
-        if(gp.debugMode){
-            g2.setColor(Color.BLUE);
-            g2.drawRect(screenX + hitboxDefaultX, screenY + hitboxDefaultY, 
-                       collisionArea.width, collisionArea.height);
-        }
 
     }
 

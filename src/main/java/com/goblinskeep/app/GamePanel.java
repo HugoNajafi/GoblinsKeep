@@ -243,20 +243,6 @@ public class GamePanel extends JPanel implements Runnable
             ui.draw(g2);
         }
 
-        if(debugMode){
-            g2.setFont(new Font("Arial", Font.BOLD, 20));
-            g2.setColor(Color.BLACK);
-
-            int x = 10;
-            int y = 400;
-            int lineHeight = 20;
-
-            g2.drawString("WorldX :" + Player.WorldX, x, y); y += lineHeight;
-            g2.drawString("WorldY :" + Player.WorldY, x, y); y += lineHeight;
-            g2.drawString("Col :" + (Player.WorldY + Player.hitboxDefaultX), x, y); y += lineHeight;
-            g2.drawString("Row :" + (Player.WorldY + Player.hitboxDefaultY), x, y); y += lineHeight;
-
-        }
 
         g2.dispose();
     }

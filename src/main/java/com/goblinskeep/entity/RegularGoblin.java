@@ -43,21 +43,14 @@ public class RegularGoblin extends Goblin {
      */
     @Override
     public void getAction() {
-        if(onPath){
-            int goalCol = (gp.Player.WorldX + gp.Player.hitboxDefaultX + 
-            (gp.Player.collisionArea.width / 2)) / gp.tileSize;
-            int goalRow = (gp.Player.WorldY + gp.Player.hitboxDefaultY + 
-            (gp.Player.collisionArea.height / 2)) / gp.tileSize;
-             
-            gp.pathFinder.searchPath(goalCol, goalRow, this);    
-            drawDirection = direction;
+        int goalCol = (gp.Player.WorldX + gp.Player.hitboxDefaultX +
+        (gp.Player.collisionArea.width / 2)) / gp.tileSize;
+        int goalRow = (gp.Player.WorldY + gp.Player.hitboxDefaultY +
+        (gp.Player.collisionArea.height / 2)) / gp.tileSize;
 
-  
-            
-        }
-        else{
-            randomMovement();
-        }
+        gp.pathFinder.searchPath(goalCol, goalRow, this);
+        drawDirection = direction;
+
         //Move along Path
         moveAlongPath();
     }
@@ -77,26 +70,6 @@ public class RegularGoblin extends Goblin {
         }
         interactPlayer(47);
 
-        if (collisionOn && !onPath) {
-            // If there's a collision during random movement, reverse direction
-            switch (direction) {
-                case UP:
-                    direction = Direction.DOWN;
-                    break;
-                case DOWN:
-                    direction = Direction.UP;
-                    break;
-                case LEFT:
-                    direction = Direction.RIGHT;
-                    break;
-                case RIGHT:
-                    direction = Direction.LEFT;
-                    break;
-            }
-            drawDirection = direction; 
-            collisionOn = false; 
-        }
-        
         if (!collisionOn) {
             if (direction == Direction.UP) {
                 this.WorldY -= Direction.UP.getDy() * this.getSpeed();
@@ -130,35 +103,6 @@ public class RegularGoblin extends Goblin {
         return myPath;
     }
 
-    /**
-     * Moves the goblin in a random direction.
-     */
-    private void randomMovement(){
-        
-        actionLockCounter++;
-    
-        if(actionLockCounter == 75){
-
-            Random random = new Random();
-            int i = random.nextInt(100)+1;
-
-            if(i <= 25){
-                direction = Direction.UP;
-            }
-            else if(i >= 25 && i <= 50){
-                direction = Direction.DOWN;
-            }
-            else if(i >= 50 && i<= 75){
-                direction = Direction.LEFT;
-            }
-            else{
-                direction = Direction.RIGHT;
-            }
-            drawDirection = direction;
-            actionLockCounter = 0;
-        }
-
-    }
 
 
     /**
