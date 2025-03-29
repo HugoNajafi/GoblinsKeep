@@ -328,4 +328,9 @@ public class MapGenerator {
         return gameWin;
     }
 
+    /** sets the game status for testing purposes. */
+    public void setGameEnded(boolean gameEnded){
+        this.gameEnded = gameEnded;
+    }
+
 }
