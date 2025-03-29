@@ -3,7 +3,7 @@
 # ![Goblins Keep](src/main/resources/UI_img/titleScreen.png)
 
 ## About the Game
-**Goblins Keep** is a 2D tile-based escape game where players navigate through a maze-like castle while avoiding goblins and traps. The game features progressive AI across multiple levels, power-ups, and a scoring system. Players must solve puzzles, collect items, and survive to escape the castle.
+**Goblins Keep** is a 2D tile-based escape game where players navigate through a maze-like castle while avoiding goblins and traps. Players must solve puzzles, collect items, increase their score, and survive to escape the castle.
 
 ### Key Features:
 - **AI Movement**: Goblins use A* pathfinding and random movement for dynamic behavior.
