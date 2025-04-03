@@ -62,20 +62,19 @@ public class Player extends Entity{
     public void getPlayerImage() {
 
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/Player/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/Player/down2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/Player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/Player/right2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/Player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/Player/left2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
 
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
-
 
     /** Updates the player's movement and collision logic. */
     public void update() {
