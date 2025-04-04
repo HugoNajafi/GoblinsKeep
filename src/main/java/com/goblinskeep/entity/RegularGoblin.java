@@ -43,12 +43,9 @@ public class RegularGoblin extends Goblin {
      */
     @Override
     public void getAction() {
-        int goalCol = (gp.Player.WorldX + gp.Player.hitboxDefaultX +
-        (gp.Player.collisionArea.width / 2)) / gp.tileSize;
-        int goalRow = (gp.Player.WorldY + gp.Player.hitboxDefaultY +
-        (gp.Player.collisionArea.height / 2)) / gp.tileSize;
-
-        gp.pathFinder.searchPath(goalCol, goalRow, this);
+        //find player coordinate and get direction to it using pathfinding
+        Point goalCoordinates = gp.Player.getCenterTileCoordinates();
+        gp.pathFinder.searchPath(goalCoordinates.x, goalCoordinates.y, this);
         drawDirection = direction;
 
         //Move along Path

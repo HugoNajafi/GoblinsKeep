@@ -211,8 +211,19 @@ public class Player extends Entity{
 
         BufferedImage image = getSpriteForDirection();
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+    }
 
 
+    /**
+     * Gets the tile coordinates of the player's center hit-box position.
+     * This converts the player's world coordinates to tile-based coordinates.
+     *
+     * @return A Point containing the column (x) and row (y) of the tile where the player's hit-box center is located
+     */
+    public Point getCenterTileCoordinates(){
+        int col = (WorldX + hitboxDefaultX + (collisionArea.width / 2)) / gp.tileSize;
+        int row = (WorldY + hitboxDefaultY + (collisionArea.height / 2)) / gp.tileSize;
+        return new Point(col , row);
     }
 
 }
