@@ -88,12 +88,12 @@ public class CollisionChecker {
 
     /**
      * Checks for a collision between a player and an enemy.
+     * notifies map if a collision has occurred for it to handle.
      *
      * @param entity  The player entity.
      * @param targets An iterator over enemy entities.
-     * @return The enemy entity that collided with the player, or null if no collision occurred.
      */
-    public Entity playerCollisionWithEnemy(Entity entity, Iterator<? extends Entity> targets){
+    public void playerCollisionWithEnemy(Entity entity, Iterator<? extends Entity> targets){
 
         while (targets.hasNext()){
             Entity target = targets.next();
@@ -111,13 +111,11 @@ public class CollisionChecker {
             // Check collision based on movement direction
             updateCollisionArea(entity);
             if (entity.collisionArea.intersects(target.collisionArea)){
+                //handle collision by changing player to immovable and letting map handle the collision
                 entity.collisionOn = true;
-                return target;
-
+                gp.map.playerCollisionWithEnemy();;
             }
         }
-        return null;
-
     }
 
 

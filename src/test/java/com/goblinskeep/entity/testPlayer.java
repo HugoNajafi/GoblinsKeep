@@ -80,7 +80,6 @@ public class testPlayer {
         }).when(mockCollisionChecker).checkTile(player);
 
         when(mockCollisionChecker.checkObjectCollision(player, true)).thenReturn(objectCollision);
-        when(mockCollisionChecker.playerCollisionWithEnemy(eq(player), any())).thenReturn(enemyCollision);
     }
 
     // Helper method to assert player position and direction

@@ -105,11 +105,8 @@ public class Player extends Entity{
         handleObject(collisionObj);
 
         //check if collision with object before moving
-        Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getGoblinIterator());
-        if (target != null){
-            collisionOn = true;
-            gp.map.playerCollisionWithEnemy();
-        }
+        gp.collisionChecker.playerCollisionWithEnemy(this, gp.getGoblinIterator());
+
 
         // Move player if no collision detected
         if (!collisionOn && keyPressed) {

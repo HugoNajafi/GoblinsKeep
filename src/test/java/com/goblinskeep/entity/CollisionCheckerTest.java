@@ -104,7 +104,7 @@ class CollisionCheckerTest {
     }
 
     /**
-     * Tests if the player correctly detects a collision with an enemy.
+     * Tests if correctly detects a collision with player and enemy.
      */
     @Test
     void testValidPlayerCollisionWithEnemy() {
@@ -112,11 +112,12 @@ class CollisionCheckerTest {
         RegularGoblin goblin = new RegularGoblin(gp, player);
         moveEntityToPosition(goblin, player.WorldX + 10, player.WorldY, Direction.RIGHT);
         goblins.add(goblin);
-        assertInstanceOf(RegularGoblin.class, collisionChecker.playerCollisionWithEnemy(player, goblins.iterator()));
+        collisionChecker.playerCollisionWithEnemy(player, goblins.iterator());
+        assertTrue(gp.map.gameEnded());
     }
 
     /**
-     * Tests if the player correctly handles no collision with an enemy.
+     * Tests if the  correctly handles no collision with player and enemy.
      */
     @Test
     void testInvalidPlayerCollisionWithEnemy() {
@@ -125,7 +126,8 @@ class CollisionCheckerTest {
         moveEntityToPosition(goblin, player.WorldX, player.WorldY + gp.tileSize, Direction.DOWN);
         goblins.add(goblin);
         goblins.add(null);
-        assertNull(collisionChecker.playerCollisionWithEnemy(player, goblins.iterator()));
+        collisionChecker.playerCollisionWithEnemy(player, goblins.iterator());
+        assertFalse(gp.map.gameEnded());
     }
 
     /**
