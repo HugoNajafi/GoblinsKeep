@@ -118,5 +118,21 @@ public abstract class Entity {
     public void setY(int NewY){
         this.WorldY = NewY;
     }
+
+    /**
+     * Moves the entity in the direction it is currently facing.
+     * The movement is based on the entity's speed and the direction
+     */
+    public void moveEntityTowardDirection(){
+        if (direction == Direction.UP) {
+            this.WorldY -= Direction.UP.getDy() * this.getSpeed();
+        } else if (direction == Direction.DOWN) {
+            this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
+        } else if (direction == Direction.LEFT) {
+            this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
+        } else  { //Direction.RIGHT
+            this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
+        }
+    }
     
 }

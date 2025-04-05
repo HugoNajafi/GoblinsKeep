@@ -68,15 +68,7 @@ public class RegularGoblin extends Goblin {
         interactPlayer(47);
 
         if (!collisionOn) {
-            if (direction == Direction.UP) {
-                this.WorldY -= Direction.UP.getDy() * this.getSpeed();
-            } else if (direction == Direction.DOWN) {
-                this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
-            } else if (direction == Direction.LEFT) {
-                this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-            } else  { //Direction.RIGHT
-                this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
-            }
+            moveEntityTowardDirection();
             SpriteCounter++;
             if(SpriteCounter> 10){
                 if(SpriteNum == 1){

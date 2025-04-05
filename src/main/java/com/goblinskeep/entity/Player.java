@@ -80,16 +80,21 @@ public class Player extends Entity{
     public void update() {
         // Reset collision flag
         collisionOn = false;
+        boolean keyPressed = false;
 
         // Determine direction based on player input
         if (PlayerInput.up) {
             direction = Direction.UP;
+            keyPressed = true;
         } else if (PlayerInput.down) {
             direction = Direction.DOWN;
+            keyPressed = true;
         } else if (PlayerInput.left) {
             direction = Direction.LEFT;
+            keyPressed = true;
         } else if (PlayerInput.right) {
             direction = Direction.RIGHT;
+            keyPressed = true;
         }
 
         gp.debugMode = PlayerInput.debugMode;
@@ -107,16 +112,8 @@ public class Player extends Entity{
         }
 
         // Move player if no collision detected
-        if (!collisionOn) {
-            if (PlayerInput.up) {
-                this.WorldY -= Direction.UP.getDy() * this.getSpeed();
-            } else if (PlayerInput.down) {
-                this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
-            } else if (PlayerInput.left) {
-                this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-            } else if (PlayerInput.right) {
-                this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
-            }
+        if (!collisionOn && keyPressed) {
+            moveEntityTowardDirection();
         }
 
         // Update animation frames when moving
