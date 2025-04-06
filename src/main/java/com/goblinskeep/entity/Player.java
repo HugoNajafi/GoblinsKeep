@@ -94,7 +94,7 @@ public class Player extends Entity{
 
         gp.debugMode = PlayerInput.debugMode;
 
-        // Check collision with tiles before moving
+        // Check collision with tiles, objects and goblin before moving
         gp.collisionChecker.checkPlayerCollisions(this);
 
         // Move player if no collision detected
