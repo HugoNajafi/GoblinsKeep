@@ -14,20 +14,20 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit and integration tests for validating the functionality of the MapGenerator class.
+ * Unit and integration tests for validating the functionality of the MapHandler class.
  * */
 public class MapGeneratorTest {
 
     private GamePanel gp;
-    private MapGenerator map;
+    private MapHandler map;
 
     /**
-     * Initializes the GamePanel and gets its internal MapGenerator before each test.
+     * Initializes the GamePanel and gets its internal MapHandler before each test.
      */
     @BeforeEach
     void setup() {
         gp = new GamePanel();
-        map = new MapGenerator(gp); // Ensure MapGenerator is properly instantiated
+        map = new MapHandler(gp); // Ensure MapHandler is properly instantiated
         gp.map = map; // Set the map in GamePanel
     }
 

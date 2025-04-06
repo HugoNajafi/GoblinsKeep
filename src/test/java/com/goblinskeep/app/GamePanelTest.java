@@ -63,7 +63,7 @@ public class GamePanelTest {
     @Test
     void testUpdateGameEndCondition() {
         gamePanel.status = GameStatus.PLAYING;
-        gamePanel.map.setGameEnded(true); // Assume you can set this in your MapGenerator
+        gamePanel.map.setGameEnded(true); // Assume you can set this in your MapHandler
         gamePanel.update();
 
         assertEquals(GameStatus.END, gamePanel.status);

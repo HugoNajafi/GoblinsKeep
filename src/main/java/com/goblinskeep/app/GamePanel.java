@@ -2,7 +2,6 @@ package com.goblinskeep.app;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -13,9 +12,7 @@ import javax.swing.JPanel;
 import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Goblin;
 import com.goblinskeep.entity.Player;
-// import com.goblinskeep.entity.SmartGoblin;
 
-// import com.goblinskeep.pathFinder.Pathfinding;
 import com.goblinskeep.tile.TileManager;
 
 import com.goblinskeep.keyboard.MenuInputHandler;
@@ -81,7 +78,7 @@ public class GamePanel extends JPanel implements Runnable
     public Thread gameThread;
 
     /** List of goblins (enemy entities) in the game. */
-    private ArrayList<Goblin> goblins;
+    public ArrayList<Goblin> goblins;
 
 
     /** Object manager responsible for handling interactable objects. */
@@ -97,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable
     public GameStatus status;
 
     /** The game's map generator, responsible for setting up the environment. */
-    public MapGenerator map;
+    public MapHandler map;
 
     /** The menu UI screen. */
     private MenuUI menuUI = new MenuUI(this);
@@ -137,12 +134,12 @@ public class GamePanel extends JPanel implements Runnable
      * Initializes the game by setting up the map, player, goblins, and objects.
      */
     private void setGame() {
-        map = new MapGenerator(this);
-        goblins = map.getGoblins();
-        Player = map.getPlayer();
+        map = new MapHandler(this);
+//        goblins = map.getGoblins();
+//        Player = map.getPlayer();
         this.Player.speed = 5;
-        obj = map.getObj();
-        tileM = map.getTileM();
+//        obj = map.getObj();
+//        tileM = map.getTileM();
         pathFinder = new pathFinder(this);
         ui.restart();
     }

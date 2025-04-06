@@ -1,7 +1,7 @@
 package com.goblinskeep.objects;
 
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.app.MapGenerator;
+import com.goblinskeep.app.MapHandler;
 
 import java.awt.*;
 
@@ -23,7 +23,7 @@ public class ObjectManager {
 
     public GamePanel gp;
 
-    public MapGenerator map;
+    public MapHandler map;
 
 
     /**
