@@ -78,7 +78,7 @@ public class testPlayer {
             Player p = invocation.getArgument(0);
             p.collisionOn = collisionOn;
             return null;
-        }).when(mockCollisionChecker).checkTile(player);
+        }).when(mockCollisionChecker).checkTileCollision(player);
 
         when(mockCollisionChecker.checkObjectCollision(player, true)).thenReturn(objectCollision);
         when(mockCollisionChecker.playerCollisionWithEnemy(eq(player), any())).thenReturn(enemyCollision);

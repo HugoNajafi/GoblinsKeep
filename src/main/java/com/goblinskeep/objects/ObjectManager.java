@@ -35,6 +35,7 @@ public class ObjectManager {
         anObject = new LinkedHashMap<>();
         this.gp = gp;//tilesize is 48
         this.map = gp.map;
+        gp.obj = this;
     }
 
     /**

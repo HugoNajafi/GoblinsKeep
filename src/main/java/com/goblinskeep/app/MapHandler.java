@@ -1,11 +1,6 @@
 package com.goblinskeep.app;
 
-
-import com.goblinskeep.entity.Goblin;
-import com.goblinskeep.entity.Player;
 import com.goblinskeep.objects.*;
-import com.goblinskeep.tile.TileManager;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +8,7 @@ import java.util.List;
 
 
 /**
- * Generates and controls the game map, including object placement, enemy spawning,
- * and tracking game progression.
+ * Controls the game map and tracks game progression.
  */
 public class MapHandler {
     private final GamePanel gp;
@@ -44,6 +38,38 @@ public class MapHandler {
         this.gp = gp;
         rawMapData = new int[gp.maxWorldCol][gp.maxWorldRow];
         MapGenerator mapGen = new MapGenerator(gp, this, "/maps/world1.txt");
+    }
+
+    /**
+     * Handles interactions when the player collides with an object.
+     *
+     * @param collisionObject The object the player collides with.
+     */
+    public void handleObject(MainObject collisionObject) {
+        if (collisionObject != null){
+            String objName = collisionObject.name;
+            switch (objName){
+                case "key":
+                    keyCollected();
+                    gp.obj.removeObject(collisionObject.worldX, collisionObject.worldY);
+                    break;
+                case "bonus":
+                    collectedBonus((Bonus)collisionObject);
+                    break;
+                case "trap":
+                    trapHit();
+                    break;
+                case "lever":
+                    leverTouched();
+                    break;
+                case "exit":
+                    break;
+                case "invisible":
+                    exitTouched();
+                default:
+                    gp.Player.collisionOn = true;
+            }
+        }
     }
 
 

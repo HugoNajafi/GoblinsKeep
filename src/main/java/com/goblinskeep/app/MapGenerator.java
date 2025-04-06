@@ -32,8 +32,8 @@ public class MapGenerator {
         player = new Player(0, 0, gp, gp.PlayerInput);
         this.mapH = mapH;
         goblins = new ArrayList<>();
+        gp.goblins = this.goblins;
         loadMap(filePath);
-        setGP(gp);
     }
 
     /**
@@ -127,13 +127,6 @@ public class MapGenerator {
         }
     }
 
-
-    void setGP(GamePanel gp){
-        gp.Player = this.player;
-        gp.tileM = this.tileM;
-        gp.obj = this.obj;
-        gp.goblins = this.goblins;
-    }
 
     /**
      * Sets the player's initial position.
