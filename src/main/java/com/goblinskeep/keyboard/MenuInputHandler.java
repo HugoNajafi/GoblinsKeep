@@ -12,11 +12,11 @@ import java.awt.event.KeyListener;
  * Handles keyboard input for all UI menu systems in the game.
  */
 public class MenuInputHandler implements KeyListener {
-    private GamePanel gp;
-    private MenuUI menuUI;
-    private PauseUI pauseUI;
-    private EndUI endUI;
-    private InstructionsUI instructionsUI;
+    private final GamePanel gp;
+    private final MenuUI menuUI;
+    private final PauseUI pauseUI;
+    private final EndUI endUI;
+    private final InstructionsUI instructionsUI;
     private boolean cursorRelease = true;
 
 
