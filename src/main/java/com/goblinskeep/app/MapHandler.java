@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * Controls the game map and tracks game progression.
  */
@@ -73,10 +72,7 @@ public class MapHandler {
     }
 
 
-    /**
-     * Handles interaction when a player touches a lever.
-     *
-     */
+    /** Handles interaction when a player touches a lever. */
     public void leverTouched(){
         if (keysCollected >= keysNeeded){
             exitOpen = true;
@@ -127,7 +123,7 @@ public class MapHandler {
     }
 
 
-
+    /** Handles bonus collection. */
     public void collectedBonus(Bonus bonus){
         if (bonus.isAlive(currentTime)){
             score += 100;
@@ -135,17 +131,19 @@ public class MapHandler {
         }
     }
 
+    /** Helper function to remove the bonus from the map. */
     public void removeBonus(Bonus bonus){
         gp.obj.removeObject(bonus.worldX,bonus.worldY);
         bonuses.remove(bonus);
     }
 
+    /** Helper function to add the bonus to map. */
     public void addBonus(Bonus bonus){
         bonuses.add(bonus);
     }
 
 
-    /** Deducts points when the player steps on a trap. */
+    /** Handles interaction with the trap. */
     public void trapHit(){
         if(canDeductPoints) {
             score -= 50;
@@ -158,8 +156,10 @@ public class MapHandler {
     }
 
 
-    /** Updates the timers for score deductions. */
-    public void update(){
+    /**
+     * Helper function to update time for score deduction and bonus spawn.
+     */
+    public void updateTimer(){
         currentTimeCounter++;
         if (currentTimeCounter >= 60){
             currentTime++;

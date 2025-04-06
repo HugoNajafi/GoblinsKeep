@@ -150,21 +150,4 @@ public class MapGenerator {
         return player;
     }
 
-
-    /**
-     * @return The list of goblins currently in the game.
-     */
-    public ArrayList<Goblin> getGoblins() {
-        return goblins;
-    }
-
-    /** @return The tile manager handling the game tiles. */
-    public TileManager getTileManager(){
-        return tileM;
-    }
-
-    /** @return The tile manager handling the game tiles. */
-    public ObjectManager getObjectManager(){
-        return obj;
-    }
 }

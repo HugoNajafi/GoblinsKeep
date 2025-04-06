@@ -272,7 +272,7 @@ public class MapGeneratorTest {
         int initialScore = map.getScore();
         map.trapHit();
         for (int i = 0; i < 120; i++){
-            map.update();
+            map.updateTimer();
         }
         map.trapHit();
         assertEquals(initialScore - 100, map.getScore());
@@ -287,7 +287,7 @@ public class MapGeneratorTest {
         map.collectedBonus(bonus);
         assertNotEquals(100, map.getScore());
         for (int i = 0; i < 60; i++){
-            map.update();
+            map.updateTimer();
         }
         map.collectedBonus(bonus);
         assertEquals(100, map.getScore(), "Score should increase by 100 when a bonus is collected at time 1");
