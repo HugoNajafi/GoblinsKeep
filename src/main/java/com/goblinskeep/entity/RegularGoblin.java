@@ -5,7 +5,6 @@ import java.util.ArrayList;
 // import java.awt.Rectangle;
 // import java.util.ArrayList;
 // import java.util.List;
-import java.util.Random;
 
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
@@ -58,7 +57,7 @@ public class RegularGoblin extends Goblin {
     private void moveAlongPath(){
         collisionOn = false;
 
-        gp.collisionChecker.checkTile(this);
+        gp.collisionChecker.checkTileCollision(this);
 
         gp.collisionChecker.checkEnemyCollision(this, gp.getGoblinIterator());
         if(gp.collisionChecker.checkPlayer(this)){

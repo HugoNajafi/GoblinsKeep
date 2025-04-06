@@ -15,11 +15,12 @@ import static org.mockito.Mockito.when;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
+
+import com.goblinskeep.app.MapHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.app.MapGenerator;
 import com.goblinskeep.keyboard.PlayerInputHandler;
 import com.goblinskeep.objects.Bonus;
 import com.goblinskeep.objects.InvisibleBarrier;
@@ -37,7 +38,7 @@ public class testPlayer {
     public PlayerInputHandler mockPlayerInput;
     public CollisionChecker mockCollisionChecker;
     public Player player;
-    public MapGenerator mockMap;
+    public MapHandler mockMap;
     public ObjectManager mockObj;
 
     @BeforeEach
@@ -46,7 +47,7 @@ public class testPlayer {
         mockGamePanel = mock(GamePanel.class);
         mockPlayerInput = mock(PlayerInputHandler.class);
         mockCollisionChecker = mock(CollisionChecker.class);
-        mockMap = mock(MapGenerator.class);
+        mockMap = mock(MapHandler.class);
         mockObj = mock(ObjectManager.class);
 
         mockGamePanel.collisionChecker = mockCollisionChecker;
@@ -77,7 +78,7 @@ public class testPlayer {
             Player p = invocation.getArgument(0);
             p.collisionOn = collisionOn;
             return null;
-        }).when(mockCollisionChecker).checkTile(player);
+        }).when(mockCollisionChecker).checkTileCollision(player);
 
         when(mockCollisionChecker.checkObjectCollision(player, true)).thenReturn(objectCollision);
     }
@@ -202,7 +203,7 @@ public class testPlayer {
 
     @Test
     public void testGoblinCollision() {
-        MapGenerator map = new MapGenerator(mockGamePanel);
+        MapHandler map = new MapHandler(mockGamePanel);
         Goblin mockGoblin = mock(Goblin.class);
 
         // Mock collision detection

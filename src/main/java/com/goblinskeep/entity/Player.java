@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.objects.*;
 
 /**
  * Represents the player character in the game.
@@ -39,6 +38,7 @@ public class Player extends Entity{
     public Player(int startX, int startY, GamePanel gp, PlayerInputHandler PlayerInput) {
         super(startX, startY);  // Pass values up to GameObject constructor
         this.gp = gp;
+        gp.Player = this;
         this.PlayerInput = PlayerInput;
 
         // Set a default direction
@@ -99,13 +99,8 @@ public class Player extends Entity{
 
         gp.debugMode = PlayerInput.debugMode;
 
-        // Check collision with tiles before moving
-        gp.collisionChecker.checkTile(this);
-        MainObject collisionObj = gp.collisionChecker.checkObjectCollision(this, true);
-        handleObject(collisionObj);
-
-        //check if collision with object before moving
-        gp.collisionChecker.playerCollisionWithEnemy(this, gp.getGoblinIterator());
+        // Check collision with tiles, objects and goblin before moving
+        gp.collisionChecker.checkPlayerCollisions(this);
 
 
         // Move player if no collision detected
@@ -123,39 +118,6 @@ public class Player extends Entity{
         }
     }
 
-
-    /**
-     * Handles interactions when the player collides with an object.
-     *
-     * @param collisionObject The object the player collides with.
-     */
-    public void handleObject(MainObject collisionObject) {
-        //if null then an object was not collected
-        if (collisionObject != null){
-            String objName = collisionObject.name;
-            switch (objName){
-                case "key":
-                    gp.map.keyCollected();
-                    gp.obj.removeObject(collisionObject.worldX, collisionObject.worldY);
-                    break;
-                case "bonus":
-                    gp.map.collectedBonus((Bonus)collisionObject);
-                    break;
-                case "trap":
-                    gp.map.trapHit();
-                    break;
-                case "lever":
-                    gp.map.leverTouched();
-                    break;
-                case "exit":
-                    break;
-                case "invisible":
-                    gp.map.exitTouched();
-                default:
-                    collisionOn = true;
-            }
-        }
-    }
 
     public BufferedImage getSpriteForDirection(){
         BufferedImage image = null;

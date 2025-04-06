@@ -4,7 +4,6 @@ import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.objects.*;
 
-import java.awt.*;
 import java.util.Iterator;
 
 /**
@@ -25,12 +24,24 @@ public class CollisionChecker {
     }
 
 
+    public void checkPlayerCollisions(Player player)
+    {
+        //Check collision with tiles
+        checkTileCollision(player);
+
+        //Check and handle collision with an object
+        checkObjectCollision(player, true);
+
+        //check collision with a goblin
+        playerCollisionWithEnemy(player, gp.getGoblinIterator());
+    }
+
     /**
      * Checks if an entity collides with a solid tile based on its direction.
      *
      * @param entity The entity to check for tile collision.
      */
-    public void checkTile(Entity entity) {
+    public void checkTileCollision(Entity entity) {
         int entityLeftWorldX = entity.WorldX + entity.hitboxDefaultX;
         int entityRightWorldX = entity.WorldX + entity.hitboxDefaultX + entity.collisionArea.width;
         int entityTopWorldY = entity.WorldY + entity.hitboxDefaultY;
@@ -197,12 +208,10 @@ public class CollisionChecker {
      *
      * @param entity The entity to check for collisions.
      * @param player A boolean indicating whether the entity is a player (true) or not (false).
-     * @return The object that the entity collides with, or null if no collision occurs.
      */
-    public MainObject checkObjectCollision(Entity entity, boolean player){
+    public void checkObjectCollision(Entity entity, boolean player){
 
-        MainObject returnObject = null;
-
+        MainObject collisionObj = null;
         // Iterate through all objects in the game world
         for(MainObject object: gp.obj.anObject.values()){
 
@@ -219,7 +228,7 @@ public class CollisionChecker {
 
             // Check if the entity collides with the object
             if (entity.collisionArea.intersects(object.collisionArea)) {
-                returnObject = handleEntityCollision(entity, player, object);
+                collisionObj = handleEntityCollision(entity, player, object);
             }
 
             // Reset collision areas to their default positions
@@ -228,7 +237,12 @@ public class CollisionChecker {
             object.collisionArea.x = object.defaultCollisionAreaX;
             object.collisionArea.y = object.defaultCollisionAreaY;
         }
-        return returnObject;
+
+        //ask the map handler to reflect collision with object
+        if( collisionObj != null){
+            gp.map.handleObject(collisionObj);
+        }
+
     }
 
 
@@ -250,7 +264,6 @@ public class CollisionChecker {
         if (player){
             return object;
         }
-
         return null;
     }
 

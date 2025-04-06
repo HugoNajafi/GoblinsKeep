@@ -52,7 +52,7 @@ class CollisionCheckerTest {
         moveEntityToPosition(player,
                 player.WorldX + gp.tileSize + gp.tileSize / 2,
                 player.WorldY + gp.tileSize * 2 - 30, Direction.UP);
-        collisionChecker.checkTile(player);
+        collisionChecker.checkTileCollision(player);
         assertTrue(player.collisionOn);
     }
 
@@ -63,7 +63,7 @@ class CollisionCheckerTest {
     void testTileCollisionDown() {
         //move player next to the above wall and check whether it detects if a wall is above him
         moveEntityToPosition(player,player.WorldX - gp.tileSize, player.WorldY, Direction.DOWN);
-        collisionChecker.checkTile(player);
+        collisionChecker.checkTileCollision(player);
         assertTrue(player.collisionOn);
     }
 
@@ -74,7 +74,7 @@ class CollisionCheckerTest {
     void testTileCollisionRight() {
         //move player next to the above wall and check whether it detects if a wall is above him
         moveEntityToPosition(player, player.WorldX + gp.tileSize + 30, player.WorldY, Direction.RIGHT);
-        collisionChecker.checkTile(player);
+        collisionChecker.checkTileCollision(player);
         assertTrue(player.collisionOn);
     }
 
@@ -85,7 +85,7 @@ class CollisionCheckerTest {
     void testTileCollisionLeft() {
         //move player next to the above wall and check whether it detects if a wall is above him
         moveEntityToPosition(player, player.WorldX - 30, player.WorldY, Direction.LEFT);
-        collisionChecker.checkTile(player);
+        collisionChecker.checkTileCollision(player);
         assertTrue(player.collisionOn);
     }
 
@@ -98,7 +98,7 @@ class CollisionCheckerTest {
         Direction[] directions = {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
         for (Direction direction : directions) {
             player.direction = direction;
-            collisionChecker.checkTile(player);
+            collisionChecker.checkTileCollision(player);
             assertFalse(player.collisionOn);
         }
     }
