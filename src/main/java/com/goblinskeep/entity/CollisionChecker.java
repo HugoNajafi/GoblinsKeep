@@ -29,13 +29,8 @@ public class CollisionChecker {
         //Check collision with tiles
         checkTileCollision(player);
 
-        //Check collision with an object
-        MainObject collisionObj = checkObjectCollision(player, true);
-
-        //ask the map handler to reflect collision with object
-        if( collisionObj != null){
-            gp.map.handleObject(collisionObj);
-        }
+        //Check and handle collision with an object
+        checkObjectCollision(player, true);
 
         //check collision with a goblin
         Entity target = playerCollisionWithEnemy(player, gp.getGoblinIterator());
@@ -221,9 +216,8 @@ public class CollisionChecker {
      *
      * @param entity The entity to check for collisions.
      * @param player A boolean indicating whether the entity is a player (true) or not (false).
-     * @return The object that the entity collides with, or null if no collision occurs.
      */
-    public MainObject checkObjectCollision(Entity entity, boolean player){
+    public void checkObjectCollision(Entity entity, boolean player){
 
         MainObject collisionObj = null;
         // Iterate through all objects in the game world
@@ -251,7 +245,12 @@ public class CollisionChecker {
             object.collisionArea.x = object.defaultCollisionAreaX;
             object.collisionArea.y = object.defaultCollisionAreaY;
         }
-        return collisionObj;
+
+        //ask the map handler to reflect collision with object
+        if( collisionObj != null){
+            gp.map.handleObject(collisionObj);
+        }
+
     }
 
 
