@@ -54,27 +54,12 @@ public class MenuUI extends DefaultUI{
         String play = "PLAY";
         String instructions = "INSTRUCTIONS";
         String quit = "QUIT";
+        String[] options = {play, instructions, quit};
 
         //draw menu options
         borderThickness = 2;
         g2.setFont(gameFont.deriveFont(40f));
-        drawTextWithBorder(g2,play, getCenteredXAxisText(play, g2), gp.tileSize * 8);
-        if(cursorSelection == 0){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(play, g2) - gp.tileSize, gp.tileSize * 8);
-        }
-        drawTextWithBorder(g2,instructions, getCenteredXAxisText(instructions, g2), gp.tileSize * 9);
-        if(cursorSelection == 1){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(instructions, g2) - gp.tileSize, gp.tileSize * 9);
-        }
-
-        drawTextWithBorder(g2,quit, getCenteredXAxisText(quit, g2), gp.tileSize * 10);
-        if(cursorSelection == 2){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(quit, g2) - gp.tileSize, gp.tileSize * 10);
-        }
-
-
-
-
+        drawCursorOptionsCentered(g2, options, 8);
 
     }
 

@@ -115,4 +115,16 @@ public abstract class DefaultUI {
         g2.setColor(Color.WHITE);
         g2.drawString(text, x, y);
     }
+
+    public void drawCursorOptionsCentered(Graphics2D g2, String[] optionNames, int startingYTile) {
+        for (int i = 0; i < optionNames.length; i++){
+            int yTile = startingYTile + i;
+            drawTextWithBorder(g2, optionNames[i], getCenteredXAxisText(optionNames[i], g2), gp.tileSize * yTile);
+            if(cursorSelection == i){
+                drawTextWithBorder(g2,">",getCenteredXAxisText(optionNames[i], g2) - gp.tileSize,
+                        gp.tileSize * yTile);
+            }
+        }
+
+    }
 }

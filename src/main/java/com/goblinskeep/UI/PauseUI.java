@@ -38,24 +38,12 @@ public class PauseUI extends DefaultUI {
         String resume = "RESUME";
         String menu = "BACK TO MENU";
         String restart = "RESTART";
+        String[] options = {resume, restart, menu};
 
         //draw text options
         borderThickness = 2;
         g2.setFont(gameFont.deriveFont(40f));
-        drawTextWithBorder(g2,resume, getCenteredXAxisText(resume, g2), gp.tileSize * 8);
-        if(cursorSelection == 0){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(resume, g2) - gp.tileSize, gp.tileSize * 8);
-        }
-
-        drawTextWithBorder(g2,restart, getCenteredXAxisText(restart, g2), gp.tileSize * 9);
-        if(cursorSelection == 1){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(restart, g2) - gp.tileSize, gp.tileSize * 9);
-        }
-
-        drawTextWithBorder(g2,menu, getCenteredXAxisText(menu, g2), gp.tileSize * 10);
-        if(cursorSelection == 2){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(menu, g2) - gp.tileSize, gp.tileSize * 10);
-        }
+        drawCursorOptionsCentered(g2, options, 8);
 
     }
 
