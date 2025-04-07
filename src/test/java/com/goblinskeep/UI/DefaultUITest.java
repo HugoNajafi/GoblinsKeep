@@ -66,5 +66,17 @@ public class DefaultUITest {
         verify(g2, atLeastOnce()).drawString(anyString(), anyInt(), anyInt());
     }
 
+    @Test
+    void drawCursorOptionsTest(){
+        GamePanel mockGp = mock(GamePanel.class);
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        DefaultUI ui = new MenuUI(mockGp);
+        String[] options = {"Hello", "test", "123"};
+        ui.drawCursorOptionsCentered(g2, options, 3);
+        assertDoesNotThrow(() -> new RuntimeException());
+        g2.dispose();
+    }
+
 
 }

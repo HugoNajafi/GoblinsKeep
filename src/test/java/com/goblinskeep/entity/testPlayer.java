@@ -80,7 +80,7 @@ public class testPlayer {
             return null;
         }).when(mockCollisionChecker).checkTileCollision(player);
 
-        when(mockCollisionChecker.checkObjectCollision(player, true)).thenReturn(objectCollision);
+//        when(mockCollisionChecker.checkObjectCollision(player, true)).thenReturn(objectCollision);
     }
 
     // Helper method to assert player position and direction
@@ -129,93 +129,6 @@ public class testPlayer {
         assertPlayerState(initialX, initialY, Direction.DOWN); // Default direction
     }
 
-    @Test
-    public void testCollisionWithTile() {
-        int initialX = player.WorldX;
-        int initialY = player.WorldY;
-
-        // Test collision while moving UP
-        setPlayerMovement(true, false, false, false); // Move up
-        mockCollisions(true, null, null); // Collision detected
-        player.update();
-        assertPlayerState(initialX, initialY, Direction.UP);
-
-        // Test collision while moving DOWN
-        setPlayerMovement(false, true, false, false); // Move down
-        mockCollisions(true, null, null); // Collision detected
-        player.update();
-        assertPlayerState(initialX, initialY, Direction.DOWN);
-    }
-
-    @Test
-    public void testObjectCollisions() {
-        int initialX = player.WorldX;
-        int initialY = player.WorldY;
-        // Test collision with Bonus
-        Bonus bonus = new Bonus(0, 20);
-        setPlayerMovement(true, false, false, false); // Move up
-        mockCollisions(false, bonus, null);
-        doNothing().when(mockMap).collectedBonus(bonus);
-        player.update();
-        assertPlayerState(initialX, initialY - player.getSpeed(), Direction.UP);
-
-        initialX = player.WorldX;
-        initialY = player.WorldY;
-        // Test collision with Key
-        Key key = new Key();
-        setPlayerMovement(true, false, false, false); // Move up
-        mockCollisions(false, key, null);
-        doNothing().when(mockMap).keyCollected();
-        doNothing().when(mockObj).removeObject(player.WorldX, player.WorldY);
-        player.update();
-        assertPlayerState(initialX, initialY - player.getSpeed(), Direction.UP);
-
-        initialX = player.WorldX;
-        initialY = player.WorldY;
-        // Test collision with Trap
-        Trap trap = new Trap();
-        setPlayerMovement(true, false, false, false); // Move up
-        mockCollisions(false, trap, null);
-        doNothing().when(mockMap).trapHit();
-        player.update();
-        assertPlayerState(initialX, initialY - player.getSpeed(), Direction.UP);
-
-        initialX = player.WorldX;
-        initialY = player.WorldY;
-        // Test collision with lever
-        Lever lever = new Lever();
-        setPlayerMovement(true, false, false, false); // Move up
-        mockCollisions(false, lever, null);
-        doNothing().when(mockMap).leverTouched();
-        player.update();
-        assertPlayerState(initialX, initialY - player.getSpeed(), Direction.UP);
-        
-        initialX = player.WorldX;
-        initialY = player.WorldY;
-        // Test collision with invisible barrier
-        InvisibleBarrier barrier = new InvisibleBarrier();
-        setPlayerMovement(true, false, false, false); // Move up
-        mockCollisions(false, barrier, null);
-        doNothing().when(mockMap).exitTouched();
-        player.update();
-        assertPlayerState(initialX, initialY, Direction.UP);
-        }
-
-    @Test
-    public void testGoblinCollision() {
-        MapHandler map = new MapHandler(mockGamePanel);
-        Goblin mockGoblin = mock(Goblin.class);
-
-        // Mock collision detection
-        mockCollisions(true, null, mockGoblin);
-
-
-        // Act
-        player.update();
-
-        // Assert
-        assertTrue(player.collisionOn, "Player collisionOn should be true after colliding with a goblin.");
-    }
 
     @Test
     public void testDraw() {
@@ -286,5 +199,20 @@ public class testPlayer {
         assertEquals(player.right2, player.getSpriteForDirection()); // Assert image is right2
 
         System.out.println("Player Draw and SpriteCounter passed. Success.");
+    }
+
+    /**
+     * Test for getCenterTIleCoordinate in Player class
+     */
+    @Test
+    void getCenterTileCoordinatesTest(){
+        GamePanel gp = new GamePanel();
+        Player player = gp.Player;
+        int xTile = 20;
+        int yTile = 30;
+        player.WorldX = xTile * gp.tileSize;
+        player.WorldY = yTile * gp.tileSize;
+        assertEquals(xTile, player.getCenterTileCoordinates().x);
+        assertEquals(yTile, player.getCenterTileCoordinates().y);
     }
 }

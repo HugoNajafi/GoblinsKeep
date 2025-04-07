@@ -2,6 +2,7 @@ package com.goblinskeep.entity;
 
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.Direction;
+import com.goblinskeep.objects.Exit;
 import com.goblinskeep.objects.Key;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -235,8 +236,10 @@ class CollisionCheckerTest {
     @Test
     void testValidPlayerCollisionWithObject() {
         gp.obj.addObject(player.WorldX / gp.tileSize, player.WorldY / gp.tileSize, new Key());
+        int before = gp.map.getKeysCollected();
         player.direction = Direction.UP;
-        assertInstanceOf(Key.class, gp.collisionChecker.checkObjectCollision(player, true));
+        gp.collisionChecker.checkObjectCollision(player, true);
+        assertEquals(before + 1, gp.map.getKeysCollected());
     }
 
     /**
@@ -245,7 +248,10 @@ class CollisionCheckerTest {
     @Test
     void testInvalidPlayerCollisionWithObject() {
         gp.obj.addObject(player.WorldX / gp.tileSize, player.WorldY / gp.tileSize + 2, new Key());
-        assertNull(gp.collisionChecker.checkObjectCollision(player, true));
+        int before = gp.map.getKeysCollected();
+        player.direction = Direction.UP;
+        gp.collisionChecker.checkObjectCollision(player, true);
+        assertEquals(before, gp.map.getKeysCollected());
     }
 
     /**
@@ -254,7 +260,31 @@ class CollisionCheckerTest {
     @Test
     void testEnemyCollisionWithObject() {
         gp.obj.addObject(player.WorldX / gp.tileSize, player.WorldY / gp.tileSize, new Key());
+        int before = gp.map.getKeysCollected();
         player.direction = Direction.UP;
-        assertNull(gp.collisionChecker.checkObjectCollision(player, false));
+        gp.collisionChecker.checkObjectCollision(player, false);
+        assertEquals(before, gp.map.getKeysCollected());
+    }
+
+    /**
+     * Tests if an entity correctly handles collision with an object and is solid.
+     */
+    @Test
+    void testCollisionWithSolidObject() {
+        gp.obj.addObject(player.WorldX / gp.tileSize, player.WorldY / gp.tileSize, new Exit());
+        player.direction = Direction.UP;
+        gp.collisionChecker.checkObjectCollision(player, true);
+        assertTrue(player.collisionOn);
+    }
+
+    /**
+     * Tests if an entity correctly handles no collisions.
+     */
+    @Test
+    void testCheckPlayerCollisions(){
+        player.WorldX = 0;
+        player.WorldY = 0;
+        collisionChecker.checkPlayerCollisions(player);
+        assertFalse(player.collisionOn);
     }
 }
