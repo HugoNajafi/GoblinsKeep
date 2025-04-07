@@ -22,7 +22,7 @@
 
 # Compiled output directories
 bin/
-out/
+
 
 ### Maven ###
 target/

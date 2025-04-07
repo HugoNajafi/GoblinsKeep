@@ -62,27 +62,36 @@ public class Player extends Entity{
     public void getPlayerImage() {
 
         try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/Player/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/Player/up2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/Player/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/Player/down2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/Player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/Player/right2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/Player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/Player/left2.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
 
         }catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-
     /** Updates the player's movement and collision logic. */
     public void update() {
         // Reset collision flag
         collisionOn = false;
+        updateDirection();
+        checkCollisions();
+        movePlayer();
+        updateAnimation();
+    }
 
-        // Determine direction based on player input
+    /**
+     * Determine direction based on player input.
+     * This method checks the current state of the PlayerInput and updates
+     * the direction accordingly.
+    */
+    private void updateDirection() {
         if (PlayerInput.up) {
             direction = Direction.UP;
         } else if (PlayerInput.down) {
@@ -92,44 +101,68 @@ public class Player extends Entity{
         } else if (PlayerInput.right) {
             direction = Direction.RIGHT;
         }
+    }
 
-        gp.debugMode = PlayerInput.debugMode;
-
-        // Check collision with tiles before moving
+    /**
+     *Check if the player collides with any objects or enemies.
+     */
+    private void checkCollisions() {
+        // Check for collisions with tiles
         gp.collisionChecker.checkTile(this);
         MainObject collisionObj = gp.collisionChecker.checkObjectCollision(this, true);
         handleObject(collisionObj);
 
-        //check if collision with object before moving
+        // Check for collisions with enemies
         Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getGoblinIterator());
-        if (target != null){
+        if (target != null) {
             collisionOn = true;
             gp.map.playerCollisionWithEnemy();
         }
+    }
 
-        // Move player if no collision detected
-        if (!collisionOn) {
-            if (PlayerInput.up) {
-                this.WorldY -= Direction.UP.getDy() * this.getSpeed();
-            } else if (PlayerInput.down) {
-                this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
-            } else if (PlayerInput.left) {
-                this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-            } else if (PlayerInput.right) {
-                this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
-            }
+    /**
+     * Checks if the player has provided any input for movement.
+     * @return true if the player has provided input, false otherwise.
+     */
+    private boolean playerInput(){
+        boolean PlayerIn = false;
+        if (PlayerInput.up || PlayerInput.down || PlayerInput.left || PlayerInput.right) {
+            PlayerIn = true;
         }
+        return PlayerIn;
+    }
 
-        // Update animation frames when moving
-        if (PlayerInput.up || PlayerInput.down || PlayerInput.left ||PlayerInput.right ){
-            SpriteCounter++;
-            if(SpriteCounter> 10){
-                SpriteNum = (SpriteNum == 1) ? 2: 1;
-                SpriteCounter = 0;
+    /**
+     * Moves the player based on the current direction and speed.
+     * The method checks for collisions before moving the player.
+     */
+    private void movePlayer(){
+        if(!collisionOn && playerInput()){
+            if(direction == Direction.UP){
+                this.WorldY -= Direction.UP.getDy() * this.getSpeed();
+            } else if(direction == Direction.DOWN){
+                this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
+            } else if(direction == Direction.LEFT){
+                this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
+            } else if(direction == Direction.RIGHT){
+                this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
             }
         }
     }
 
+    /**
+     * Updates the animation frames for the player sprite.
+     * This method is called to update the sprite's appearance based on movement.
+     */
+    private void updateAnimation() {
+        if (playerInput()) {
+            SpriteCounter++;
+            if (SpriteCounter > 10) {
+                SpriteNum = (SpriteNum == 1) ? 2 : 1;
+                SpriteCounter = 0;
+            }
+        }
+    }
 
     /**
      * Handles interactions when the player collides with an object.
@@ -164,6 +197,11 @@ public class Player extends Entity{
         }
     }
 
+    /**
+     * Returns the sprite image for the player's current direction.
+     *
+     * @return The sprite image for the current direction.
+     */
     public BufferedImage getSpriteForDirection(){
         BufferedImage image = null;
         switch (direction){
@@ -212,8 +250,6 @@ public class Player extends Entity{
 
         BufferedImage image = getSpriteForDirection();
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-
-
     }
 
 }
