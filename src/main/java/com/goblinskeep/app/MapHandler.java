@@ -85,11 +85,11 @@ public class MapHandler {
             //getting the only door in the map
             Exit door = gp.obj.findDoor();
             door.open();
-            gp.ui.showMessage("Exit Opened");
+            showMessage("Exit Opened");
         }
         else
         {
-            gp.ui.showMessage("Get more Keys!");
+            showMessage("Get more Keys!");
         }
     }
 
@@ -102,7 +102,7 @@ public class MapHandler {
         }
         else
         {
-            gp.ui.showMessage("Door locked!");
+            showMessage("Door locked!");
         }
     }
 
@@ -111,7 +111,7 @@ public class MapHandler {
     public void keyCollected(){
         keysCollected++;
         if (keysCollected == keysNeeded){
-            gp.ui.showMessage("Lever Unlocked");
+            showMessage("Lever Unlocked");
         }
     }
 
@@ -202,6 +202,11 @@ public class MapHandler {
     /** sets the game status for testing purposes. */
     public void setGameEnded(boolean gameEnded){
         this.gameEnded = gameEnded;
+    }
+
+    /** shows message on screen, uses function in GamePanel. */
+    public void showMessage(String message){
+        gp.ui.showMessage(message);
     }
 
 }
