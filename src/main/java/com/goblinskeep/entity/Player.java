@@ -4,8 +4,6 @@ import com.goblinskeep.app.Direction;
 import com.goblinskeep.keyboard.PlayerInputHandler;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import com.goblinskeep.app.GamePanel;
 
 /**
