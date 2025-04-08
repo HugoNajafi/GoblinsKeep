@@ -110,7 +110,7 @@ class CollisionCheckerTest {
     @Test
     void testValidPlayerCollisionWithEnemy() {
         List<RegularGoblin> goblins = new ArrayList<>();
-        RegularGoblin goblin = new RegularGoblin(gp, player);
+        RegularGoblin goblin = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin, player.WorldX + 10, player.WorldY, Direction.RIGHT);
         goblins.add(goblin);
         collisionChecker.playerCollisionWithEnemy(player, goblins.iterator());
@@ -123,7 +123,7 @@ class CollisionCheckerTest {
     @Test
     void testInvalidPlayerCollisionWithEnemy() {
         List<RegularGoblin> goblins = new ArrayList<>();
-        RegularGoblin goblin = new RegularGoblin(gp, player);
+        RegularGoblin goblin = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin, player.WorldX, player.WorldY + gp.tileSize, Direction.DOWN);
         goblins.add(goblin);
         goblins.add(null);
@@ -136,7 +136,7 @@ class CollisionCheckerTest {
      */
     @Test
     void testValidEnemyCollisionWithPlayer() {
-        RegularGoblin goblin = new RegularGoblin(gp, player);
+        RegularGoblin goblin = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin, player.WorldX + 10, player.WorldY, Direction.LEFT);
         assertTrue(collisionChecker.checkPlayer(goblin));
     }
@@ -146,7 +146,7 @@ class CollisionCheckerTest {
      */
     @Test
     void testInvalidEnemyCollisionWithPlayer() {
-        RegularGoblin goblin = new RegularGoblin(gp, player);
+        RegularGoblin goblin = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin, player.WorldX + gp.tileSize, player.WorldY, Direction.LEFT);
         assertFalse(collisionChecker.checkPlayer(goblin));
     }
@@ -156,8 +156,8 @@ class CollisionCheckerTest {
      */
     @Test
     void testValidEnemyToEnemyUpCollision() {
-        RegularGoblin goblin1 = new RegularGoblin(gp, player);
-        RegularGoblin goblin2 = new RegularGoblin(gp, player);
+        RegularGoblin goblin1 = new RegularGoblin(gp, player,0,0);
+        RegularGoblin goblin2 = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin1, 50, 50, Direction.UP);
         moveEntityToPosition(goblin2, goblin1.WorldX, goblin1.WorldY - 10, Direction.UP);
         List<RegularGoblin> goblins = new ArrayList<>();
@@ -172,8 +172,8 @@ class CollisionCheckerTest {
      */
     @Test
     void testValidEnemyToEnemyDownCollision() {
-        RegularGoblin goblin1 = new RegularGoblin(gp, player);
-        RegularGoblin goblin2 = new RegularGoblin(gp, player);
+        RegularGoblin goblin1 = new RegularGoblin(gp, player,0,0);
+        RegularGoblin goblin2 = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin1, 50, 50, Direction.DOWN);
         moveEntityToPosition(goblin2, goblin1.WorldX, goblin1.WorldY + 10, Direction.DOWN);
         List<RegularGoblin> goblins = new ArrayList<>();
@@ -188,8 +188,8 @@ class CollisionCheckerTest {
      */
     @Test
     void testValidEnemyToEnemyRightCollision() {
-        RegularGoblin goblin1 = new RegularGoblin(gp, player);
-        RegularGoblin goblin2 = new RegularGoblin(gp, player);
+        RegularGoblin goblin1 = new RegularGoblin(gp, player,0,0);
+        RegularGoblin goblin2 = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin1, 50, 50, Direction.RIGHT);
         moveEntityToPosition(goblin2, goblin1.WorldX + 10, goblin1.WorldY, Direction.RIGHT);
         List<RegularGoblin> goblins = new ArrayList<>();
@@ -204,8 +204,8 @@ class CollisionCheckerTest {
      */
     @Test
     void testValidEnemyToEnemyLeftCollision() {
-        RegularGoblin goblin1 = new RegularGoblin(gp, player);
-        RegularGoblin goblin2 = new RegularGoblin(gp, player);
+        RegularGoblin goblin1 = new RegularGoblin(gp, player,0,0);
+        RegularGoblin goblin2 = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin1, 50, 50, Direction.LEFT);
         moveEntityToPosition(goblin2, goblin1.WorldX - 10, goblin1.WorldY, Direction.LEFT);
         List<RegularGoblin> goblins = new ArrayList<>();
@@ -220,8 +220,8 @@ class CollisionCheckerTest {
      */
     @Test
     void testInvalidEnemyToEnemyVerticalCollision() {
-        RegularGoblin goblin1 = new RegularGoblin(gp, player);
-        RegularGoblin goblin2 = new RegularGoblin(gp, player);
+        RegularGoblin goblin1 = new RegularGoblin(gp, player,0,0);
+        RegularGoblin goblin2 = new RegularGoblin(gp, player,0,0);
         moveEntityToPosition(goblin1, 50, 50, Direction.RIGHT);
         moveEntityToPosition(goblin2, goblin1.WorldX + gp.tileSize + 10, goblin1.WorldY, Direction.RIGHT);
         List<RegularGoblin> goblins = new ArrayList<>();

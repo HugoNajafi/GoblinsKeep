@@ -70,7 +70,7 @@ class pathFinderTest {
 
     @Test
     void testSearchPath() {
-       RegularGoblin goblin = new RegularGoblin(gp, gp.Player);
+       RegularGoblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         int goalCol = (gp.Player.WorldX + gp.Player.hitboxDefaultX +
                 (gp.Player.collisionArea.width / 2)) / gp.tileSize;
         int goalRow = (gp.Player.WorldY + gp.Player.hitboxDefaultY +

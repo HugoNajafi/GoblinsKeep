@@ -1,10 +1,7 @@
 package com.goblinskeep.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
@@ -15,20 +12,15 @@ import static org.mockito.Mockito.when;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-
 import com.goblinskeep.app.MapHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.keyboard.PlayerInputHandler;
-import com.goblinskeep.objects.Bonus;
-import com.goblinskeep.objects.InvisibleBarrier;
-import com.goblinskeep.objects.Key;
-import com.goblinskeep.objects.Lever;
 import com.goblinskeep.objects.MainObject;
 import com.goblinskeep.objects.ObjectManager;
-import com.goblinskeep.objects.Trap;
+
 
 
 public class testPlayer {

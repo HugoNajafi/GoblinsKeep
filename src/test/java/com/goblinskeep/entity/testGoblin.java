@@ -2,13 +2,11 @@ package com.goblinskeep.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,7 +87,7 @@ public class testGoblin {
 
     @Test
     void testDrawForGoblin(){
-        Goblin goblin = new RegularGoblin(gp, gp.Player);
+        Goblin goblin = new RegularGoblin(gp, gp.Player, 0,0);
         goblin.draw(mock(Graphics2D.class));
         Player player = gp.Player;
         player.WorldX = 100;
@@ -106,7 +104,7 @@ public class testGoblin {
      */
     @Test
     void testDrawForGoblinNotNearPlayer() {
-        Goblin goblin = new RegularGoblin(gp, gp.Player);
+        Goblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         Graphics2D g2 = mock(Graphics2D.class);
         goblin.draw(g2);
         verifyNoInteractions(g2);
@@ -123,7 +121,7 @@ public class testGoblin {
         gp.Player.WorldY = 440;
 
         // goblin object too far left
-        Goblin goblin = new RegularGoblin(gp, gp.Player);
+        Goblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         goblin.WorldX = 10;  // Left of visible area
         goblin.WorldY = 410;
         goblin.draw(g2);
@@ -141,7 +139,7 @@ public class testGoblin {
         gp.Player.WorldY = 400;
 
         // goblin object too far right
-        Goblin goblin = new RegularGoblin(gp, gp.Player);
+        Goblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         goblin.WorldX = 900;  // Right of visible area
         goblin.WorldY = 410;
         goblin.draw(g2);
@@ -159,7 +157,7 @@ public class testGoblin {
         gp.Player.WorldY = 400;
 
         // goblin object too far up
-        Goblin goblin = new RegularGoblin(gp, gp.Player);
+        Goblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         goblin.WorldX = 400;  // Above visible area
         goblin.WorldY = 10;
         goblin.draw(g2);
@@ -177,7 +175,7 @@ public class testGoblin {
         gp.Player.WorldY = 400;
 
         // goblin object too far down
-        Goblin goblin = new RegularGoblin(gp, gp.Player);
+        Goblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         goblin.WorldX = 400;  // Below visible area
         goblin.WorldY = 800;
         goblin.draw(g2);

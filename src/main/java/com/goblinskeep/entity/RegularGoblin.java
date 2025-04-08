@@ -2,11 +2,6 @@ package com.goblinskeep.entity;
 
 import java.awt.*;
 import java.util.ArrayList;
-// import java.awt.Rectangle;
-// import java.util.ArrayList;
-// import java.util.List;
-
-import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.pathFinder.Node;
 
@@ -26,14 +21,11 @@ public class RegularGoblin extends Goblin {
      * @param gp the GamePanel instance
      * @param player the Player instance
      */
-    public RegularGoblin(GamePanel gp, Player player) {
-        super(gp, player);
+    public RegularGoblin(GamePanel gp, Player player, int WorldX, int WorldY) {
+        super(gp, player, WorldX, WorldY);
         collisionArea = new Rectangle(8, 16, 32, 32); // Set collision area
         hitboxDefaultX = 8;
         hitboxDefaultY = 16;
-        
-        // // Set default direction and collisionArea
-        // this.direction = Direction.DOWN;
 
     }
 
@@ -56,29 +48,8 @@ public class RegularGoblin extends Goblin {
      */
     private void moveAlongPath(){
         collisionOn = false;
-
-        gp.collisionChecker.checkTileCollision(this);
-
-        gp.collisionChecker.checkEnemyCollision(this, gp.getGoblinIterator());
-        if(gp.collisionChecker.checkPlayer(this)){
-            collisionOn = true;
-            gp.map.playerCollisionWithEnemy();
-        }
-        interactPlayer(47);
-
-        if (!collisionOn) {
-            moveEntityTowardDirection();
-            SpriteCounter++;
-            if(SpriteCounter> 10){
-                if(SpriteNum == 1){
-                    SpriteNum = 2;
-                }
-                else { //SpriteNum
-                    SpriteNum = 1;
-                }
-                SpriteCounter = 0;
-            }
-        }
+        checkCollisions();
+        moveEntityTowardDirection();
     }
 
 
@@ -89,6 +60,17 @@ public class RegularGoblin extends Goblin {
      */
     public ArrayList<Node> getPath() {
         return myPath;
+    }
+
+    private void checkCollisions(){
+        gp.collisionChecker.checkTileCollision(this);
+
+        gp.collisionChecker.checkEnemyCollision(this, gp.getGoblinIterator());
+        if(gp.collisionChecker.checkPlayer(this)){
+            collisionOn = true;
+            gp.map.playerCollisionWithEnemy();
+        }
+        interactPlayer(47);
     }
 
 

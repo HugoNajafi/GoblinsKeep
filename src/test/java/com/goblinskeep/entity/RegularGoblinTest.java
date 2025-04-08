@@ -13,7 +13,7 @@ public class RegularGoblinTest {
     @BeforeEach
     void setUp(){
         gp = new GamePanel();
-        regularGoblin =  new RegularGoblin(gp, gp.Player);
+        regularGoblin =  new RegularGoblin(gp, gp.Player,0,0);
 
 
     }
@@ -21,7 +21,7 @@ public class RegularGoblinTest {
     @Test
     void testConstructor() {
 
-        RegularGoblin goblin = new RegularGoblin(gp, gp.Player);
+        RegularGoblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         assertEquals(8, goblin.hitboxDefaultX);
         assertEquals(16, goblin.hitboxDefaultY);
         assertNotNull(goblin);

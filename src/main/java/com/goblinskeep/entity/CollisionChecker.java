@@ -13,7 +13,6 @@ public class CollisionChecker {
     /** Reference to the main game panel. */
     private GamePanel gp;
 
-
     /**
      * Constructs a collision checker for handling entity interactions.
      *
@@ -148,7 +147,7 @@ public class CollisionChecker {
     }
 
 
-    /**
+/**
      * Checks for collisions between enemies to prevent them from overlapping.
      *
      * @param entity        The enemy entity to check.
@@ -174,30 +173,32 @@ public class CollisionChecker {
 
             // Check if potential movement would cause collision
             if (entity.collisionArea.intersects(other.collisionArea)) {
-
-                // Instead of just random direction, use a smarter approach:
-                // Calculate direction away from the other entity
-                int dx = entity.WorldX - other.WorldX;
-                int dy = entity.WorldY - other.WorldY;
-
-                // Determine best escape direction based on relative positions
-                if (Math.abs(dx) > Math.abs(dy)) {
-                    // Horizontal separation is larger, move horizontally
-                    if (dx > 0) {
-                        entity.direction = Direction.RIGHT;
-                    } else {
-                        entity.direction = Direction.LEFT;
-                    }
-
-                } else {
-                    // Vertical separation is larger, move vertically
-                    if (dy > 0) {
-                        entity.direction = Direction.DOWN;
-                    } else {
-                        entity.direction = Direction.UP;
-                    }
-                }
+                changeDirection(entity, other);
                 break;
+            }
+        }
+    }
+
+    private void changeDirection(Entity entity, Entity other){
+        // Calculate direction away from the other entity
+        int dx = entity.WorldX - other.WorldX;
+        int dy = entity.WorldY - other.WorldY;
+
+        // Determine best escape direction based on relative positions
+        if (Math.abs(dx) > Math.abs(dy)) {
+            // Horizontal separation is larger, move horizontally
+            if (dx > 0) {
+                entity.direction = Direction.RIGHT;
+            } else {
+                entity.direction = Direction.LEFT;
+            }
+
+        } else {
+            // Vertical separation is larger, move vertically
+            if (dy > 0) {
+                entity.direction = Direction.DOWN;
+            } else {
+                entity.direction = Direction.UP;
             }
         }
     }

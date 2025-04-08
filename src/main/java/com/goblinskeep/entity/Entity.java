@@ -4,6 +4,7 @@ package com.goblinskeep.entity;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import com.goblinskeep.app.Direction;
+import com.goblinskeep.app.GamePanel;
 
 
 /**
@@ -11,6 +12,8 @@ import com.goblinskeep.app.Direction;
  * This class defines movement properties, collision areas, and sprite animations.
  */
 public abstract class Entity {
+    /** The game panel instance for rendering and game logic. */
+    protected GamePanel gp;
 
     /** The entity's x-coordinate and y-coordinate in the world. */
     public int WorldX, WorldY;
@@ -40,26 +43,15 @@ public abstract class Entity {
 
     public int actionLockCounter = 0;
 
-
-    /**
-     * Default constructor that initializes the entity with default speed and collision settings.
-     */
-    public Entity(){
-        this.speed = 1;
-        this.collisionArea = new Rectangle(0, 0, hitboxDefaultX, hitboxDefaultY); // Adjust size as needed
-        this.hitboxDefaultX = 0;
-        this.hitboxDefaultY = 0;
-        this.collisionOn = false;
-    }
-
-
     /**
      * Constructor to initialize the entity at a specific position in the world.
      *
+     * @oaram gp The game panel instance.
      * @param WorldX The x-coordinate of the entity in the game world.
      * @param WorldY The y-coordinate of the entity in the game world.
      */
-    public Entity(int WorldX, int WorldY){
+    public Entity(GamePanel gp, int WorldX, int WorldY){
+        this.gp = gp;
         this.WorldX = WorldX;
         this.WorldY = WorldY;
         this.speed = 1;
@@ -68,6 +60,122 @@ public abstract class Entity {
         this.hitboxDefaultY = 0;
         this.collisionOn = false;
     }
+
+    /**
+     * Checks if the entity can move based on collision status.
+     * @return
+     */
+    protected boolean canMove(){
+        return !collisionOn;
+    }
+
+    /**
+     * Sets the direction of the entity based on user input.
+     * This method is called to update the entity's movement direction.
+     *
+     * @param direction The new direction for the entity to move in.
+     */
+    protected Direction getEffectiveDirection() {
+        return direction; // Default behavior for Player
+    }
+    
+    /**
+     * Determines if the sprite animation can be updated.
+     * Subclasses can override this to add custom conditions.
+     *
+     * @return True if the sprite animation can be updated, false otherwise.
+     */
+    protected boolean canUpdateSprite(){
+        return true;
+    }
+
+    /**
+     * Updates the sprite animation for the entity.
+     * Subclasses can override `canUpdateSprite` to add additional conditions.
+     */
+    protected void updateAnimation(){
+        if (canUpdateSprite()) {
+            SpriteCounter++;
+            if (SpriteCounter > 10) {
+                if (SpriteNum == 1) {
+                    SpriteNum = 2;
+                } else { // SpriteNum
+                    SpriteNum = 1;
+                }
+                SpriteCounter = 0;
+            }
+        }
+    }
+    /**
+     * Returns the sprite image for the player's current direction.
+     *
+     * @return The sprite image for the current direction.
+     */
+    protected BufferedImage getSpriteForDirection(){
+        BufferedImage image = null;
+        Direction effectivDirection = getEffectiveDirection();
+        switch (effectivDirection){
+            case Direction.UP:
+                if (SpriteNum == 1) {
+                    image = up1;
+                }
+                if (SpriteNum == 2) {
+                    image = up2;
+                }
+                break;
+            case Direction.DOWN:
+                if (SpriteNum == 1) {
+                    image = down1;
+                }
+                if (SpriteNum == 2) {
+                    image = down2;
+                }
+                break;
+            case Direction.LEFT:
+                if (SpriteNum == 1) {
+                    image = left1;
+                }
+                if (SpriteNum == 2) {
+                    image = left2;
+                }
+                break;
+            case Direction.RIGHT:
+                if (SpriteNum == 1) {
+                    image = right1;
+                }
+                if (SpriteNum == 2) {
+                    image = right2;
+                }
+                break;
+        }
+        return image;
+    }
+
+    private boolean isVisibleOnScreen(){
+        return WorldX + gp.tileSize > gp.Player.WorldX - gp.Player.screenX &&
+            WorldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
+            WorldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
+            WorldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY;
+    }
+
+    /**
+     * Draws the entity on the screen based on its current direction and position.
+     *
+     * @param g2 The graphics context used for rendering.
+     */
+    public void draw(Graphics2D g2) {
+        BufferedImage image = getSpriteForDirection();
+
+        // Calculate screen position relative to the player's position
+        int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
+        int screenY = WorldY - gp.Player.WorldY + gp.Player.screenY;
+
+        // Only draw the entity if it's within the player's visible area
+        if (isVisibleOnScreen()) {
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        }
+    }
+
 
 
     /**
@@ -124,14 +232,17 @@ public abstract class Entity {
      * The movement is based on the entity's speed and the direction
      */
     public void moveEntityTowardDirection(){
-        if (direction == Direction.UP) {
-            this.WorldY -= Direction.UP.getDy() * this.getSpeed();
-        } else if (direction == Direction.DOWN) {
-            this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
-        } else if (direction == Direction.LEFT) {
-            this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-        } else  { //Direction.RIGHT
-            this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
+        if(canMove()){
+            if (direction == Direction.UP) {
+                this.WorldY -= Direction.UP.getDy() * this.getSpeed();
+            } else if (direction == Direction.DOWN) {
+                this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
+            } else if (direction == Direction.LEFT) {
+                this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
+            } else  { //Direction.RIGHT
+                this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
+            }
+            updateAnimation();
         }
     }
     

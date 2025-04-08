@@ -140,7 +140,7 @@ public class MapGenerator {
     }
 
     private void setGoblinPosition(int x, int y) {
-        Goblin goblin = new RegularGoblin(gp, gp.Player);
+        Goblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         goblin.setX(x * gp.tileSize);
         goblin.setY(y * gp.tileSize);
         goblins.add(goblin);

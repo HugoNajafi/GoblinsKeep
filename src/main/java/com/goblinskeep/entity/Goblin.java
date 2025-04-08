@@ -1,7 +1,6 @@
 package com.goblinskeep.entity;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import com.goblinskeep.app.Direction;
@@ -13,10 +12,6 @@ import com.goblinskeep.app.GamePanel;
  * Goblins are hostile NPCs that interact with the player and game environment.
  */
 public abstract class Goblin extends Entity{
-
-    /** Reference to the main game panel. */
-    protected GamePanel gp;
-
     /** Reference to the player, used for AI movement and interaction. */
     protected Player player;
 
@@ -33,8 +28,9 @@ public abstract class Goblin extends Entity{
      * @param gp     The game panel instance.
      * @param player The player instance.
      */
-    public Goblin(GamePanel gp, Player player){
-        this.gp = gp;
+    public Goblin(GamePanel gp, Player player, int WorldX, int WorldY) {
+        super(gp, WorldX, WorldY);  // Pass values up to Entity constructor
+        // this.gp = gp;
         this.player = player;
         this.speed = 2;
         this.collisionArea = new Rectangle(11, 17, 23, 23); // Set collision area
@@ -71,6 +67,7 @@ public abstract class Goblin extends Entity{
             e.printStackTrace();
         }
     }
+    
     public void update(){
         onPath = true;
         inSight = true;
@@ -78,67 +75,8 @@ public abstract class Goblin extends Entity{
         getAction();
     }
 
-    public BufferedImage getSpriteForDirection(){
-        BufferedImage image = null;
-        switch (drawDirection){
-            case Direction.UP:
-                if (SpriteNum == 1) {
-                    image = up1;
-                }
-                if (SpriteNum == 2) {
-                    image = up2;
-                }
-                break;
-            case Direction.DOWN:
-                if (SpriteNum == 1) {
-                    image = down1;
-                }
-                if (SpriteNum == 2) {
-                    image = down2;
-                }
-                break;
-            case Direction.LEFT:
-                if (SpriteNum == 1) {
-                    image = left1;
-                }
-                if (SpriteNum == 2) {
-                    image = left2;
-                }
-                break;
-            case Direction.RIGHT:
-                if (SpriteNum == 1) {
-                    image = right1;
-                }
-                if (SpriteNum == 2) {
-                    image = right2;
-                }
-                break;
-        }
-        return image;
-    }
-
-    /**
-     * Draws the goblin on the screen based on its movement direction.
-     *
-     * @param g2 The graphics context used for rendering.
-     */
-    public void draw(Graphics2D g2){
-
-        BufferedImage image = getSpriteForDirection();
-        // Calculate screen position relative to the player's position
-        int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
-        int screenY = WorldY - gp.Player.WorldY + gp.Player.screenY;
-
-        // Only draw the goblin if it's within the player's visible area
-        if (WorldX + gp.tileSize > gp.Player.WorldX - gp.Player.screenX &&
-                WorldX - gp.tileSize < gp.Player.WorldX + gp.Player.screenX &&
-                WorldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
-                WorldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY){
-            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-
-        }
-
-
-
+    @Override
+    protected Direction getEffectiveDirection() {
+        return drawDirection; // Default behavior for Player
     }
 }

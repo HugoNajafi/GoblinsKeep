@@ -14,9 +14,6 @@ import com.goblinskeep.app.GamePanel;
  */
 public class Player extends Entity{
 
-    /** Reference to the main game panel. */
-    public GamePanel gp;
-
     /** Handles user input for player movement. */
     PlayerInputHandler PlayerInput;
 
@@ -36,8 +33,7 @@ public class Player extends Entity{
      * @param PlayerInput Handles player input.
      */
     public Player(int startX, int startY, GamePanel gp, PlayerInputHandler PlayerInput) {
-        super(startX, startY);  // Pass values up to GameObject constructor
-        this.gp = gp;
+        super(gp, startX, startY);  // Pass values up to GameObject constructor
         gp.Player = this;
         this.PlayerInput = PlayerInput;
 
@@ -52,7 +48,6 @@ public class Player extends Entity{
         // Set player's screen position (centered)
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
-
 
         getPlayerImage();
     }
@@ -80,82 +75,44 @@ public class Player extends Entity{
     public void update() {
         // Reset collision flag
         collisionOn = false;
-        boolean keyPressed = false;
-
-        // Determine direction based on player input
-        if (PlayerInput.up) {
-            direction = Direction.UP;
-            keyPressed = true;
-        } else if (PlayerInput.down) {
-            direction = Direction.DOWN;
-            keyPressed = true;
-        } else if (PlayerInput.left) {
-            direction = Direction.LEFT;
-            keyPressed = true;
-        } else if (PlayerInput.right) {
-            direction = Direction.RIGHT;
-            keyPressed = true;
-        }
-
+        updateDirection();
         gp.debugMode = PlayerInput.debugMode;
-
         // Check collision with tiles, objects and goblin before moving
         gp.collisionChecker.checkPlayerCollisions(this);
-
-
         // Move player if no collision detected
-        if (!collisionOn && keyPressed) {
-            moveEntityTowardDirection();
-        }
+        moveEntityTowardDirection();
 
-        // Update animation frames when moving
-        if (PlayerInput.up || PlayerInput.down || PlayerInput.left ||PlayerInput.right ){
-            SpriteCounter++;
-            if(SpriteCounter> 10){
-                SpriteNum = (SpriteNum == 1) ? 2: 1;
-                SpriteCounter = 0;
-            }
+
+    }
+
+    /**
+     * Determine direction based on player input.
+     * This method checks the current state of the PlayerInput and updates
+     * the direction accordingly.
+    */
+    private void updateDirection() {
+        if (PlayerInput.up) {
+            direction = Direction.UP;
+        } else if (PlayerInput.down) {
+            direction = Direction.DOWN;
+        } else if (PlayerInput.left) {
+            direction = Direction.LEFT;
+        } else if (PlayerInput.right) {
+            direction = Direction.RIGHT;
         }
     }
 
-
-    public BufferedImage getSpriteForDirection(){
-        BufferedImage image = null;
-        switch (direction){
-            case Direction.UP:
-                if (SpriteNum == 1) {
-                    image = up1;
-                }
-                if (SpriteNum == 2) {
-                    image = up2;
-                }
-                break;
-            case Direction.DOWN:
-                if (SpriteNum == 1) {
-                    image = down1;
-                }
-                if (SpriteNum == 2) {
-                    image = down2;
-                }
-                break;
-            case Direction.LEFT:
-                if (SpriteNum == 1) {
-                    image = left1;
-                }
-                if (SpriteNum == 2) {
-                    image = left2;
-                }
-                break;
-            case Direction.RIGHT:
-                if (SpriteNum == 1) {
-                    image = right1;
-                }
-                if (SpriteNum == 2) {
-                    image = right2;
-                }
-                break;
+    private boolean playerInput(){
+        boolean PlayerIn = false;
+        if (PlayerInput.up || PlayerInput.down || PlayerInput.left || PlayerInput.right) {
+            PlayerIn = true;
         }
-        return image;
+        return PlayerIn;
+    }
+
+    @Override
+    protected boolean canMove(){
+        return !collisionOn && playerInput();
     }
 
     /**
