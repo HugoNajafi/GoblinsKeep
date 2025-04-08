@@ -20,7 +20,7 @@ public class TileManager {
      */
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        
+        gp.tileM = this;
         // We need 8 different tile types now
         tile = new Tile[20];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];

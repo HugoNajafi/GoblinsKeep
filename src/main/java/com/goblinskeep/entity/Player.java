@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.objects.*;
 
 /**
  * Represents the player character in the game.
@@ -39,6 +38,7 @@ public class Player extends Entity{
     public Player(int startX, int startY, GamePanel gp, PlayerInputHandler PlayerInput) {
         super(startX, startY);  // Pass values up to GameObject constructor
         this.gp = gp;
+        gp.Player = this;
         this.PlayerInput = PlayerInput;
 
         // Set a default direction
@@ -80,43 +80,32 @@ public class Player extends Entity{
     public void update() {
         // Reset collision flag
         collisionOn = false;
+        boolean keyPressed = false;
 
         // Determine direction based on player input
         if (PlayerInput.up) {
             direction = Direction.UP;
+            keyPressed = true;
         } else if (PlayerInput.down) {
             direction = Direction.DOWN;
+            keyPressed = true;
         } else if (PlayerInput.left) {
             direction = Direction.LEFT;
+            keyPressed = true;
         } else if (PlayerInput.right) {
             direction = Direction.RIGHT;
+            keyPressed = true;
         }
 
         gp.debugMode = PlayerInput.debugMode;
 
-        // Check collision with tiles before moving
-        gp.collisionChecker.checkTile(this);
-        MainObject collisionObj = gp.collisionChecker.checkObjectCollision(this, true);
-        handleObject(collisionObj);
+        // Check collision with tiles, objects and goblin before moving
+        gp.collisionChecker.checkPlayerCollisions(this);
 
-        //check if collision with object before moving
-        Entity target = gp.collisionChecker.playerCollisionWithEnemy(this, gp.getGoblinIterator());
-        if (target != null){
-            collisionOn = true;
-            gp.map.playerCollisionWithEnemy();
-        }
 
         // Move player if no collision detected
-        if (!collisionOn) {
-            if (PlayerInput.up) {
-                this.WorldY -= Direction.UP.getDy() * this.getSpeed();
-            } else if (PlayerInput.down) {
-                this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
-            } else if (PlayerInput.left) {
-                this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-            } else if (PlayerInput.right) {
-                this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
-            }
+        if (!collisionOn && keyPressed) {
+            moveEntityTowardDirection();
         }
 
         // Update animation frames when moving
@@ -129,39 +118,6 @@ public class Player extends Entity{
         }
     }
 
-
-    /**
-     * Handles interactions when the player collides with an object.
-     *
-     * @param collisionObject The object the player collides with.
-     */
-    public void handleObject(MainObject collisionObject) {
-        //if null then an object was not collected
-        if (collisionObject != null){
-            String objName = collisionObject.name;
-            switch (objName){
-                case "key":
-                    gp.map.keyCollected();
-                    gp.obj.removeObject(collisionObject.worldX, collisionObject.worldY);
-                    break;
-                case "bonus":
-                    gp.map.collectedBonus((Bonus)collisionObject);
-                    break;
-                case "trap":
-                    gp.map.trapHit();
-                    break;
-                case "lever":
-                    gp.map.leverTouched();
-                    break;
-                case "exit":
-                    break;
-                case "invisible":
-                    gp.map.exitTouched();
-                default:
-                    collisionOn = true;
-            }
-        }
-    }
 
     public BufferedImage getSpriteForDirection(){
         BufferedImage image = null;
@@ -211,8 +167,19 @@ public class Player extends Entity{
 
         BufferedImage image = getSpriteForDirection();
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+    }
 
 
+    /**
+     * Gets the tile coordinates of the player's center hit-box position.
+     * This converts the player's world coordinates to tile-based coordinates.
+     *
+     * @return A Point containing the column (x) and row (y) of the tile where the player's hit-box center is located
+     */
+    public Point getCenterTileCoordinates(){
+        int col = (WorldX + hitboxDefaultX + (collisionArea.width / 2)) / gp.tileSize;
+        int row = (WorldY + hitboxDefaultY + (collisionArea.height / 2)) / gp.tileSize;
+        return new Point(col , row);
     }
 
 }

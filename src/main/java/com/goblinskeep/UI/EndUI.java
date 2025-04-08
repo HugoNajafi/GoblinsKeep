@@ -83,26 +83,12 @@ public class EndUI extends DefaultUI {
         String restart = "RESTART";
         String menu = "BACK TO MENU";
         String quit = "QUIT";
-
+        String[] options = {restart, menu, quit};
 
         //displaying UI menu options
         borderThickness = 2;
         g2.setFont(gameFont.deriveFont(30f));
-        drawTextWithBorder(g2,restart, getCenteredXAxisText(restart, g2), gp.tileSize * 9);
-        if(cursorSelection == 0){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(restart, g2) - gp.tileSize, gp.tileSize * 9);
-        }
-
-        drawTextWithBorder(g2,menu, getCenteredXAxisText(menu, g2), gp.tileSize * 10);
-        if(cursorSelection == 1){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(menu, g2) - gp.tileSize, gp.tileSize * 10);
-        }
-
-        drawTextWithBorder(g2,quit, getCenteredXAxisText(quit, g2), gp.tileSize * 11);
-        if(cursorSelection == 2){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(quit, g2) - gp.tileSize, gp.tileSize * 11);
-        }
-
+        drawCursorOptionsCentered(g2, options, 9);
     }
 
     /**

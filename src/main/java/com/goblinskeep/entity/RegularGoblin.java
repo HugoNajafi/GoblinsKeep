@@ -5,7 +5,6 @@ import java.util.ArrayList;
 // import java.awt.Rectangle;
 // import java.util.ArrayList;
 // import java.util.List;
-import java.util.Random;
 
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
@@ -43,12 +42,9 @@ public class RegularGoblin extends Goblin {
      */
     @Override
     public void getAction() {
-        int goalCol = (gp.Player.WorldX + gp.Player.hitboxDefaultX +
-        (gp.Player.collisionArea.width / 2)) / gp.tileSize;
-        int goalRow = (gp.Player.WorldY + gp.Player.hitboxDefaultY +
-        (gp.Player.collisionArea.height / 2)) / gp.tileSize;
-
-        gp.pathFinder.searchPath(goalCol, goalRow, this);
+        //find player coordinate and get direction to it using pathfinding
+        Point goalCoordinates = gp.Player.getCenterTileCoordinates();
+        gp.pathFinder.searchPath(goalCoordinates.x, goalCoordinates.y, this);
         drawDirection = direction;
 
         //Move along Path
@@ -61,7 +57,7 @@ public class RegularGoblin extends Goblin {
     private void moveAlongPath(){
         collisionOn = false;
 
-        gp.collisionChecker.checkTile(this);
+        gp.collisionChecker.checkTileCollision(this);
 
         gp.collisionChecker.checkEnemyCollision(this, gp.getGoblinIterator());
         if(gp.collisionChecker.checkPlayer(this)){
@@ -71,15 +67,7 @@ public class RegularGoblin extends Goblin {
         interactPlayer(47);
 
         if (!collisionOn) {
-            if (direction == Direction.UP) {
-                this.WorldY -= Direction.UP.getDy() * this.getSpeed();
-            } else if (direction == Direction.DOWN) {
-                this.WorldY -= Direction.DOWN.getDy() * this.getSpeed();
-            } else if (direction == Direction.LEFT) {
-                this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
-            } else  { //Direction.RIGHT
-                this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
-            }
+            moveEntityTowardDirection();
             SpriteCounter++;
             if(SpriteCounter> 10){
                 if(SpriteNum == 1){

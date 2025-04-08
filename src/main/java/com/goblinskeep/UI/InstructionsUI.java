@@ -78,10 +78,7 @@ public class InstructionsUI extends DefaultUI{
         //draw menu option
         borderThickness = 2;
         g2.setFont(gameFont.deriveFont(40f));
-        drawTextWithBorder(g2,menu, getCenteredXAxisText(menu, g2), gp.tileSize * 11);
-        if(cursorSelection == 0){
-            drawTextWithBorder(g2,">",getCenteredXAxisText(menu, g2) - gp.tileSize, gp.tileSize * 11);
-        }
+        drawCursorOptionsCentered(g2, new String[]{menu}, 11);
 
     }
 

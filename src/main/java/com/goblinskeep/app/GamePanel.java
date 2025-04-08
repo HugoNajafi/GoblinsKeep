@@ -2,7 +2,6 @@ package com.goblinskeep.app;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -13,9 +12,7 @@ import javax.swing.JPanel;
 import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Goblin;
 import com.goblinskeep.entity.Player;
-// import com.goblinskeep.entity.SmartGoblin;
 
-// import com.goblinskeep.pathFinder.Pathfinding;
 import com.goblinskeep.tile.TileManager;
 
 import com.goblinskeep.keyboard.MenuInputHandler;
@@ -62,9 +59,6 @@ public class GamePanel extends JPanel implements Runnable
     /** Maximum number of rows in the game world. */
     public  final int maxWorldRow = 66;
 
-    /** Target Frames Per Second (FPS) for smooth gameplay. */
-    private final int FPS = 60;
-
     /** Tile manager responsible for handling tiles. */
     public TileManager tileM;
 
@@ -81,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable
     public Thread gameThread;
 
     /** List of goblins (enemy entities) in the game. */
-    private ArrayList<Goblin> goblins;
+    public ArrayList<Goblin> goblins;
 
 
     /** Object manager responsible for handling interactable objects. */
@@ -97,16 +91,13 @@ public class GamePanel extends JPanel implements Runnable
     public GameStatus status;
 
     /** The game's map generator, responsible for setting up the environment. */
-    public MapGenerator map;
+    public MapHandler map;
 
     /** The menu UI screen. */
-    private MenuUI menuUI = new MenuUI(this);
+    private final MenuUI menuUI = new MenuUI(this);
 
     /** The instructions UI screen. */
     public InstructionsUI instructionsUI = new InstructionsUI(this);
-
-    /** Handles keyboard input when in the menu. */
-    private MenuInputHandler keyboard = new MenuInputHandler(this);
 
     public pathFinder pathFinder;
 
@@ -121,6 +112,8 @@ public class GamePanel extends JPanel implements Runnable
 
         // Register input handlers
         this.addKeyListener(PlayerInput);
+        // Handles keyboard input when in the menu.
+        MenuInputHandler keyboard = new MenuInputHandler(this);
         this.addKeyListener(keyboard);
 
         // Set the initial game state to the main menu
@@ -137,12 +130,8 @@ public class GamePanel extends JPanel implements Runnable
      * Initializes the game by setting up the map, player, goblins, and objects.
      */
     private void setGame() {
-        map = new MapGenerator(this);
-        goblins = map.getGoblins();
-        Player = map.getPlayer();
+        map = new MapHandler(this);
         this.Player.speed = 5;
-        obj = map.getObj();
-        tileM = map.getTileM();
         pathFinder = new pathFinder(this);
         ui.restart();
     }
@@ -163,7 +152,9 @@ public class GamePanel extends JPanel implements Runnable
      */
     @Override
     public void run(){
-        double drawInterval = 1000000000/FPS; /// Time per frame in nanoseconds. We use 1 billion -> 1 nano sec = 1 sec
+        // Target Frames Per Second (FPS) for smooth gameplay.
+        int FPS = 60;
+        double drawInterval = 1000000000/ FPS; // Time per frame in nanoseconds. We use 1 billion -> 1 nano sec = 1 sec
         double delta = 0;
         long timer = 0;
         long LastTime = System.nanoTime();
@@ -199,7 +190,7 @@ public class GamePanel extends JPanel implements Runnable
                 status = GameStatus.END;
             } else {
                 Player.update();
-                map.update();
+                map.updateTimer();
                 for (Goblin goblin : goblins) {
                     goblin.update();
                 }
