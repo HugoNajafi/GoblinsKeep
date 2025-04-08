@@ -28,6 +28,9 @@ public class MapHandler {
     private int counter = 0;
     private boolean canDeductPoints = true;
 
+    private static final int oneMin = 60;
+    private static final int twoMin = 120;
+
     /**
      * Initializes the map generator and sets up the map and goblins.
      *
@@ -161,7 +164,7 @@ public class MapHandler {
      */
     public void updateTimer(){
         currentTimeCounter++;
-        if (currentTimeCounter >= 60){
+        if (currentTimeCounter >= oneMin){
             currentTime++;
             currentTimeCounter = 0;
             for (Bonus bonus : bonuses){
@@ -170,7 +173,7 @@ public class MapHandler {
         }
         if(!canDeductPoints){
             counter+=1;
-            if(counter == 120){
+            if(counter == twoMin){
                 counter = 0;
                 canDeductPoints = true;
             }
