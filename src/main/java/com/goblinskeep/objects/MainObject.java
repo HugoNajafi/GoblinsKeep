@@ -2,8 +2,12 @@ package com.goblinskeep.objects;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 import com.goblinskeep.app.GamePanel;
+
+import javax.imageio.ImageIO;
 
 /**
  * Represents the base class for all interactive objects in the game.
@@ -49,6 +53,25 @@ public abstract class MainObject {
                 worldY + gp.tileSize > gp.Player.WorldY - gp.Player.screenY &&
                 worldY - gp.tileSize < gp.Player.WorldY + gp.Player.screenY){
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        }
+    }
+
+    /**
+     * Loads an image from the given resource path.
+     * This method attempts to read an image file located in the classpath using
+     *
+     * @param path the path to the image resource, starting from the root of the classpath (e.g. {@code "/goblin/orc_up_1.png"})
+     * @return a {@link BufferedImage} representing the loaded image
+     * @throws RuntimeException if the image cannot be found or read
+     */
+    public static BufferedImage loadImage(String path) {
+        try (InputStream is = MainObject.class.getResourceAsStream(path)) {
+            if (is == null) {
+                throw new IllegalArgumentException("Image not found: " + path);
+            }
+            return ImageIO.read(is);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load image: " + path, e);
         }
     }
 }

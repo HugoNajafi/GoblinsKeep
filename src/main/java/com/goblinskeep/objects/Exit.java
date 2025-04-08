@@ -18,11 +18,9 @@ public class Exit extends MainObject {
      */
     public Exit() {
         name = "exit";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/door1.png"));
-        } catch (IOException e){
-            System.out.printf(e.getMessage());
-        }
+
+        image = loadImage("/objects/door1.png");
+
         collision = true; //door is initially locked door
     }
 
@@ -34,11 +32,7 @@ public class Exit extends MainObject {
      * - Disables collision so the player can walk through it.
      */
     public void open(){
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/door2.png"));
-        } catch (IOException e){
-            System.out.printf(e.getMessage());
-        }
+        image = loadImage("/objects/door2.png");
         this.collision = false;
     }
 }

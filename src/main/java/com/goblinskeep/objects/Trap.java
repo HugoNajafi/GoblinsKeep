@@ -18,11 +18,9 @@ public class Trap extends MainObject {
      */
     public Trap() {
         name = "trap";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/trap1.png"));
-        } catch (IOException e){
-            System.out.printf(e.getMessage());
-        }
+
+        image = loadImage("/objects/trap1.png");
+        
         collision = false;//player can walk through
     }
 }

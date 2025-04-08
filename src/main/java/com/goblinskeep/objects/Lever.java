@@ -18,11 +18,9 @@ public class Lever extends MainObject {
      */
     public Lever() {
         name = "lever";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/lever1.png"));
-        } catch (IOException e){
-            System.out.printf(e.getMessage());
-        }
+
+        image = loadImage("/objects/lever1.png");
+
         collision = false;
         defaultCollisionAreaX += 6;
         defaultCollisionAreaY -= 12;
@@ -37,10 +35,6 @@ public class Lever extends MainObject {
      * - Removes collision so the player can interact with it.
      */
     public void activate(){
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/lever2.png"));
-        } catch (IOException e){
-            System.out.printf(e.getMessage());
-        }
+        image = loadImage("/objects/lever2.png");
     }
 }

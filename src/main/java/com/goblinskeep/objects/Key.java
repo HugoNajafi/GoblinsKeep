@@ -6,11 +6,7 @@ import java.io.IOException;
 public class Key extends MainObject {
     public Key() {
         name = "key";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/Key.png"));
-        } catch (IOException e){
-            System.out.printf(e.getMessage());
-        }
+        image = loadImage("/objects/Key.png");
         collision = false;
         defaultCollisionAreaX += 6;
         defaultCollisionAreaY += 6;

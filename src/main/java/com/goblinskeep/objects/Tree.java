@@ -17,17 +17,9 @@ public class Tree extends MainObject {
     public Tree(int type) {
         name = "tree";
         if (type == 1){
-            try {
-                image = ImageIO.read(getClass().getResourceAsStream("/objects/goodTree1.png"));
-            } catch (IOException e){
-                System.out.printf(e.getMessage());
-            }
+            image = loadImage("/objects/goodTree1.png");
         } else {
-            try {
-                image = ImageIO.read(getClass().getResourceAsStream("/objects/goodTree2.png"));
-            } catch (IOException e){
-                System.out.printf(e.getMessage());
-            }
+            image = loadImage("/objects/goodTree2.png");
         }
 
     }
