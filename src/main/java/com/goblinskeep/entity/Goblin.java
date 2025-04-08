@@ -49,25 +49,24 @@ public abstract class Goblin extends Entity{
 
 
     /**
-     * Loads and assigns sprite images for goblin animations in different directions.
+     * Loads (using loadImage) and assigns sprite images for goblin animations in different directions.
      * Called when initializing the goblin's appearance.
      */
     public void getGoblinImage(){
-        try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_down_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_right_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/goblin/orc_left_2.png"));
-
-        }catch(IOException e) {
-            e.printStackTrace();
-        }
+        up1    = Entity.loadImage("/goblin/orc_up_1.png");
+        up2    = Entity.loadImage("/goblin/orc_up_2.png");
+        down1  = Entity.loadImage("/goblin/orc_down_1.png");
+        down2  = Entity.loadImage("/goblin/orc_down_2.png");
+        right1 = Entity.loadImage("/goblin/orc_right_1.png");
+        right2 = Entity.loadImage("/goblin/orc_right_2.png");
+        left1  = Entity.loadImage("/goblin/orc_left_1.png");
+        left2  = Entity.loadImage("/goblin/orc_left_2.png");
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 2f5668deb91f01c239a4740167a2d9934926ac8c
     public void update(){
         onPath = true;
         inSight = true;

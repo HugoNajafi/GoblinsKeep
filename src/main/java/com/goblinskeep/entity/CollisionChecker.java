@@ -35,6 +35,11 @@ public class CollisionChecker {
         playerCollisionWithEnemy(player, gp.getGoblinIterator());
     }
 
+    public void updateCollision(Entity entity) {
+        entity.collisionArea.x = entity.hitboxDefaultX + entity.WorldX;
+        entity.collisionArea.y = entity.hitboxDefaultY + entity.WorldY;
+    }
+
     /**
      * Checks if an entity collides with a solid tile based on its direction.
      *
@@ -112,11 +117,13 @@ public class CollisionChecker {
             }
 
             //update collision areas
-            entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
-            entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+//            entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
+//            entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
             //get world position of the collision area for the Objects
-            target.collisionArea.x = target.WorldX + target.hitboxDefaultX;
-            target.collisionArea.y = target.WorldY + target.hitboxDefaultY;
+//            target.collisionArea.x = target.WorldX + target.hitboxDefaultX;
+//            target.collisionArea.y = target.WorldY + target.hitboxDefaultY;
+            updateCollision(entity);
+            updateCollision(target);
 
             // Check collision based on movement direction
             updateCollisionArea(entity);
@@ -136,11 +143,14 @@ public class CollisionChecker {
      * @return True if the entity collides with the player, false otherwise.
      */
     public boolean checkPlayer(Entity entity){
-        entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
-        entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+//        entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
+//        entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
         //get world position of the collision area for the Objects
-        gp.Player.collisionArea.x = gp.Player.WorldX + gp.Player.hitboxDefaultX;
-        gp.Player.collisionArea.y = gp.Player.WorldY + gp.Player.hitboxDefaultY;
+//        gp.Player.collisionArea.x = gp.Player.WorldX + gp.Player.hitboxDefaultX;
+//        gp.Player.collisionArea.y = gp.Player.WorldY + gp.Player.hitboxDefaultY;
+
+        updateCollision(entity);
+        updateCollision(gp.Player);
 
         updateCollisionArea(entity);
         return entity.collisionArea.intersects(gp.Player.collisionArea);
@@ -154,8 +164,9 @@ public class CollisionChecker {
      * @param otherEntities An iterator over other enemy entities.
      */
     public void checkEnemyCollision(Entity entity, Iterator<? extends Entity> otherEntities) {
-        entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
-        entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+//        entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
+//        entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+        updateCollision(entity);
 
         // Calculate potential new position based on direction
         updateCollisionArea(entity);
@@ -168,8 +179,9 @@ public class CollisionChecker {
             }
 
             // Update other entity's collision area
-            other.collisionArea.x = other.WorldX + other.hitboxDefaultX;
-            other.collisionArea.y = other.WorldY + other.hitboxDefaultY;
+//            other.collisionArea.x = other.WorldX + other.hitboxDefaultX;
+//            other.collisionArea.y = other.WorldY + other.hitboxDefaultY;
+            updateCollision(other);
 
             // Check if potential movement would cause collision
             if (entity.collisionArea.intersects(other.collisionArea)) {
@@ -217,8 +229,9 @@ public class CollisionChecker {
         for(MainObject object: gp.obj.anObject.values()){
 
             // Set entity's collision area position
-            entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
-            entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+//            entity.collisionArea.x = entity.WorldX + entity.hitboxDefaultX;
+//            entity.collisionArea.y = entity.WorldY + entity.hitboxDefaultY;
+            updateCollision(entity);
 
             // Set object's collision area position
             object.collisionArea.x = object.worldX + object.defaultCollisionAreaX;

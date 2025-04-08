@@ -32,11 +32,9 @@ public class Bonus extends MainObject {
      */
     public Bonus(int startTime, int survivalTime) {
         name = "bonus";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/objects/bonus1.png"));
-        } catch (IOException e){
-            System.out.printf(e.getMessage());
-        }
+
+        image = loadImage("/objects/bonus1.png");
+
         collision = false;
 
         // Ensure startTime is within the range 0-30 seconds

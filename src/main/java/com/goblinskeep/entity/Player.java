@@ -55,20 +55,14 @@ public class Player extends Entity{
 
     /** Loads the player's sprite images for different movement directions. */
     public void getPlayerImage() {
-
-        try{
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/up2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/down2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/right1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/right2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/left1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/left2.png"));
-
-        }catch(IOException e) {
-            e.printStackTrace();
-        }
+        up1    = Entity.loadImage("/player/up1.png");
+        up2    = Entity.loadImage("/player/up2.png");
+        down1  = Entity.loadImage("/player/down1.png");
+        down2  = Entity.loadImage("/player/down2.png");
+        right1 = Entity.loadImage("/player/right1.png");
+        right2 = Entity.loadImage("/player/right2.png");
+        left1  = Entity.loadImage("/player/left1.png");
+        left2  = Entity.loadImage("/player/left2.png");
     }
 
     /** Updates the player's movement and collision logic. */

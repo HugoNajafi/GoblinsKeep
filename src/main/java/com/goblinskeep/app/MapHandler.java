@@ -26,6 +26,9 @@ public class MapHandler {
     private int counter = 0;
     private boolean canDeductPoints = true;
 
+    private static final int oneMin = 60;
+    private static final int twoMin = 120;
+
     /**
      * Initializes the map generator and sets up the map and goblins.
      *
@@ -83,11 +86,11 @@ public class MapHandler {
             //getting the only door in the map
             Exit door = gp.obj.findDoor();
             door.open();
-            gp.ui.showMessage("Exit Opened");
+            showMessage("Exit Opened");
         }
         else
         {
-            gp.ui.showMessage("Get more Keys!");
+            showMessage("Get more Keys!");
         }
     }
 
@@ -100,7 +103,7 @@ public class MapHandler {
         }
         else
         {
-            gp.ui.showMessage("Door locked!");
+            showMessage("Door locked!");
         }
     }
 
@@ -109,7 +112,7 @@ public class MapHandler {
     public void keyCollected(){
         keysCollected++;
         if (keysCollected == keysNeeded){
-            gp.ui.showMessage("Lever Unlocked");
+            showMessage("Lever Unlocked");
         }
     }
 
@@ -159,7 +162,7 @@ public class MapHandler {
      */
     public void updateTimer(){
         currentTimeCounter++;
-        if (currentTimeCounter >= 60){
+        if (currentTimeCounter >= oneMin){
             currentTime++;
             currentTimeCounter = 0;
             for (Bonus bonus : bonuses){
@@ -168,7 +171,7 @@ public class MapHandler {
         }
         if(!canDeductPoints){
             counter+=1;
-            if(counter == 120){
+            if(counter == twoMin){
                 counter = 0;
                 canDeductPoints = true;
             }
@@ -200,6 +203,11 @@ public class MapHandler {
     /** sets the game status for testing purposes. */
     public void setGameEnded(boolean gameEnded){
         this.gameEnded = gameEnded;
+    }
+
+    /** shows message on screen, uses function in GamePanel. */
+    public void showMessage(String message){
+        gp.ui.showMessage(message);
     }
 
 }
