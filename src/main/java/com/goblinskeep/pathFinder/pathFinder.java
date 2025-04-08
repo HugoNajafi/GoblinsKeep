@@ -276,7 +276,7 @@ public class pathFinder {
             else if(enTopY > nextY && enLeftX > nextX) {
                 entity.direction = Direction.UP;
 
-                gp.collisionChecker.checkTile(entity);
+                gp.collisionChecker.checkTileCollision(entity);
 
                 if(entity.collisionOn){
                     entity.direction = Direction.LEFT;
@@ -285,7 +285,7 @@ public class pathFinder {
             else if(enTopY > nextY && enLeftX < nextX){
                 entity.direction = Direction.UP;
 
-                gp.collisionChecker.checkTile(entity);
+                gp.collisionChecker.checkTileCollision(entity);
 
                 if(entity.collisionOn){
                     entity.direction = Direction.RIGHT;
@@ -294,7 +294,7 @@ public class pathFinder {
             else if(enTopY < nextY && enLeftX > nextX){
                 entity.direction = Direction.DOWN;
 
-                gp.collisionChecker.checkTile(entity);
+                gp.collisionChecker.checkTileCollision(entity);
 
                 if(entity.collisionOn){
                     entity.direction = Direction.LEFT;
@@ -303,7 +303,7 @@ public class pathFinder {
             else if(enTopY < nextY && enLeftX < nextX){
                 entity.direction = Direction.DOWN;
 
-                gp.collisionChecker.checkTile(entity);
+                gp.collisionChecker.checkTileCollision(entity);
 
                 if(entity.collisionOn){
                     entity.direction = Direction.RIGHT;
