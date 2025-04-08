@@ -3,7 +3,12 @@ package com.goblinskeep.entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.goblinskeep.app.Direction;
+
+import javax.imageio.ImageIO;
 
 
 /**
@@ -132,6 +137,25 @@ public abstract class Entity {
             this.WorldX += Direction.LEFT.getDx() * this.getSpeed();
         } else  { //Direction.RIGHT
             this.WorldX += Direction.RIGHT.getDx() * this.getSpeed();
+        }
+    }
+
+    /**
+     * Loads an image from the given resource path.
+     * This method attempts to read an image file located in the classpath using
+     *
+     * @param path the path to the image resource, starting from the root of the classpath (e.g. {@code "/goblin/orc_up_1.png"})
+     * @return a {@link BufferedImage} representing the loaded image
+     * @throws RuntimeException if the image cannot be found or read
+     */
+    public static BufferedImage loadImage(String path){
+        try (InputStream inputStream = Entity.class.getResourceAsStream(path)) {
+            if (inputStream == null) {
+                throw new IllegalArgumentException("Resource not found: " + path);
+            }
+            return ImageIO.read(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load image: " + path, e);
         }
     }
     
