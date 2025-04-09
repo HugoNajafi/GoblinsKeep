@@ -278,7 +278,7 @@ class CollisionCheckerTest {
     }
 
     /**
-     * Tests if an entity correctly handles no collisions.
+     * Tests if a Player correctly handles no collisions.
      */
     @Test
     void testCheckPlayerCollisions(){
@@ -286,5 +286,17 @@ class CollisionCheckerTest {
         player.WorldY = 0;
         collisionChecker.checkPlayerCollisions(player);
         assertFalse(player.collisionOn);
+    }
+
+    /**
+     * Tests if an enemy correctly handles no collisions.
+     */
+    @Test
+    void testCheckEnemyCollisions(){
+        Goblin goblin = gp.getGoblinIterator().next();
+        goblin.WorldX = 0;
+        goblin.WorldY = 0;
+        collisionChecker.handleEnemyCollisions(goblin);
+        assertFalse(goblin.collisionOn);
     }
 }

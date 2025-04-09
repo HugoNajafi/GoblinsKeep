@@ -22,7 +22,28 @@ public class CollisionChecker {
         this.gp = gp;
     }
 
+    /**
+     * Handles collisions for enemy
+     *
+     * @param enemy The enemy entity to check for collisions.
+     */
+    public void handleEnemyCollisions(Entity enemy){
+        //for tiles
+        gp.collisionChecker.checkTileCollision(enemy);
+        //for other enemies
+        gp.collisionChecker.checkEnemyCollision(enemy, gp.getGoblinIterator());
+        //for player
+        if(gp.collisionChecker.checkPlayer(enemy)){
+            enemy.collisionOn = true;
+            gp.map.playerCollisionWithEnemy();
+        }
+    }
 
+    /**
+     * Checks and handles collisions for the player
+     *
+     * @param player The player entity to check for collisions.
+     */
     public void checkPlayerCollisions(Player player)
     {
         //Check collision with tiles
@@ -35,6 +56,11 @@ public class CollisionChecker {
         playerCollisionWithEnemy(player, gp.getGoblinIterator());
     }
 
+    /**
+     * Updates the collision area of an entity based on its world position.
+     *
+     * @param entity The entity whose collision area is to be updated.
+     */
     public void updateCollision(Entity entity) {
         entity.collisionArea.x = entity.hitboxDefaultX + entity.WorldX;
         entity.collisionArea.y = entity.hitboxDefaultY + entity.WorldY;

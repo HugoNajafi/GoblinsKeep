@@ -63,13 +63,7 @@ public class RegularGoblin extends Goblin {
     }
 
     private void checkCollisions(){
-        gp.collisionChecker.checkTileCollision(this);
-
-        gp.collisionChecker.checkEnemyCollision(this, gp.getGoblinIterator());
-        if(gp.collisionChecker.checkPlayer(this)){
-            collisionOn = true;
-            gp.map.playerCollisionWithEnemy();
-        }
+        gp.collisionChecker.handleEnemyCollisions(this);
         interactPlayer(47);
     }
 
