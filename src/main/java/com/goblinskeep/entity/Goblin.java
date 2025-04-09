@@ -1,8 +1,6 @@
 package com.goblinskeep.entity;
 
 import java.awt.*;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 
@@ -62,11 +60,7 @@ public abstract class Goblin extends Entity{
         left1  = Entity.loadImage("/goblin/orc_left_1.png");
         left2  = Entity.loadImage("/goblin/orc_left_2.png");
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 2f5668deb91f01c239a4740167a2d9934926ac8c
     public void update(){
         onPath = true;
         inSight = true;

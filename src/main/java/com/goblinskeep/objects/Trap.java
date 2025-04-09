@@ -1,8 +1,5 @@
 package com.goblinskeep.objects;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-
 /**
  * Represents a trap that deducts points when a player steps on it.
  *

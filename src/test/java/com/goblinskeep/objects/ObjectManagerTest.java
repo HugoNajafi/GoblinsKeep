@@ -3,9 +3,7 @@ package com.goblinskeep.objects;
 import com.goblinskeep.app.GamePanel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

@@ -1,9 +1,6 @@
 package com.goblinskeep.tile;
 
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.app.GameStatus;
-import com.goblinskeep.entity.Player;
-import com.goblinskeep.objects.Tree;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

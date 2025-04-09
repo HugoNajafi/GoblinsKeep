@@ -1,9 +1,6 @@
 package com.goblinskeep.objects;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
-
 import com.goblinskeep.app.GamePanel;
 
 /**

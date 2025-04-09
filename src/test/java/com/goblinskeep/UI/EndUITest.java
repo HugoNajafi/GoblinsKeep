@@ -1,15 +1,12 @@
 package com.goblinskeep.UI;
 
 import com.goblinskeep.app.GamePanel;
-import com.goblinskeep.app.GameStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 public class EndUITest {
 

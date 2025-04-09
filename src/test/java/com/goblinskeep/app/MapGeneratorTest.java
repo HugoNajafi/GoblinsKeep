@@ -1,15 +1,10 @@
 package com.goblinskeep.app;
 
-import com.goblinskeep.entity.Goblin;
 import com.goblinskeep.objects.MainObject;
 import com.goblinskeep.objects.Bonus;
-import com.goblinskeep.tile.TileManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.awt.image.BufferedImage;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -244,7 +239,6 @@ public class MapGeneratorTest {
      */
     @Test
     void negativePointsEndGame() {
-        int initialScore = map.getScore();
         map.trapHit();
         assertTrue(map.getScore() < 0, "Score should decrease by 50 when a trap is hit");
         assertTrue(map.gameEnded());

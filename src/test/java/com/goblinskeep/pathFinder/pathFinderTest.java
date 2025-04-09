@@ -1,17 +1,11 @@
 package com.goblinskeep.pathFinder;
 
-import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.app.GameStatus;
-import com.goblinskeep.entity.Goblin;
 import com.goblinskeep.entity.RegularGoblin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

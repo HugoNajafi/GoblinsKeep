@@ -1,8 +1,5 @@
 package com.goblinskeep.objects;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-
 /**
  * Represents a lever that controls the game's exit gate.
  *

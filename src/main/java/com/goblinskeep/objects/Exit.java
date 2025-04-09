@@ -1,8 +1,5 @@
 package com.goblinskeep.objects;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-
 
 /**
  * Represents an exit door in the game.
