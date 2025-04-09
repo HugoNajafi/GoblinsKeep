@@ -7,17 +7,12 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JPanel;
-
-
 import com.goblinskeep.entity.CollisionChecker;
 import com.goblinskeep.entity.Goblin;
 import com.goblinskeep.entity.Player;
-
 import com.goblinskeep.tile.TileManager;
-
 import com.goblinskeep.keyboard.MenuInputHandler;
 import com.goblinskeep.keyboard.PlayerInputHandler;
-
 import com.goblinskeep.objects.ObjectManager;
 import com.goblinskeep.pathFinder.pathFinder;
 import com.goblinskeep.UI.InstructionsUI;

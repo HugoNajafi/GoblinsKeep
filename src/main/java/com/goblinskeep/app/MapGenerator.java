@@ -5,7 +5,6 @@ import com.goblinskeep.entity.Player;
 import com.goblinskeep.entity.RegularGoblin;
 import com.goblinskeep.objects.*;
 import com.goblinskeep.tile.TileManager;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
