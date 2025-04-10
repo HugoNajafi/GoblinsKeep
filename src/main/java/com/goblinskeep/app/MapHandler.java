@@ -28,6 +28,7 @@ public class MapHandler {
 
     private static final int oneMin = 60;
     private static final int twoMin = 120;
+    private MapGenerator mapGen;
 
     /**
      * Initializes the map generator and sets up the map and goblins.
@@ -37,7 +38,7 @@ public class MapHandler {
     public MapHandler(GamePanel gp){
         this.gp = gp;
         rawMapData = new int[gp.maxWorldCol][gp.maxWorldRow];
-        MapGenerator mapGen = new MapGenerator(gp, this, "/maps/world1.txt");
+         mapGen = new MapGenerator(gp, this, "/maps/world1.txt");
     }
 
     /**
@@ -203,6 +204,11 @@ public class MapHandler {
     /** sets the game status for testing purposes. */
     public void setGameEnded(boolean gameEnded){
         this.gameEnded = gameEnded;
+    }
+
+    /** sets the game status for testing purposes. */
+    public void setGameWin(){
+        this.gameWin = true;
     }
 
     /** shows message on screen, uses function in GamePanel. */

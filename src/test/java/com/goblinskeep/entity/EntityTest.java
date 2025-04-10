@@ -73,6 +73,8 @@ public class EntityTest {
      */
     @Test
     public void testMoveEntityTowardDirection() {
+        GamePanel gp = new GamePanel();
+        entity = new RegularGoblin(gp, gp.Player, 100, 200);
         entity.direction = Direction.UP;
         entity.moveEntityTowardDirection();
         assertEquals(200 - entity.getSpeed(), entity.getY());

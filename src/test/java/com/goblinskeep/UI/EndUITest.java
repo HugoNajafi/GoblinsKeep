@@ -47,6 +47,7 @@ public class EndUITest {
 
         // Test draw
         ui.draw(g2);
+        realGP.map.setGameWin();
 
         for (int i = 0; i < ui.totalSelections; i++) {
             int originalOption = ui.cursorSelection;

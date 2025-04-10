@@ -145,8 +145,4 @@ public class MapGenerator {
         goblins.add(goblin);
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
 }
