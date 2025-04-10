@@ -310,11 +310,6 @@ public class pathFinder {
                 }
             }
 
-            // int nextCol = gp.pathFinder.pathList.get(0).col;
-            // int nextRow = gp.pathFinder.pathList.get(0).row;
-            // if(nextCol == goalCol && nextRow == goalRow){
-            //     onPath = false;
-            // }
         }
 
 

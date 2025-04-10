@@ -22,7 +22,13 @@ public class MapGenerator {
     private final ArrayList<Goblin> goblins;
     private final Player player;
 
-
+    /**
+     * Constructs a MapGenerator instance, initializes game objects, and loads the map.
+     *
+     * @param gp       The GamePanel instance.
+     * @param mapH     The MapHandler instance.
+     * @param filePath The file path of the map to load.
+     */
     public MapGenerator(GamePanel gp, MapHandler mapH, String filePath) {
         this.gp = gp;
         obj = new ObjectManager(gp);
@@ -126,9 +132,8 @@ public class MapGenerator {
         }
     }
 
-
     /**
-     * Sets the player's initial position.
+     * Sets the player's initial position on the map.
      *
      * @param x The x-coordinate in tile units.
      * @param y The y-coordinate in tile units.
@@ -138,6 +143,12 @@ public class MapGenerator {
         player.WorldY = y * gp.tileSize;
     }
 
+    /**
+     * Adds a goblin to the map at the specified position.
+     *
+     * @param x The x-coordinate in tile units.
+     * @param y The y-coordinate in tile units.
+     */
     private void setGoblinPosition(int x, int y) {
         Goblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         goblin.setX(x * gp.tileSize);

@@ -35,8 +35,11 @@ public class MenuUI extends DefaultUI{
         }
     }
 
-
-
+    /**
+     * Draws the main menu UI, including the title, background, and menu options.
+     *
+     * @param g2 the Graphics2D object used for drawing
+     */
     public void draw(Graphics2D g2) {
         if (backgroundImage != null) {
             g2.drawImage(backgroundImage, 0, 0, gp.screenWidth, gp.screenHeight, null);
@@ -66,7 +69,7 @@ public class MenuUI extends DefaultUI{
     /**
      * Gets the current option selected in the menu.
      *
-     * @return the current option
+     * @return the current option, or null if no option is selected
      */
     @Override
     public Options getCurrentOption() {

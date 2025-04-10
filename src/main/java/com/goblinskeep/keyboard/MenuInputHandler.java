@@ -44,8 +44,13 @@ public class MenuInputHandler implements KeyListener {
 
     }
 
+    /**
+     * Handles key press events for menu navigation and game state toggling.
+     *
+     * @param e The KeyEvent containing the pressed key information.
+     */
     @Override
-    public void keyPressed(KeyEvent e){
+    public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
         switch(code){
@@ -78,11 +83,11 @@ public class MenuInputHandler implements KeyListener {
     }
 
     /**
-     * Handles key events for menu navigation and selection for each game status.
+     * Handles menu navigation and selection based on the current game status and key input.
      *
-     * @param ui the UI component to handle
-     * @param status the current game status
-     * @param keyCode the key code of the pressed key
+     * @param ui      The UI component to handle.
+     * @param status  The current game status.
+     * @param keyCode The key code of the pressed key.
      */
     public void handleMenuKeyEvent(DefaultUI ui, GameStatus status, int keyCode) {
         if (gp.status == status) {
@@ -128,7 +133,7 @@ public class MenuInputHandler implements KeyListener {
     }
 
     /**
-     * Detects when the UP or DOWN arrow key is released and updates the cursor release field.
+     * Detects when a key is released and updates the cursor release state.
      *
      * @param e The KeyEvent containing the released key information.
      */
@@ -141,3 +146,4 @@ public class MenuInputHandler implements KeyListener {
     }
 
 }
+

@@ -61,6 +61,10 @@ public abstract class Goblin extends Entity{
         left2  = Entity.loadImage("/goblin/orc_left_2.png");
     }
     
+    /**
+     * Updates the goblin's state, including its pathfinding and visibility status.
+     * Calls the `getAction` method to define specific behavior.
+     */
     public void update(){
         onPath = true;
         inSight = true;
@@ -68,6 +72,11 @@ public abstract class Goblin extends Entity{
         getAction();
     }
 
+    /**
+     * Retrieves the effective direction for rendering the goblin.
+     *
+     * @return The direction in which the goblin is currently drawn.
+     */
     @Override
     protected Direction getEffectiveDirection() {
         return drawDirection; // Default behavior for Player
