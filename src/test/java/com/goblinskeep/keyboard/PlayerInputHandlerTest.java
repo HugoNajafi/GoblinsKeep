@@ -8,15 +8,30 @@ import java.awt.event.KeyEvent;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link PlayerInputHandler} class.
+ * This class tests the behavior of key press and release events
+ * and their effects on the player's movement and debug mode.
+ */
 public class PlayerInputHandlerTest {
 
     private PlayerInputHandler inputHandler;
 
+    /**
+     * Sets up the test environment by initializing the {@link PlayerInputHandler}.
+     */
     @BeforeEach
     void setUp() {
         inputHandler = new PlayerInputHandler();
     }
 
+    /**
+     * Helper method to create a {@link KeyEvent}.
+     *
+     * @param type the type of key event (e.g., {@link KeyEvent#KEY_PRESSED})
+     * @param code the key code (e.g., {@link KeyEvent#VK_W})
+     * @return a {@link KeyEvent} instance
+     */
     private KeyEvent key(int type, int code) {
         return new KeyEvent(
                 new Canvas(),
@@ -28,6 +43,9 @@ public class PlayerInputHandlerTest {
         );
     }
 
+    /**
+     * Tests movement upwards using 'W' and the up arrow keys.
+     */
     @Test
     void testMoveUpWithWAndArrow() {
         inputHandler.keyPressed(key(KeyEvent.KEY_PRESSED, KeyEvent.VK_W));
@@ -43,6 +61,9 @@ public class PlayerInputHandlerTest {
         assertFalse(inputHandler.up);
     }
 
+    /**
+     * Tests movement downwards using 'S' and the down arrow keys.
+     */
     @Test
     void testMoveDownWithSAndArrow() {
         inputHandler.keyPressed(key(KeyEvent.KEY_PRESSED, KeyEvent.VK_S));
@@ -58,6 +79,9 @@ public class PlayerInputHandlerTest {
         assertFalse(inputHandler.down);
     }
 
+    /**
+     * Tests movement to the left using 'A' and the left arrow keys.
+     */
     @Test
     void testMoveLeftWithAAndArrow() {
         inputHandler.keyPressed(key(KeyEvent.KEY_PRESSED, KeyEvent.VK_A));
@@ -73,6 +97,9 @@ public class PlayerInputHandlerTest {
         assertFalse(inputHandler.left);
     }
 
+    /**
+     * Tests movement to the right using 'D' and the right arrow keys.
+     */
     @Test
     void testMoveRightWithDAndArrow() {
         inputHandler.keyPressed(key(KeyEvent.KEY_PRESSED, KeyEvent.VK_D));
@@ -88,6 +115,9 @@ public class PlayerInputHandlerTest {
         assertFalse(inputHandler.right);
     }
 
+    /**
+     * Tests toggling debug mode using the 'F' key.
+     */
     @Test
     void testDebugModeToggle() {
         boolean original = inputHandler.debugMode;
@@ -99,6 +129,9 @@ public class PlayerInputHandlerTest {
         assertEquals(original, inputHandler.debugMode, "Debug mode should toggle back on second F press");
     }
 
+    /**
+     * Tests that the {@link PlayerInputHandler#keyTyped(KeyEvent)} method does nothing.
+     */
     @Test
     void keyTypedDoesNothingButIsCovered() {
         KeyEvent k = new KeyEvent(
@@ -113,11 +146,12 @@ public class PlayerInputHandlerTest {
         inputHandler.keyTyped(k);
     }
 
-
+    /**
+     * Provides coverage for default cases in key press and release handling.
+     */
     @Test
-    void coverageForDefaultCases(){
+    void coverageForDefaultCases() {
         inputHandler.keyPressed(key(KeyEvent.KEY_PRESSED, KeyEvent.VK_Z));
         inputHandler.keyReleased(key(KeyEvent.KEY_RELEASED, KeyEvent.VK_Z));
-
     }
 }

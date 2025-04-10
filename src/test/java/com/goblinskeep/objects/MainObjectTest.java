@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import static org.mockito.Mockito.*;
 
 /**
- * Test class for MainObject.
+ * Unit tests for the {@link MainObject} class.
  */
 class MainObjectTest {
     private MainObject object;
@@ -19,6 +19,9 @@ class MainObjectTest {
     private Player player;
     private Graphics2D g2;
 
+    /**
+     * Sets up the test environment by initializing the MainObject, GamePanel, and mocked Graphics2D.
+     */
     @BeforeEach
     void setUp() {
         object = new Key();
@@ -28,7 +31,7 @@ class MainObjectTest {
     }
 
     /**
-     * Test drawing the object when it is near the player.
+     * Tests drawing the object when it is near the player.
      */
     @Test
     void testDrawForObject() {
@@ -42,7 +45,7 @@ class MainObjectTest {
     }
 
     /**
-     * Test drawing the object when it is not near the player.
+     * Tests drawing the object when it is not near the player.
      */
     @Test
     void testDrawForObjectNotNearPlayer() {
@@ -51,7 +54,7 @@ class MainObjectTest {
     }
 
     /**
-     * Test drawing the object when it is too far to the left of the player.
+     * Tests drawing the object when it is too far to the left of the player.
      */
     @Test
     public void testDrawObjectTooFarLeft() {
@@ -65,7 +68,7 @@ class MainObjectTest {
     }
 
     /**
-     * Test drawing the object when it is too far to the right of the player.
+     * Tests drawing the object when it is too far to the right of the player.
      */
     @Test
     public void testDrawObjectTooFarRight() {
@@ -79,7 +82,7 @@ class MainObjectTest {
     }
 
     /**
-     * Test drawing the object when it is too far above the player.
+     * Tests drawing the object when it is too far above the player.
      */
     @Test
     public void testDrawObjectTooFarUp() {
@@ -93,7 +96,7 @@ class MainObjectTest {
     }
 
     /**
-     * Test drawing the object when it is too far below the player.
+     * Tests drawing the object when it is too far below the player.
      */
     @Test
     public void testDrawObjectTooFarDown() {
