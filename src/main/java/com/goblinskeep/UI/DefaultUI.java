@@ -10,12 +10,23 @@ import java.io.InputStream;
  * Abstract class representing the default UI component in the game.
  */
 public abstract class DefaultUI {
+
+    /** The font used for rendering in-game text. */
     public Font gameFont;
+
+    /** The font used for UI elements. */
     public Font UIFont;
+
+    /** Reference to the main game panel. */
     protected GamePanel gp;
 
+    /** Index of the currently selected cursor option. */
     public int cursorSelection = 0;
+
+    /** Total number of selectable options in the menu. */
     public int totalSelections;
+
+    /** Thickness of the border used in UI rendering. */
     protected int borderThickness = 3;
 
     /**
@@ -116,6 +127,13 @@ public abstract class DefaultUI {
         g2.drawString(text, x, y);
     }
 
+    /**
+     * Draws a list of cursor-selectable options centered on the screen.
+     *
+     * @param g2 The graphics context used for rendering.
+     * @param optionNames The array of option labels to be displayed.
+     * @param startingYTile The Y tile position to begin drawing options from.
+     */
     public void drawCursorOptionsCentered(Graphics2D g2, String[] optionNames, int startingYTile) {
         for (int i = 0; i < optionNames.length; i++){
             int yTile = startingYTile + i;
