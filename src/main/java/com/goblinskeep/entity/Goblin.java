@@ -25,6 +25,8 @@ public abstract class Goblin extends Entity{
      *
      * @param gp     The game panel instance.
      * @param player The player instance.
+     * @param WorldX the Goblin X coordinate in the world
+     * @param WorldY the Goblin Y coordinate in the world
      */
     public Goblin(GamePanel gp, Player player, int WorldX, int WorldY) {
         super(gp, WorldX, WorldY);  // Pass values up to Entity constructor

@@ -68,7 +68,7 @@ public abstract class Entity {
 
     /**
      * Checks if the entity can move based on collision status.
-     * @return
+     * @return boolean if the entity can move
      */
     protected boolean canMove(){
         return !collisionOn;

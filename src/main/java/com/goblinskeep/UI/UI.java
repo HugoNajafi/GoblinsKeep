@@ -21,6 +21,7 @@ public class UI extends DefaultUI{
 
     /**
      * Restarts the UI state, resetting messages and play time.
+     * @param gp the GamePanel instance
      */
     public UI(GamePanel gp) {
         super(gp);

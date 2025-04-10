@@ -96,7 +96,9 @@ public class MapHandler {
     }
 
 
-    /** Handles interaction when the player reaches the exit. */
+    /**
+     * Handles interaction when the player reaches the exit.
+     */
     public void exitTouched(){
         if (exitOpen){
             gameEnded = true;
@@ -109,7 +111,9 @@ public class MapHandler {
     }
 
 
-    /** Updates the number of collected keys. */
+    /**
+     * Updates the number of collected keys.
+     */
     public void keyCollected(){
         keysCollected++;
         if (keysCollected == keysNeeded){
@@ -118,14 +122,20 @@ public class MapHandler {
     }
 
 
-    /** Handles collision when the player encounters an enemy. */
+    /**
+     * Handles collision when the player encounters an enemy.
+     */
     public void playerCollisionWithEnemy(){
         gameEnded = true;
         gameWin = false;
     }
 
 
-    /** Handles bonus collection. */
+    /**
+     * Handles bonus collection.
+     *
+     * @param bonus The bonus object collected by the player.
+     */
     public void collectedBonus(Bonus bonus){
         if (bonus.isAlive(currentTime)){
             score += 100;
@@ -133,19 +143,29 @@ public class MapHandler {
         }
     }
 
-    /** Helper function to remove the bonus from the map. */
+    /**
+     * Helper function to remove the bonus from the map.
+     *
+     * @param bonus The bonus object to be removed.
+     */
     public void removeBonus(Bonus bonus){
         gp.obj.removeObject(bonus.worldX,bonus.worldY);
         bonuses.remove(bonus);
     }
 
-    /** Helper function to add the bonus to map. */
+    /**
+     * Helper function to add the bonus to the map.
+     *
+     * @param bonus The bonus object to be added.
+     */
     public void addBonus(Bonus bonus){
         bonuses.add(bonus);
     }
 
 
-    /** Handles interaction with the trap. */
+    /**
+     * Handles interaction with the trap.
+     */
     public void trapHit(){
         if(canDeductPoints) {
             score -= 50;
@@ -201,7 +221,11 @@ public class MapHandler {
         return gameWin;
     }
 
-    /** sets the game status for testing purposes. */
+    /**
+     * Sets the game status for testing purposes.
+     *
+     * @param gameEnded Whether the game has ended.
+     */
     public void setGameEnded(boolean gameEnded){
         this.gameEnded = gameEnded;
     }
@@ -211,9 +235,14 @@ public class MapHandler {
         this.gameWin = true;
     }
 
-    /** shows message on screen, uses function in GamePanel. */
+    /**
+     * Shows a message on the screen, uses a function in GamePanel.
+     *
+     * @param message The message to be displayed.
+     */
     public void showMessage(String message){
         gp.ui.showMessage(message);
     }
 
 }
+
