@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class GamePanelTest {
 
+    /** initialize GamePanel */
     private GamePanel gamePanel;
 
     /**

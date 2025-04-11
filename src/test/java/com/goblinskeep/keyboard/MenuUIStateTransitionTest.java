@@ -18,7 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MenuUIStateTransitionTest {
 
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize MenuInputHandler */
     private MenuInputHandler inputHandler;
 
     /**

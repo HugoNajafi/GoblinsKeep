@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
  * Unit tests for the Bonus class.
  */
 class BonusTest {
+    /** initialize Bonus */
     private Bonus bonus;
 
     /**

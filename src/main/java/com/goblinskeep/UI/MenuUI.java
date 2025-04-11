@@ -12,8 +12,11 @@ import java.io.IOException;
  * Represents the main menu UI component.
  */
 public class MenuUI extends DefaultUI{
+    /** initialize GamePanel instance */
     public GamePanel gp;
+    /** initialize BufferedImage for keys */
     public BufferedImage keyImage;
+    /** initialize BufferedImage for the background */
     private BufferedImage backgroundImage;
 
 

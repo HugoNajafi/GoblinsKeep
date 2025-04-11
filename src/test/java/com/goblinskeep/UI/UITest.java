@@ -15,9 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class UITest {
 
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize UI */
     private UI ui;
+    /** initialize BufferedImage */
     private BufferedImage testImage;
+    /** initialize Graphics2D */
     private Graphics2D g2;
 
     /**

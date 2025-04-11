@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PlayerInputHandlerTest {
 
+    /** initialize PlayerInputHandler */
     private PlayerInputHandler inputHandler;
 
     /**

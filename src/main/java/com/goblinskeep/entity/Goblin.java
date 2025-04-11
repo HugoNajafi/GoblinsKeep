@@ -16,8 +16,10 @@ public abstract class Goblin extends Entity{
     /** The direction in which the goblin is currently facing/drawn. */
     protected Direction drawDirection = Direction.UP;
 
+    /** Indicates whether the goblin is currently following a path to the player. */
     public boolean onPath;
 
+    /** Indicates whether the goblin currently has line of sight to the player. */
     public boolean inSight;
 
     /**

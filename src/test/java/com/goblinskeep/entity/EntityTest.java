@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
  */
 public class EntityTest {
 
+    /** initialize Entity */
     private Entity entity;
 
     /**

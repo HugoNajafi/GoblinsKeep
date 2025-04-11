@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 /**
  * Represents the base class for all interactive objects in the game.
  * This includes items such as keys, bonuses, levers, traps, and barriers.
- *
+ * <p>
  * Objects derived from this class can have unique properties such as collision behavior
  * and visibility within the game world.
  */

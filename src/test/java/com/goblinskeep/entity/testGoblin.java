@@ -14,9 +14,14 @@ import org.junit.jupiter.api.Test;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 
+/**
+ * Unit tests for the {@link Goblin} class, including drawing and sprite selection.
+ */
 public class testGoblin {
     // Mocked dependencies
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize Goblin */
     private Goblin goblin;
 
     @BeforeEach
@@ -25,7 +30,9 @@ public class testGoblin {
         goblin = gp.getGoblinIterator().next();
 
     }
-
+    /**
+     * Tests the sprite returned by the goblin based on direction and sprite number.
+     */
     @Test
     public void testGetSpriteForDirection() {
         // Mock the goblin's sprites
@@ -73,7 +80,9 @@ public class testGoblin {
         assertEquals(sprite2, goblin.getSpriteForDirection(),
                 "Expected sprite2 for direction " + direction + " and SpriteNum = 2");
     }
-
+    /**
+     * Tests if the goblin becomes active (in sight and on path) when near the player.
+     */
     @Test
     public void testupdate(){
         gp.Player.WorldX = 0;
@@ -85,6 +94,9 @@ public class testGoblin {
         assertTrue(goblin.inSight);
     }
 
+    /**
+     * Tests that the goblin's draw method calls the graphics object when visible.
+     */
     @Test
     void testDrawForGoblin(){
         Goblin goblin = new RegularGoblin(gp, gp.Player, 0,0);

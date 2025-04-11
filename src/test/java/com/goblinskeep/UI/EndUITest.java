@@ -13,7 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class EndUITest {
 
+    /** initialize GamePanel */
     private GamePanel mockGP;
+
+    /** initialize DefaultUI */
     private EndUI endUI;
 
     /**

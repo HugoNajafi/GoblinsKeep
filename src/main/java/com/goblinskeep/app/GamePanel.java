@@ -94,8 +94,10 @@ public class GamePanel extends JPanel implements Runnable
     /** The instructions UI screen. */
     public InstructionsUI instructionsUI = new InstructionsUI(this);
 
+    /** Pathfinding engine used for navigating goblins. */
     public pathFinder pathFinder;
 
+    /** used to trigger debugMode. */
     public boolean debugMode;
     /**
      * Constructs a new GamePanel, initializing the game screen, input handlers, and game state.

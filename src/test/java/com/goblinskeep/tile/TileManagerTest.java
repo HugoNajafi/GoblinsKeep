@@ -14,7 +14,9 @@ import static org.mockito.Mockito.*;
  * Unit tests for the TileManager class.
  */
 class TileManagerTest {
+    /** initialize TileManager */
     private TileManager tm;
+    /** initialize GamePanel */
     private GamePanel gp;
 
     /**

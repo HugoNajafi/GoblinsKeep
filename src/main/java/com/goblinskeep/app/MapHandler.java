@@ -12,6 +12,8 @@ public class MapHandler {
     private final List<Bonus> bonuses = new ArrayList<>();
     private int currentTime = 0;
     private int currentTimeCounter = 0;
+
+    /** A raw 2D map array used for testing. */
     public int[][] rawMapData; //for testing
 
 

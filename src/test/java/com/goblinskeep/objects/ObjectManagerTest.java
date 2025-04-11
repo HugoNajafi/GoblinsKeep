@@ -12,8 +12,9 @@ import static org.mockito.Mockito.*;
  * Unit tests for the {@link ObjectManager} class.
  */
 public class ObjectManagerTest {
-
+    /** initialize ObjectManager */
     private ObjectManager objectManager;
+    /** initialize mock GamePanel */
     private GamePanel mockGamePanel;
 
     /**

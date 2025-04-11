@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
  * Unit tests for the DefaultUI class and its subclasses.
  */
 public class DefaultUITest {
+    /** initialize DefaultUI */
     private DefaultUI defaultUI;
 
     /**

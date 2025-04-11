@@ -28,11 +28,17 @@ import com.goblinskeep.objects.ObjectManager;
 public class testPlayer {
 
     // Mocked dependencies
+    /** initialize mock GamePanel */
     public GamePanel mockGamePanel;
+    /** initialize mock PlayerInputHandler */
     public PlayerInputHandler mockPlayerInput;
+    /** initialize mock CollisionChecker */
     public CollisionChecker mockCollisionChecker;
+    /** initialize Player */
     public Player player;
+    /** initialize mock MapHandler */
     public MapHandler mockMap;
+    /** initialize mock ObjectManager */
     public ObjectManager mockObj;
 
     /**

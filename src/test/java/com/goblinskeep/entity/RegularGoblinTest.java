@@ -11,7 +11,10 @@ import com.goblinskeep.app.GamePanel;
  * This class tests the behavior of regular goblins, including movement, interaction, and pathfinding.
  */
 public class RegularGoblinTest {
+
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize RegularGoblin */
     private RegularGoblin regularGoblin;
 
     /**

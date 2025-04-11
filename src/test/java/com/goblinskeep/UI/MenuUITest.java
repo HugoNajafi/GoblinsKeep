@@ -14,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MenuUITest {
 
+    /** initialize GamePanel */
     private GamePanel mockGP;
+    /** initialize MenuUI */
     private MenuUI menuUI;
 
     /**

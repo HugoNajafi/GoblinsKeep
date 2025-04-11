@@ -14,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class InstructionsUITest {
 
+    /** initialize GamePanel */
     private GamePanel mockGP;
+    /** initialize InstructionsUI */
     private InstructionsUI instructionsUI;
 
     /**

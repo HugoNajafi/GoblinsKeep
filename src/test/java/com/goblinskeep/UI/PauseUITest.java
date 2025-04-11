@@ -14,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PauseUITest {
 
+    /** initialize GamePanel */
     private GamePanel mockGP;
+    /** initialize PauseUI */
     private PauseUI pauseUI;
 
     /**

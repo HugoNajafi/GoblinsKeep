@@ -18,7 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * */
 public class MapGeneratorTest {
 
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize MapHandler */
     private MapHandler map;
 
     /**

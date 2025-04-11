@@ -7,7 +7,7 @@ import com.goblinskeep.app.GamePanel;
 
 
 /**
- * handles all types of tiles and maps the image to an array called tile[] and has the draw method for tiles
+ * Handles all types of tiles and maps the image to an array called tile[] and has the draw method for tiles
  */
 public class TileManager {
     GamePanel gp;
@@ -28,7 +28,8 @@ public class TileManager {
     }
 
     /**
-     * method to map the images to their respective position in tile[] array, uses helper function mapNumToTile()
+     * Loads and maps tile images to their respective indices in the tile array.
+     * Uses {@code mapNumToTile} to assign images and collision properties.
      */
     private void getTileImage() {
         try {
@@ -45,7 +46,7 @@ public class TileManager {
     }
 
     /**
-     * helper function for getTileImage()
+     * Maps a tile image to a specific index in the tile array with optional collision.
      * @param tileFileName: filePath
      * @param tileNum: index for the array
      * @param collision: boolean value for checking collision
@@ -61,8 +62,8 @@ public class TileManager {
     }
 
     /**
-     * draw function for the tiles and objects
-     * @param g2: graphics 2D to draw it
+     * Renders all visible tiles within the player's camera view.
+     * @param g2: the Graphics2D context used for rendering.
      */
     public void draw(Graphics2D g2) {
 

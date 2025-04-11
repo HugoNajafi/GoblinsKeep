@@ -11,18 +11,18 @@ import java.util.LinkedHashMap;
 
 /**
  * Manages all interactive objects in the game.
- *
- * - Uses a **HashMap** where keys represent **map coordinates** (`x,y`).
- * - Stores objects like **keys, traps, levers, exits, and bonuses**.
- * - Provides methods to **add, remove, and find objects** dynamically.
+ * <p>
+ * Uses a {@link HashMap} to track objects where keys represent **map coordinates** (`x,y`).
+ * Stores objects like keys, traps, levers, exits, and bonuses.
+ * Provides methods to add, remove, and find objects dynamically.
  */
 public class ObjectManager {
 
     /** A mapping of object locations to their respective objects. */
     public HashMap<String, MainObject> anObject;
-
+    /** initialize GamePanel instance */
     public GamePanel gp;
-
+    /** initialize MapHandler instance */
     public MapHandler map;
 
 
@@ -65,9 +65,9 @@ public class ObjectManager {
 
 
     /**
-     * Finds the only exit door in the current game world.
+     * Searches the game world for the only {@link Exit}.
      *
-     * @return The {@link Exit} object if found, otherwise {@code null}.
+     * @return The {@link Exit} object if found, or {@code null} if not found.
      */
     public Exit findDoor(){
         for(MainObject i: anObject.values()){
@@ -81,7 +81,7 @@ public class ObjectManager {
 
 
     /**
-     * Finds the only lever in the current game world.
+     * Searches the game world for the only {@link Lever} object.
      *
      * @return The {@link Lever} object if found, otherwise {@code null}.
      */

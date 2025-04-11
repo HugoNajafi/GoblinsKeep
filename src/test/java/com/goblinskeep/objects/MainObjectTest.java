@@ -14,9 +14,13 @@ import static org.mockito.Mockito.*;
  * Unit tests for the {@link MainObject} class.
  */
 class MainObjectTest {
+    /** initialize MainObject */
     private MainObject object;
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize Player */
     private Player player;
+    /** initialize Graphics2D */
     private Graphics2D g2;
 
     /**

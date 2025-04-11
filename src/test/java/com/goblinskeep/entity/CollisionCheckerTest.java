@@ -16,8 +16,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * tests for the CollisionChecker class.
  */
 class CollisionCheckerTest {
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize Player */
     private Player player;
+    /** initialize CollisionChecker */
     private CollisionChecker collisionChecker;
 
     /**
