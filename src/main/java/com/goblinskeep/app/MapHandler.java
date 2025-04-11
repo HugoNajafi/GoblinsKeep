@@ -66,6 +66,7 @@ public class MapHandler {
                     leverTouched();
                     break;
                 case "exit":
+                    doorTouched();
                     break;
                 case "invisible":
                     exitTouched();
@@ -128,8 +129,8 @@ public class MapHandler {
      * Handles collision when the player encounters an enemy.
      */
     public void playerCollisionWithEnemy(){
-        gameEnded = true;
-        gameWin = false;
+//        gameEnded = true;
+//        gameWin = false;
     }
 
 
@@ -176,6 +177,15 @@ public class MapHandler {
         if (score < 0 ){
             gameEnded =true;
             gameWin = false;
+        }
+    }
+
+    /**
+     * Handles door interaction when locked
+     */
+    public void doorTouched(){
+        if (keysCollected < keysNeeded){
+            showMessage("Door Locked! Lever Activation Needed");
         }
     }
 
