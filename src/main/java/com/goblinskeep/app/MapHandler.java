@@ -129,8 +129,8 @@ public class MapHandler {
      * Handles collision when the player encounters an enemy.
      */
     public void playerCollisionWithEnemy(){
-//        gameEnded = true;
-//        gameWin = false;
+        gameEnded = true;
+        gameWin = false;
     }
 
 
