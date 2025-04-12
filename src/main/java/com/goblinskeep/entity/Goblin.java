@@ -80,6 +80,7 @@ public abstract class Goblin extends Entity{
         getAction();
     }
 
+    
     private void checkSight(){
 
         int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
@@ -100,7 +101,6 @@ public abstract class Goblin extends Entity{
         
     }
     
-
     @Override
     protected Direction getEffectiveDirection() {
         if(onPath) {
