@@ -2,6 +2,9 @@ package com.goblinskeep.entity;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
+
+import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
 import com.goblinskeep.pathFinder.Node;
 
@@ -36,19 +39,54 @@ public class RegularGoblin extends Goblin {
      */
     @Override
     public void getAction() {
+        if(onPath){
+            followPlayer();
+        }else{
+            RandomMovement();
+        }
+        //Move along Path
+        move();
+    }
+
+    private void followPlayer(){
         //find player coordinate and get direction to it using pathfinding
         Point goalCoordinates = gp.Player.getCenterTileCoordinates();
         gp.pathFinder.searchPath(goalCoordinates.x, goalCoordinates.y, this);
         drawDirection = direction;
-
-        //Move along Path
-        moveAlongPath();
     }
+    
 
+    private void RandomMovement() {
+        // Randomly change direction
+        actionLockCounter++;
+    
+        //How often the goblin changes direction
+        //less means faster direction change, more means slower
+        if(actionLockCounter == 60){
+
+            Random random = new Random();
+            int i = random.nextInt(100)+1;
+
+            if(i <= 25){
+                direction = Direction.UP;
+            }
+            else if(i >= 25 && i <= 50){
+                direction = Direction.DOWN;
+            }
+            else if(i >= 50 && i<= 75){
+                direction = Direction.LEFT;
+            }
+            else{
+                direction = Direction.RIGHT;
+            }
+            drawDirection = direction;
+            actionLockCounter = 0;
+        }
+    }
     /**
      * Moves the regular goblin along the path found by the pathfinder.
      */
-    private void moveAlongPath(){
+    private void move(){
         collisionOn = false;
         checkCollisions();
         moveEntityTowardDirection();
@@ -66,6 +104,9 @@ public class RegularGoblin extends Goblin {
 
     private void checkCollisions(){
         gp.collisionChecker.handleEnemyCollisions(this);
+        if(collisionOn && !onPath){
+            direction = direction.getOpposite(direction);
+        }
         interactPlayer(47);
     }
 

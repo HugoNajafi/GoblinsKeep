@@ -53,4 +53,19 @@ public enum Direction {
         return dy;
     }
 
+    public Direction getOpposite(Direction direction) {
+        switch (direction) {
+            case UP:
+                return direction = Direction.DOWN;
+            case DOWN:
+                return direction = Direction.UP;
+            case LEFT:
+                return direction = Direction.RIGHT;
+            case RIGHT:
+                return direction = Direction.LEFT;
+            default:
+                return direction;
+        }
+    }
+
 }
