@@ -3,6 +3,7 @@ package com.goblinskeep.entity;
 import java.awt.*;
 import com.goblinskeep.app.Direction;
 import com.goblinskeep.app.GamePanel;
+import com.goblinskeep.pathFinder.Circle;
 
 /**
  * Represents a goblin enemy in the game.
@@ -19,6 +20,8 @@ public abstract class Goblin extends Entity{
     public boolean onPath;
 
     public boolean inSight;
+
+    private int LOSradius = 120; // Line of sight radius
 
     /**
      * Constructs a goblin with references to the game panel and player.
@@ -62,14 +65,48 @@ public abstract class Goblin extends Entity{
     }
     
     public void update(){
-        onPath = true;
-        inSight = true;
+        int xDistance = Math.abs(WorldX - gp.Player.WorldX);
+        int yDistance = Math.abs(WorldY - gp.Player.WorldY);
+        int tileDistance = (xDistance + yDistance)/gp.tileSize;
+        checkSight();
 
+        if(!onPath && inSight){
+            onPath = true;
+        }
+        //tile Distance is Distance for how long Goblins will follow you
+        if(onPath && !inSight && tileDistance > 15){
+            onPath = false;
+        }
         getAction();
     }
 
+    private void checkSight(){
+
+        int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
+        int screenY = WorldY - gp.Player.WorldY + gp.Player.screenY;
+
+        int PlayerX = gp.Player.screenX + gp.Player.hitboxDefaultX + (gp.Player.collisionArea.width/2);
+        int PlayerY = gp.Player.screenY + gp.Player.hitboxDefaultY + (gp.Player.collisionArea.height/2);
+
+        int goblinCenterX = (screenX + hitboxDefaultX + (collisionArea.width/2));
+        int goblinCenterY = (screenY + hitboxDefaultY + (collisionArea.height/2));
+        Circle LOSrange = new Circle(LOSradius, goblinCenterX, goblinCenterY);
+
+        if(LOSrange.intersects(PlayerX, PlayerY)){
+            inSight = true;
+        }else{
+            inSight = false;
+        }
+        
+    }
+    
+
     @Override
     protected Direction getEffectiveDirection() {
-        return drawDirection; // Default behavior for Player
+        if(onPath) {
+            return drawDirection; // Goblin is on a path, use the current direction
+        }else{
+            return direction; // Default behavior for Player
+        }
     }
 }
