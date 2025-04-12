@@ -11,18 +11,40 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Generates and loads the game map based on a text file.
+ * <p>
+ * This class is responsible for:
+ * <ul>
+ *     <li>Parsing tile and object data from a map file</li>
+ *     <li>Spawning goblins, keys, levers, traps, trees, and other game objects</li>
+ *     <li>Setting the player’s initial position</li>
+ *     <li>Providing access to game components like the {@link TileManager}, {@link ObjectManager}, and {@link Player}</li>
+ * </ul>
+ *
+ * It also maintains raw map data for testing and initializes the in-game state based on numeric codes defined in the map file.
+ */
 public class MapGenerator {
 
     GamePanel gp;
     private final Random random = new Random();
+
+    /** A raw 2D map array for testing. */
     public int[][] rawMapData; //for testing
+
     private final TileManager tileM;
     private final ObjectManager obj;
     private final MapHandler mapH;
     private final ArrayList<Goblin> goblins;
     private final Player player;
 
-
+    /**
+     * Constructs a MapGenerator instance, initializes game objects, and loads the map.
+     *
+     * @param gp       The GamePanel instance.
+     * @param mapH     The MapHandler instance.
+     * @param filePath The file path of the map to load.
+     */
     public MapGenerator(GamePanel gp, MapHandler mapH, String filePath) {
         this.gp = gp;
         obj = new ObjectManager(gp);
@@ -126,9 +148,8 @@ public class MapGenerator {
         }
     }
 
-
     /**
-     * Sets the player's initial position.
+     * Sets the player's initial position on the map.
      *
      * @param x The x-coordinate in tile units.
      * @param y The y-coordinate in tile units.
@@ -138,15 +159,17 @@ public class MapGenerator {
         player.WorldY = y * gp.tileSize;
     }
 
+    /**
+     * Adds a goblin to the map at the specified position.
+     *
+     * @param x The x-coordinate in tile units.
+     * @param y The y-coordinate in tile units.
+     */
     private void setGoblinPosition(int x, int y) {
         Goblin goblin = new RegularGoblin(gp, gp.Player,0,0);
         goblin.setX(x * gp.tileSize);
         goblin.setY(y * gp.tileSize);
         goblins.add(goblin);
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
 }

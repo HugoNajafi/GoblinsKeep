@@ -13,17 +13,28 @@ import java.awt.event.KeyEvent;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for menu UI state transitions handled by {@link MenuInputHandler}.
+ */
 public class MenuUIStateTransitionTest {
 
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize MenuInputHandler */
     private MenuInputHandler inputHandler;
 
+    /**
+     * Sets up the test environment by initializing the GamePanel and MenuInputHandler.
+     */
     @BeforeEach
     void setUp() {
         gp = new GamePanel();
         inputHandler = new MenuInputHandler(gp);
     }
 
+    /**
+     * Tests state transitions from the main menu.
+     */
     @Test
     void mainMenuTransitions() {
         DefaultUI menuUI = mock(DefaultUI.class);
@@ -39,6 +50,9 @@ public class MenuUIStateTransitionTest {
         assertEquals(GameStatus.INSTRUCTIONS, gp.status);
     }
 
+    /**
+     * Tests state transitions from the pause menu.
+     */
     @Test
     void pauseMenuTransitions() {
         DefaultUI pauseUI = mock(DefaultUI.class);
@@ -59,6 +73,9 @@ public class MenuUIStateTransitionTest {
         assertEquals(GameStatus.MENU, gp.status);
     }
 
+    /**
+     * Tests state transitions from the end menu.
+     */
     @Test
     void endMenuTransitions() {
         DefaultUI endUI = mock(DefaultUI.class);

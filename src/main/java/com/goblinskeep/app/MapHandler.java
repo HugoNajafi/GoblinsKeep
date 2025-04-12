@@ -12,6 +12,8 @@ public class MapHandler {
     private final List<Bonus> bonuses = new ArrayList<>();
     private int currentTime = 0;
     private int currentTimeCounter = 0;
+
+    /** A raw 2D map array used for testing. */
     public int[][] rawMapData; //for testing
 
 
@@ -28,6 +30,7 @@ public class MapHandler {
 
     private static final int oneMin = 60;
     private static final int twoMin = 120;
+    private MapGenerator mapGen;
 
     /**
      * Initializes the map generator and sets up the map and goblins.
@@ -37,7 +40,7 @@ public class MapHandler {
     public MapHandler(GamePanel gp){
         this.gp = gp;
         rawMapData = new int[gp.maxWorldCol][gp.maxWorldRow];
-        MapGenerator mapGen = new MapGenerator(gp, this, "/maps/world1.txt");
+         mapGen = new MapGenerator(gp, this, "/maps/world1.txt");
     }
 
     /**
@@ -63,6 +66,7 @@ public class MapHandler {
                     leverTouched();
                     break;
                 case "exit":
+                    doorTouched();
                     break;
                 case "invisible":
                     exitTouched();
@@ -95,7 +99,9 @@ public class MapHandler {
     }
 
 
-    /** Handles interaction when the player reaches the exit. */
+    /**
+     * Handles interaction when the player reaches the exit.
+     */
     public void exitTouched(){
         if (exitOpen){
             gameEnded = true;
@@ -108,7 +114,9 @@ public class MapHandler {
     }
 
 
-    /** Updates the number of collected keys. */
+    /**
+     * Updates the number of collected keys.
+     */
     public void keyCollected(){
         keysCollected++;
         if (keysCollected == keysNeeded){
@@ -117,14 +125,20 @@ public class MapHandler {
     }
 
 
-    /** Handles collision when the player encounters an enemy. */
+    /**
+     * Handles collision when the player encounters an enemy.
+     */
     public void playerCollisionWithEnemy(){
         gameEnded = true;
         gameWin = false;
     }
 
 
-    /** Handles bonus collection. */
+    /**
+     * Handles bonus collection.
+     *
+     * @param bonus The bonus object collected by the player.
+     */
     public void collectedBonus(Bonus bonus){
         if (bonus.isAlive(currentTime)){
             score += 100;
@@ -132,19 +146,29 @@ public class MapHandler {
         }
     }
 
-    /** Helper function to remove the bonus from the map. */
+    /**
+     * Helper function to remove the bonus from the map.
+     *
+     * @param bonus The bonus object to be removed.
+     */
     public void removeBonus(Bonus bonus){
         gp.obj.removeObject(bonus.worldX,bonus.worldY);
         bonuses.remove(bonus);
     }
 
-    /** Helper function to add the bonus to map. */
+    /**
+     * Helper function to add the bonus to the map.
+     *
+     * @param bonus The bonus object to be added.
+     */
     public void addBonus(Bonus bonus){
         bonuses.add(bonus);
     }
 
 
-    /** Handles interaction with the trap. */
+    /**
+     * Handles interaction with the trap.
+     */
     public void trapHit(){
         if(canDeductPoints) {
             score -= 50;
@@ -153,6 +177,15 @@ public class MapHandler {
         if (score < 0 ){
             gameEnded =true;
             gameWin = false;
+        }
+    }
+
+    /**
+     * Handles door interaction when locked
+     */
+    public void doorTouched(){
+        if (keysCollected < keysNeeded){
+            showMessage("Door Locked! Lever Activation Needed");
         }
     }
 
@@ -200,14 +233,28 @@ public class MapHandler {
         return gameWin;
     }
 
-    /** sets the game status for testing purposes. */
+    /**
+     * Sets the game status for testing purposes.
+     *
+     * @param gameEnded Whether the game has ended.
+     */
     public void setGameEnded(boolean gameEnded){
         this.gameEnded = gameEnded;
     }
 
-    /** shows message on screen, uses function in GamePanel. */
+    /** sets the game status for testing purposes. */
+    public void setGameWin(){
+        this.gameWin = true;
+    }
+
+    /**
+     * Shows a message on the screen, uses a function in GamePanel.
+     *
+     * @param message The message to be displayed.
+     */
     public void showMessage(String message){
         gp.ui.showMessage(message);
     }
 
 }
+

@@ -3,7 +3,8 @@ package com.goblinskeep.tile;
 import java.awt.image.BufferedImage;
 
 /**
- * Represents a tile in the game, which can have an image and a collision property.
+ * Represents a single tile in the game, used by TileManager for rendering the map.
+ * Can have an image and a collision property.
  */
 public class Tile {
     /**

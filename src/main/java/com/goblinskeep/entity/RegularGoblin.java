@@ -23,6 +23,8 @@ public class RegularGoblin extends Goblin {
      *
      * @param gp the GamePanel instance
      * @param player the Player instance
+     * @param WorldX the RegularGoblin X coordinate in the world
+     * @param WorldY the RegularGoblin Y coordinate in the world
      */
     public RegularGoblin(GamePanel gp, Player player, int WorldX, int WorldY) {
         super(gp, player, WorldX, WorldY);

@@ -9,35 +9,55 @@ import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the MenuUI class.
+ */
 public class MenuUITest {
 
+    /** initialize GamePanel */
     private GamePanel mockGP;
+    /** initialize MenuUI */
     private MenuUI menuUI;
 
+    /**
+     * Sets up the test environment by initializing the GamePanel and MenuUI instances.
+     */
     @BeforeEach
     void setup() {
         mockGP = new GamePanel();
         menuUI = new MenuUI(mockGP);
     }
 
+    /**
+     * Tests that getCurrentOption() returns RESTART when the cursor is at position 0.
+     */
     @Test
     void getCurrentOptionReturnsRestartWhenCursorAt0() {
         menuUI.cursorSelection = 0;
         assertEquals(Options.RESTART, menuUI.getCurrentOption());
     }
 
+    /**
+     * Tests that getCurrentOption() returns INSTRUCTIONS when the cursor is at position 1.
+     */
     @Test
     void getCurrentOptionReturnsInstructionsWhenCursorAt1() {
         menuUI.cursorSelection = 1;
         assertEquals(Options.INSTRUCTIONS, menuUI.getCurrentOption());
     }
 
+    /**
+     * Tests that getCurrentOption() returns QUIT when the cursor is at position 2.
+     */
     @Test
     void getCurrentOptionReturnsQuitWhenCursorAt2() {
         menuUI.cursorSelection = 2;
         assertEquals(Options.QUIT, menuUI.getCurrentOption());
     }
 
+    /**
+     * Tests the draw method and cursor movement functionality of MenuUI.
+     */
     @Test
     void drawTest(){
         GamePanel realGP = new GamePanel();

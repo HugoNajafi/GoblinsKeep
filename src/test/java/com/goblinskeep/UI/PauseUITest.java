@@ -9,35 +9,55 @@ import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the PauseUI class.
+ */
 public class PauseUITest {
 
+    /** initialize GamePanel */
     private GamePanel mockGP;
+    /** initialize PauseUI */
     private PauseUI pauseUI;
 
+    /**
+     * Sets up the test environment by initializing the GamePanel and PauseUI instances.
+     */
     @BeforeEach
     void setup() {
         mockGP = new GamePanel();
         pauseUI = new PauseUI(mockGP);
     }
 
+    /**
+     * Tests that getCurrentOption() returns RESUME when the cursor is at position 0.
+     */
     @Test
     void getCurrentOptionReturnsResumeWhenCursorAt0() {
         pauseUI.cursorSelection = 0;
         assertEquals(Options.RESUME, pauseUI.getCurrentOption());
     }
 
+    /**
+     * Tests that getCurrentOption() returns RESTART when the cursor is at position 1.
+     */
     @Test
     void getCurrentOptionReturnsRestartWhenCursorAt1() {
         pauseUI.cursorSelection = 1;
         assertEquals(Options.RESTART, pauseUI.getCurrentOption());
     }
 
+    /**
+     * Tests that getCurrentOption() returns MENU when the cursor is at position 2.
+     */
     @Test
     void getCurrentOptionReturnsMenuWhenCursorAt2() {
         pauseUI.cursorSelection = 2;
         assertEquals(Options.MENU, pauseUI.getCurrentOption());
     }
 
+    /**
+     * Tests the draw method and cursor movement functionality of PauseUI.
+     */
     @Test
     void drawTest(){
 

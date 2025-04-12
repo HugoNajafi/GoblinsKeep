@@ -51,7 +51,7 @@ public abstract class Entity {
     /**
      * Constructor to initialize the entity at a specific position in the world.
      *
-     * @oaram gp The game panel instance.
+     * @param  gp The game panel instance.
      * @param WorldX The x-coordinate of the entity in the game world.
      * @param WorldY The y-coordinate of the entity in the game world.
      */
@@ -68,7 +68,7 @@ public abstract class Entity {
 
     /**
      * Checks if the entity can move based on collision status.
-     * @return
+     * @return boolean if the entity can move
      */
     protected boolean canMove(){
         return !collisionOn;
@@ -78,7 +78,7 @@ public abstract class Entity {
      * Sets the direction of the entity based on user input.
      * This method is called to update the entity's movement direction.
      *
-     * @param direction The new direction for the entity to move in.
+     * @return Direction The new direction for the entity to move in.
      */
     protected Direction getEffectiveDirection() {
         return direction; // Default behavior for Player

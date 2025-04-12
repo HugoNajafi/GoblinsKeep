@@ -12,17 +12,31 @@ import java.awt.event.KeyEvent;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link MenuInputHandler} class.
+ */
 public class MenuInputHandlerTest {
 
+    /** initialize GamePanel */
     private GamePanel gp;
+    /** initialize MenuInputHandler */
     private MenuInputHandler inputHandler;
 
+    /**
+     * Sets up the test environment by initializing the GamePanel and MenuInputHandler.
+     */
     @BeforeEach
     void setUp() {
         gp = new GamePanel();
         inputHandler = new MenuInputHandler(gp);
     }
 
+    /**
+     * Creates a KeyEvent for testing.
+     *
+     * @param code the key code of the KeyEvent
+     * @return the created KeyEvent
+     */
     private KeyEvent key(int code) {
         return new KeyEvent(new Canvas(),
                 KeyEvent.KEY_PRESSED,
@@ -32,6 +46,9 @@ public class MenuInputHandlerTest {
                 KeyEvent.CHAR_UNDEFINED);
     }
 
+    /**
+     * Tests toggling between pause and play states using the Escape key.
+     */
     @Test
     void testPauseToPlayToggleWithEsc() {
         gp.status = GameStatus.PAUSED;
@@ -43,6 +60,9 @@ public class MenuInputHandlerTest {
 
     }
 
+    /**
+     * Tests toggling between playing and pause states using the P key.
+     */
     @Test
     void testPlayingToPauseToggleWithP() {
         gp.status = GameStatus.PLAYING;
@@ -59,6 +79,9 @@ public class MenuInputHandlerTest {
 
     }
 
+    /**
+     * Tests cursor movement down and up in a real UI.
+     */
     @Test
     void testCursorMovesDownAndUpRealUI() {
         gp.status = GameStatus.MENU;
@@ -77,7 +100,9 @@ public class MenuInputHandlerTest {
         assertEquals(initialIndex, menuUI.cursorSelection, "Cursor should have returned to original position");
     }
 
-
+    /**
+     * Tests that cursor movement is blocked without releasing the key.
+     */
     @Test
     void testCursorMovementBlockedWithoutKeyRelease() {
         gp.status = GameStatus.END;
@@ -92,6 +117,9 @@ public class MenuInputHandlerTest {
         assertEquals(initialIndex+1, menuUI.cursorSelection, "Cursor should have moved down");
     }
 
+    /**
+     * Tests that cursor movement resets after releasing the key.
+     */
     @Test
     void testCursorMovementResetsOnKeyRelease() {
         gp.status = GameStatus.PAUSED;
@@ -106,6 +134,9 @@ public class MenuInputHandlerTest {
         assertEquals(initialIndex+2, menuUI.cursorSelection, "Cursor should have moved down twice");
     }
 
+    /**
+     * Tests that cursor movement resets after releasing the key in the instructions UI.
+     */
     @Test
     void testCursorMovementResetsOnKeyReleaseForInstructions() {
         gp.status = GameStatus.INSTRUCTIONS;
@@ -120,6 +151,9 @@ public class MenuInputHandlerTest {
         assertEquals(initialIndex, menuUI.cursorSelection, "Cursor should have moved down twice");
     }
 
+    /**
+     * Tests that the keyTyped method does not perform any actions.
+     */
     @Test
     void keyTypedTest(){
         GameStatus initialStatus = gp.status;
@@ -130,14 +164,18 @@ public class MenuInputHandlerTest {
 
     }
 
-
+    /**
+     * Tests coverage for default cases in keyPressed and keyReleased.
+     */
     @Test
     void coverageForDefaultCases(){
         inputHandler.keyPressed(key(KeyEvent.VK_Z));
         inputHandler.keyReleased(key(KeyEvent.VK_Z));
     }
 
-    //for additional line coverages
+    /**
+     * Tests that keyPressed triggers handleMenuEvent in the menu status.
+     */
     @Test
     void keyPressedTriggersHandleMenuEventInMenuStatus() {
         gp.status = GameStatus.MENU;
@@ -146,6 +184,9 @@ public class MenuInputHandlerTest {
         assertEquals(GameStatus.RESTART, gp.status);
     }
 
+    /**
+     * Tests that keyPressed triggers handleMenuEvent in the paused status.
+     */
     @Test
     void keyPressedTriggersHandleMenuEventInPausedStatus() {
         gp.status = GameStatus.PAUSED;
@@ -154,6 +195,9 @@ public class MenuInputHandlerTest {
         assertEquals(GameStatus.PLAYING, gp.status);
     }
 
+    /**
+     * Tests that keyPressed triggers handleMenuEvent in the end status.
+     */
     @Test
     void keyPressedTriggersHandleMenuEventInEndStatus() {
         gp.status = GameStatus.END;
@@ -162,6 +206,9 @@ public class MenuInputHandlerTest {
         assertEquals(GameStatus.RESTART, gp.status);
     }
 
+    /**
+     * Tests that keyPressed triggers handleMenuEvent in the instructions status.
+     */
     @Test
     void keyPressedTriggersHandleMenuEventInInstructionsStatus() {
         gp.status = GameStatus.INSTRUCTIONS;

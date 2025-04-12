@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit Test class for the Lever class.
  */
 class LeverTest {
+    /** initialize Lever */
     private Lever lever;
 
     /**

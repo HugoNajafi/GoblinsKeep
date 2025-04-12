@@ -6,10 +6,15 @@ package com.goblinskeep.pathFinder;
  */
 
 public class Node {
+    /** initialize parent Node */
     Node parent;
+    /** initialize the integer that keeps track of the column it represents on the map. */
     public int col;
+    /** initialize the integer that keeps track of the row it represents on the map. */
     public int row;
+    /** initialize the integers that store the costs of paths. */
     int gCost, hCost, fCost;
+    /** flags for nodes to check if they have been explored or can be explored.*/
     boolean solid, open, explored;
 
 

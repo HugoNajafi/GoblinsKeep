@@ -21,6 +21,7 @@ public class UI extends DefaultUI{
 
     /**
      * Restarts the UI state, resetting messages and play time.
+     * @param gp the GamePanel instance
      */
     public UI(GamePanel gp) {
         super(gp);
@@ -96,6 +97,11 @@ public class UI extends DefaultUI{
         }
     }
 
+    /**
+     * Draws the UI elements for the paused state.
+     *
+     * @param g2 the Graphics2D object used for drawing
+     */
     public void drawPaused(Graphics2D g2){
         playTime -= (double) 1/60;
         drawPlaying(g2);
@@ -114,6 +120,11 @@ public class UI extends DefaultUI{
 
     }
 
+    /**
+     * Gets the current option selected in the UI.
+     *
+     * @return the current option, or null if no option is selected
+     */
     @Override
     public Options getCurrentOption() {
         return null;

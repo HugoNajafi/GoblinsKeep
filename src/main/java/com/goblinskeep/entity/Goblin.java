@@ -17,8 +17,10 @@ public abstract class Goblin extends Entity{
     /** The direction in which the goblin is currently facing/drawn. */
     protected Direction drawDirection = Direction.UP;
 
+    /** Indicates whether the goblin is currently following a path to the player. */
     public boolean onPath;
 
+    /** Indicates whether the goblin currently has line of sight to the player. */
     public boolean inSight;
 
     private int LOSradius = 120; // Line of sight radius
@@ -28,6 +30,8 @@ public abstract class Goblin extends Entity{
      *
      * @param gp     The game panel instance.
      * @param player The player instance.
+     * @param WorldX the Goblin X coordinate in the world
+     * @param WorldY the Goblin Y coordinate in the world
      */
     public Goblin(GamePanel gp, Player player, int WorldX, int WorldY) {
         super(gp, WorldX, WorldY);  // Pass values up to Entity constructor
@@ -64,6 +68,10 @@ public abstract class Goblin extends Entity{
         left2  = Entity.loadImage("/goblin/orc_left_2.png");
     }
     
+    /**
+     * Updates the goblin's state, including its pathfinding and visibility status.
+     * Calls the `getAction` method to define specific behavior.
+     */
     public void update(){
         int xDistance = Math.abs(WorldX - gp.Player.WorldX);
         int yDistance = Math.abs(WorldY - gp.Player.WorldY);
@@ -79,8 +87,7 @@ public abstract class Goblin extends Entity{
         }
         getAction();
     }
-
-    
+   
     private void checkSight(){
 
         int screenX = WorldX - gp.Player.WorldX + gp.Player.screenX;
@@ -101,6 +108,12 @@ public abstract class Goblin extends Entity{
         
     }
     
+    /**
+     * Retrieves the effective direction for rendering the goblin.
+     *
+     * @return The direction in which the goblin is currently drawn.
+     */
+
     @Override
     protected Direction getEffectiveDirection() {
         if(onPath) {

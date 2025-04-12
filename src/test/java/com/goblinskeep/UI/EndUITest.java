@@ -8,35 +8,56 @@ import java.awt.image.BufferedImage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the EndUI class.
+ */
 public class EndUITest {
 
+    /** initialize GamePanel */
     private GamePanel mockGP;
+
+    /** initialize DefaultUI */
     private EndUI endUI;
 
+    /**
+     * Sets up the test environment by initializing the GamePanel and EndUI instances.
+     */
     @BeforeEach
     void setup() {
         mockGP = new GamePanel();
         endUI = new EndUI(mockGP);
     }
 
+    /**
+     * Tests that getCurrentOption() returns RESTART when the cursor is at position 0.
+     */
     @Test
     void getCurrentOptionReturnsRestartWhenCursorAt0() {
         endUI.cursorSelection = 0;
         assertEquals(Options.RESTART, endUI.getCurrentOption());
     }
 
+    /**
+     * Tests that getCurrentOption() returns MENU when the cursor is at position 1.
+     */
     @Test
     void getCurrentOptionReturnsMenuWhenCursorAt1() {
         endUI.cursorSelection = 1;
         assertEquals(Options.MENU, endUI.getCurrentOption());
     }
 
+    /**
+     * Tests that getCurrentOption() returns QUIT when the cursor is at position 2.
+     */
     @Test
     void getCurrentOptionReturnsQuitWhenCursorAt2() {
         endUI.cursorSelection = 2;
         assertEquals(Options.QUIT, endUI.getCurrentOption());
     }
 
+    /**
+     * Tests the draw method and cursor movement functionality of EndUI.
+     */
     @Test
     void drawTest(){
         GamePanel realGP = new GamePanel();
@@ -47,6 +68,7 @@ public class EndUITest {
 
         // Test draw
         ui.draw(g2);
+        realGP.map.setGameWin();
 
         for (int i = 0; i < ui.totalSelections; i++) {
             int originalOption = ui.cursorSelection;

@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit Test class for the Exit class.
  */
 class ExitTest {
+    /** initialize Exit */
     private Exit exit;
 
     /**

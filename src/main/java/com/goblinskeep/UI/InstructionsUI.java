@@ -14,8 +14,13 @@ import java.util.List;
  * Represents the instructions UI component, displaying game instructions.
  */
 public class InstructionsUI extends DefaultUI{
+
+    /** Reference to the main game panel. */
     public GamePanel gp;
+
+    /** Image of Key. */
     public BufferedImage keyImage;
+
     private BufferedImage backgroundImage;
     private List<String> messages = new ArrayList<>();
 
@@ -97,7 +102,7 @@ public class InstructionsUI extends DefaultUI{
         messages.add("If you step into an acid puddle you will lose score");
         messages.add("If the roaming goblins capture you or your score becomes negative you will lose");
         messages.add("");
-        messages.add("Credits: Arun Paudel, Hugo Najafi, Maxime Nereyabagabo, Srinivas Suggu");
+        messages.add("Credits: Hugo Najafi, Maxime Nereyabagabo, Arun Paudel, Vamsi Suggu");
     }
 
 

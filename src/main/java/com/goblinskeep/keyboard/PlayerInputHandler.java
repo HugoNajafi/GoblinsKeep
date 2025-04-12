@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
  * Handles keyboard input for player movement.
  */
 public class PlayerInputHandler implements KeyListener {
+    /** flags that represent the command the player inputs */
     public boolean up, down, left, right, debugMode;
 
     /**

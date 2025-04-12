@@ -10,15 +10,30 @@ import com.goblinskeep.entity.RegularGoblin;
 
 /**
  * Handles the pathfinding logic for entities in the game.
+ * Calculates the shortest path from a start node to a goal node while avoiding obstacles.
  */
 public class pathFinder {
+
+    /** Reference to the main gamepanel*/
     GamePanel gp;
+
+    /** 2D grid of nodes representing the map.*/
     Node[][] node;
+
+    /** List of currently open nodes being evaluated. */
     ArrayList<Node> openList = new ArrayList<>();
+
+    /** The final path of nodes from start to goal. */
     public ArrayList<Node> pathList = new ArrayList<>();
     // ArrayList<Node> openList = new ArrayList<>();
+
+    /** start, goal and current nodes of the path. */
     Node startNode, goalNode, currentNode;
+
+    /** flag indicating whether the goal has been reached.*/
     boolean goalReached = false;
+
+    /** Step counter to prevent infinite loops. */
     int step = 0;
 
     /**
@@ -32,7 +47,8 @@ public class pathFinder {
     }
 
     /**
-     * Creates nodes for the pathfinding grid.
+     * Initializes the 2D array of nodes based on the game world's column and row size.
+     * Each node represents a tile and stores its coordinates.
      */
     public void createNodes(){
         node = new Node[gp.maxWorldCol][gp.maxWorldRow];
@@ -52,7 +68,7 @@ public class pathFinder {
     }
 
     /**
-     * Resets the nodes to their initial state.
+     * Resets the nodes to their initial state to prepare for new pathfinding operation.
      */
     public void resetNodes(){
         int col = 0;
@@ -77,6 +93,7 @@ public class pathFinder {
 
     /**
      * Sets the start and goal nodes for the pathfinding.
+     * Also calculates the cost values and marks solid tiles.
      *
      * @param startCol the column of the start node
      * @param startRow the row of the start node
@@ -119,7 +136,8 @@ public class pathFinder {
     }
 
     /**
-     * Calculates the cost for a node.
+     * Calculates the G (movement) and H (heuristic) costs for the given node.
+     * The final cost (F) is the sum of G and H.
      *
      * @param node the node to calculate the cost for
      */
@@ -142,9 +160,9 @@ public class pathFinder {
     }
 
     /**
-     * Searches for a path from the start node to the goal node.
+     * Performs A* pathfiniding algorithm to find a path from the start node to the goal node.
      *
-     * @return true if the goal is reached, false otherwise
+     * @return {@code true} if the goal is reached, {@code false} otherwise
      */
     public boolean search(){
         while(goalReached == false && step < 500){
@@ -199,9 +217,9 @@ public class pathFinder {
 
 
     /**
-     * Opens a node for pathfinding.
+     * Adds a neighbouring node to the open list if it's not explored or solid.
      *
-     * @param node the node to open
+     * @param node The node to consider opening.
      */
     public void openNode(Node node){
         if(node.open == false && node.explored == false && node.solid == false){
@@ -212,7 +230,8 @@ public class pathFinder {
     }
 
     /**
-     * Tracks the path from the goal node to the start node.
+     * Traces the path from the goal node back to the start node.
+     * adds the shortest path to {@code pathList}.
      */
     public void trackThePath(){
         Node current = goalNode;
@@ -224,7 +243,8 @@ public class pathFinder {
     }
 
     /**
-     * Searches for a path for an entity to a goal position.
+     * Finds a path for a given entity to move towards the goal position.
+     * Also updates the entity's direction based on teh next step in the path
      *
      * @param goalCol the column of the goal position
      * @param goalRow the row of the goal position
@@ -310,11 +330,6 @@ public class pathFinder {
                 }
             }
 
-            // int nextCol = gp.pathFinder.pathList.get(0).col;
-            // int nextRow = gp.pathFinder.pathList.get(0).row;
-            // if(nextCol == goalCol && nextRow == goalRow){
-            //     onPath = false;
-            // }
         }
 
 

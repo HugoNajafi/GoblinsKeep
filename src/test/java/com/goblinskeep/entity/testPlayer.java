@@ -21,18 +21,29 @@ import com.goblinskeep.keyboard.PlayerInputHandler;
 import com.goblinskeep.objects.MainObject;
 import com.goblinskeep.objects.ObjectManager;
 
-
-
+/**
+ * Unit tests for the {@link Player} class.
+ * This class tests player movement, drawing, and other behaviors.
+ */
 public class testPlayer {
 
     // Mocked dependencies
+    /** initialize mock GamePanel */
     public GamePanel mockGamePanel;
+    /** initialize mock PlayerInputHandler */
     public PlayerInputHandler mockPlayerInput;
+    /** initialize mock CollisionChecker */
     public CollisionChecker mockCollisionChecker;
+    /** initialize Player */
     public Player player;
+    /** initialize mock MapHandler */
     public MapHandler mockMap;
+    /** initialize mock ObjectManager */
     public ObjectManager mockObj;
 
+    /**
+     * Sets up the test environment by initializing mocks and the {@link Player} instance.
+     */
     @BeforeEach
     public void setup() {
         // Initialize mocks
@@ -56,7 +67,14 @@ public class testPlayer {
         }
     }
 
-    // Helper method to set up player movement
+    /**
+     * Helper method to set the player's movement directions.
+     *
+     * @param up    whether the player is moving up
+     * @param down  whether the player is moving down
+     * @param left  whether the player is moving left
+     * @param right whether the player is moving right
+     */
     private void setPlayerMovement(boolean up, boolean down, boolean left, boolean right) {
         mockPlayerInput.up = up;
         mockPlayerInput.down = down;
@@ -64,7 +82,13 @@ public class testPlayer {
         mockPlayerInput.right = right;
     }
 
-    // Helper method to mock collision behavior
+    /**
+     * Helper method to mock collision behavior.
+     *
+     * @param collisionOn    whether a collision is detected
+     * @param objectCollision the object involved in the collision
+     * @param enemyCollision  the enemy involved in the collision
+     */
     private void mockCollisions(boolean collisionOn, MainObject objectCollision, Entity enemyCollision) {
         doAnswer(invocation -> {
             Player p = invocation.getArgument(0);
@@ -75,13 +99,22 @@ public class testPlayer {
 //        when(mockCollisionChecker.checkObjectCollision(player, true)).thenReturn(objectCollision);
     }
 
-    // Helper method to assert player position and direction
+    /**
+     * Helper method to assert the player's position and direction.
+     *
+     * @param expectedX        the expected X-coordinate
+     * @param expectedY        the expected Y-coordinate
+     * @param expectedDirection the expected direction
+     */
     private void assertPlayerState(int expectedX, int expectedY, Direction expectedDirection) {
         assertEquals(expectedX, player.WorldX);
         assertEquals(expectedY, player.WorldY);
         assertEquals(expectedDirection, player.direction);
     }
 
+    /**
+     * Tests player movement in all directions.
+     */
     @Test
     public void testMovement() {
         // Test moving RIGHT
@@ -111,6 +144,9 @@ public class testPlayer {
         assertPlayerState(initialX, initialY, Direction.DOWN);
     }
 
+    /**
+     * Tests that the player does not move when no movement keys are pressed.
+     */
     @Test
     public void testNoMovement() {
         int initialX = player.WorldX;
@@ -121,7 +157,9 @@ public class testPlayer {
         assertPlayerState(initialX, initialY, Direction.DOWN); // Default direction
     }
 
-
+    /**
+     * Tests the player's drawing behavior and sprite updates.
+     */
     @Test
     public void testDraw() {
         Graphics2D g2 = mock(Graphics2D.class);
@@ -194,7 +232,7 @@ public class testPlayer {
     }
 
     /**
-     * Test for getCenterTIleCoordinate in Player class
+     * Tests the {@link Player#getCenterTileCoordinates()} method.
      */
     @Test
     void getCenterTileCoordinatesTest(){
