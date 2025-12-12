@@ -1,4 +1,4 @@
-﻿# CMPT276S25_group9
+﻿# **Goblin's Keep**
 
 # ![Goblins Keep](src/main/resources/UI_img/titleScreenText.png)
 
@@ -67,3 +67,4 @@ Developed with love by:
 We would like to express our gratitude to the following individuals and resources for their guidance and support during the development of this game:
 - [Dr. Saba Alimadadi](http://www.sfu.ca/~saba/) - For teaching us essential software development principles.
 - [RyiSnow](https://www.youtube.com/@RyiSnow) - For providing tutorials on game development in Java.
+
